@@ -89,20 +89,18 @@ echo.
 xcopy /Y /Q "%SUPPORT_DIR%\standalone.xml" "%SERVER_CONF%"
 echo.
 
-echo.
-echo You can now start the %PRODUCT% with %SERVER_BIN%\standalone.bat
-echo.
-
-REM echo PRE-LOAD DEMO
-REM echo =============
-REM echo To load the BPM with a set of process instances, you can run the following
-REM echo command after you start JBoss BPM Suite, build and deploy the mortgage
-REM echo project, then you can use the helper jar file found in the support directory
-REM echo as follows:
-REM echo. 
-REM echo    java -jar jboss-generic-loan-demo-client.jar erics bpmsuite1!
-REM echo.
-
-
-echo %PRODUCT% %VERSION% %DEMO% Setup Complete.
+echo ========================================================================
+echo =                                                                      =
+echo =  You can now start the %PRODUCT% with:                         =
+echo =                                                                      =
+echo =   %SERVER_BIN%\standalone.bat                           =
+echo =                                                                      =
+echo =  Login into business central at:                                     =
+echo =                                                                      =
+echo =    http://localhost:8080/business-central  [u:erics / p:bpmsuite1!]  =
+echo =                                                                      =
+echo =                                                                      =
+echo =  %PRODUCT% %VERSION% %DEMO% Setup Complete.            =
+echo =                                                                      =
+echo ========================================================================
 echo.

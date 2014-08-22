@@ -84,20 +84,17 @@ chmod u+x $JBOSS_HOME/bin/standalone.sh
 #cp $SUPPORT_DIR/1000_jbpm_demo_h2.sql $SERVER_DIR/dashbuilder.war/WEB-INF/etc/sql
 #echo
 
-echo "You can now start the $PRODUCT with $SERVER_BIN/standalone.sh"
-echo
-echo "Login into business central at:"
-echo
-echo "    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)"
-echo
-#echo "PRE-LOAD DEMO"
-#echo "============="
-#echo "To load the BPM with a set of process instances, you can run the following command"
-#echo "after you start JBoss BPM Suite, build and deploy the mortgage project, then you can"
-#echo "use the helper jar file found in the support directory as follows:"
-#echo 
-#echo "   java -jar jboss-generic-loan-demo-client.jar erics bpmsuite1!" 
-#echo
-echo "$PRODUCT $VERSION $DEMO Setup Complete."
-echo
-
+echo "========================================================================"
+echo "=                                                                      ="
+echo "=  You can now start the $PRODUCT with:                         ="
+echo "=                                                                      ="
+echo "=   $SERVER_BIN/standalone.sh                           ="
+echo "=                                                                      ="
+echo "=  Login into business central at:                                     ="
+echo "=                                                                      ="
+echo "=    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)  ="
+echo "=                                                                      ="
+echo "=                                                                      ="
+echo "=  $PRODUCT $VERSION $DEMO Setup Complete.            ="
+echo "=                                                                      ="
+echo "========================================================================"
