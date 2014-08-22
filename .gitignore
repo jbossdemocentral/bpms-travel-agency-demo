@@ -1,0 +1,9 @@
+target/
+*.m4v
+.DS_Store
+RemoteSystemsTempFiles/
+.index/
+*.zip
+*.jar
+repository/
+.metadata/

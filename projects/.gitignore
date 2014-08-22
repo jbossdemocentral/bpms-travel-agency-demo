@@ -1,0 +1,6 @@
+target/
+*.m4v
+.DS_Store
+RemoteSystemsTempFiles/
+.index/
+.niogit/
