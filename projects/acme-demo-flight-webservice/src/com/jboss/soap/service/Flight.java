@@ -7,16 +7,6 @@ import com.jboss.soap.service.acmedemo.impl.adapters.Adapter2;
 import java.math.BigDecimal; 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -52,12 +42,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  * 
  */
-@Entity
-@Table(name="plane",catalog="wsplane")
-@NamedQueries({  
-    @NamedQuery(name = "Flight.findAll", query = "SELECT f FROM Flight f"),
-    @NamedQuery(name = "Flight.findFiltered", 
-	query = "SELECT f FROM Flight f WHERE f.startCity = :startCity AND f.targetCity = :targetCity AND f.travelDate = :travelDate")   })
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "flight", propOrder = {
     "company",
@@ -101,7 +86,6 @@ public class Flight implements java.io.Serializable {
      *     {@link String }
      *     
      */
-    @Column(name="company", length=45)
     public String getCompany() {
         return company;
     }
@@ -126,8 +110,6 @@ public class Flight implements java.io.Serializable {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    @Temporal(TemporalType.TIME)
-    @Column(name="end_time", length=8)
     public Date getEndTime() {
         return endTime;
     }
@@ -148,8 +130,6 @@ public class Flight implements java.io.Serializable {
      * Gets the value of the planeId property.
      * 
      */
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="flight_id", unique=true, nullable=false)
     public int getPlaneId() {
         return planeId;
     }
@@ -170,7 +150,6 @@ public class Flight implements java.io.Serializable {
      *     {@link BigDecimal }
      *     
      */
-    @Column(name="rate_per_person", precision=10)
     public BigDecimal getRatePerPerson() {
         return ratePerPerson;
     }
@@ -195,7 +174,6 @@ public class Flight implements java.io.Serializable {
      *     {@link String }
      *     
      */
-    @Column(name="start_city", nullable=false, length=45)
     public String getStartCity() {
         return startCity;
     }
@@ -220,7 +198,6 @@ public class Flight implements java.io.Serializable {
      *     {@link String }
      *     
      */
-    @Column(name="target_city", nullable=false, length=45)
     public String getTargetCity() {
         return targetCity;
     }
@@ -245,8 +222,6 @@ public class Flight implements java.io.Serializable {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    @Temporal(TemporalType.TIME)
-    @Column(name="start_time", length=8)
     public Date getStartTime() {
         return startTime;
     }
@@ -271,8 +246,6 @@ public class Flight implements java.io.Serializable {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    @Temporal(TemporalType.DATE)
-    @Column(name="travel_date", length=8)
     public Date getTravelDate() {
         return travelDate;
     }
