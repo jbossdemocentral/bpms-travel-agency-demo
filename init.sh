@@ -66,9 +66,14 @@ echo "  - enabling demo accounts role setup in application-roles.properties file
 echo
 cp $SUPPORT_DIR/application-roles.properties $SERVER_CONF
 
-#echo "  - setting up demo projects..."
-#echo
-#cp -r $SUPPORT_DIR/bpm-suite-demo-niogit $SERVER_BIN/.niogit
+echo "  - setting up demo projects..."
+echo
+cp -r $SUPPORT_DIR/bpm-suite-demo-niogit $SERVER_BIN/.niogit
+
+echo "  - setting up web services..."
+echo
+cp -r $SUPPORT_DIR/acme-demo-flight.war $SERVER_DIR
+cp -r $SUPPORT_DIR/acme-demo-hotel.war $SERVER_DIR
 
 echo "  - setting up standalone.xml configuration adjustments..."
 echo

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.soap.jboss.com/AcmeDemo/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.soap.jboss.com/AcmeDemo/">
+  <xs:element name="listAvailablePlanes" type="tns:listAvailablePlanes"/>
+  <xs:element name="listAvailablePlanesResponse" type="tns:listAvailablePlanesResponse"/>
+  <xs:complexType name="listAvailablePlanes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="in" type="tns:flightRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="flightRequest">
+    <xs:sequence>
+      <xs:element name="startCity" type="xs:string"/>
+      <xs:element name="endCity" type="xs:string"/>
+      <xs:element name="startDate" type="xs:string"/>
+      <xs:element name="endDate" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listAvailablePlanesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:flight"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="flight">
+    <xs:sequence>
+      <xs:element name="company" type="xs:string"/>
+      <xs:element name="endTime" type="xs:time"/>
+      <xs:element name="planeId" type="xs:int"/>
+      <xs:element name="ratePerPerson" type="xs:decimal"/>
+      <xs:element name="startCity" type="xs:string"/>
+      <xs:element name="targetCity" type="xs:string"/>
+      <xs:element name="startTime" type="xs:time"/>
+      <xs:element name="travelDate" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DataBaseException" type="tns:DataBaseException"/>
+  <xs:complexType name="DataBaseException">
+    <xs:sequence>
+      <xs:element name="message" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
