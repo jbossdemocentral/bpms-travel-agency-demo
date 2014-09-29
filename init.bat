@@ -13,8 +13,8 @@ set SERVER_BIN=%JBOSS_HOME%\bin
 set SRC_DIR=%PROJECT_HOME%\installs
 set SUPPORT_DIR=%PROJECT_HOME%\support
 set PRJ_DIR=%PROJECT_HOME%\projects
-set BPMS=jboss-bpms-installer-6.0.2.GA-redhat-5.jar
-set VERSION=6.0.2
+set BPMS=jboss-bpms-installer-6.0.3.GA-redhat-1.jar
+set VERSION=6.0.3
 
 REM wipe screen.
 cls

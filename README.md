@@ -30,7 +30,7 @@ Released versions
 
 See the tagged releases for the following versions of the product:
 
-- v0.1 - JBoss BPM Suite 6.0.2 and travel agency demo installed.
+- v0.1 - JBoss BPM Suite 6.0.3 and travel agency demo installed.
 
 
 ![Agency Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
