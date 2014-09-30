@@ -9,7 +9,7 @@ SERVER_CONF=$JBOSS_HOME/standalone/configuration/
 SERVER_BIN=$JBOSS_HOME/bin
 SRC_DIR=./installs
 SUPPORT_DIR=./support
-PRJ_DIR=./projects/
+PRJ_DIR=./projects
 BPMS=jboss-bpms-installer-6.0.3.GA-redhat-1.jar
 VERSION=6.0.3
 
@@ -73,8 +73,8 @@ cp -r $SUPPORT_DIR/bpm-suite-demo-niogit $SERVER_BIN/.niogit
 echo "  - setting up web services..."
 echo
 mvn clean install -f $PRJ_DIR/pom.xml
-cp -r $PRJ_DIR/acme-demo-flight-service/target/acme-flight-serivce-1.0.war $SERVER_DIR
-cp -r $PRJ_DIR/acme-demo-hotel-service/target/acme-hotel-serivce-1.0.war $SERVER_DIR
+cp -r $PRJ_DIR/acme-demo-flight-service/target/acme-flight-service-1.0.war $SERVER_DIR
+cp -r $PRJ_DIR/acme-demo-hotel-service/target/acme-hotel-service-1.0.war $SERVER_DIR
 
 echo "  - setting up standalone.xml configuration adjustments..."
 echo
