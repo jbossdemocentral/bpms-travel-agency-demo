@@ -5,49 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   
-  <dependencies>
-    <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.0-api</artifactId>
-      <version>1.0.1.Final</version>
-    </dependency>
-	<dependency>
-      <groupId>org.jboss.spec.javax.ejb</groupId>
-      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-      <version>1.0.2.Final-redhat-2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ejb3</groupId>
-      <artifactId>jboss-ejb3-ext-api</artifactId>
-      <version>2.0.0-redhat-2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.as</groupId>
-      <artifactId>jboss-as-ejb3</artifactId>
-      <version>7.2.1.Final-redhat-10</version>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>3.3.2.GA</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.apache.maven.plugins</groupId>
-    	<artifactId>maven-ejb-plugin</artifactId>
-    	<version>2.3</version>
-    	<type>maven-plugin</type>
-    </dependency>
-    <dependency>
-    	<groupId>org.jboss.invocation</groupId>
-    	<artifactId>jboss-invocation</artifactId>
-    	<version>1.1.2.Final-redhat-1</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.jboss.remoting3</groupId>
-    	<artifactId>jboss-remoting</artifactId>
-    	<version>3.2.8.GA</version>
-    </dependency>
-  </dependencies>
+ 
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
