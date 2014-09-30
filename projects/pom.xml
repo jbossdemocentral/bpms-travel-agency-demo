@@ -32,8 +32,8 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>acme-demo-flight-webservice</module>
-    <module>acme-demo-hotel-webservice</module>
+    <module>acme-demo-flight-service</module>
+    <module>acme-demo-hotel-service</module>
   </modules>
 
   <repositories>

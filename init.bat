@@ -75,6 +75,13 @@ mkdir "%SERVER_BIN%\.niogit\"
 xcopy /Y /Q /S "%SUPPORT_DIR%\bpm-suite-demo-niogit\*" "%SERVER_BIN%\.niogit\"
 echo. 
 
+echo.
+echo - setting up web services...
+echo.
+mvn clean install -f $PRJ_DIR/pom.xml
+xcopy /Y /Q "%PRJ_DIR%\acme-demo-flight-service\target\acme-flight-serivce-1.0.war" "%SERVER_DIR%"
+xcopy /Y /Q "%PRJ_DIR%\acme-demo-hotel-service\target\acme-hotel-serivce-1.0.war" "%SERVER_DIR%"
+
 REM Optional: uncomment this to install mock data for BPM Suite, providing 
 REM           colorful BAM history charts and filled Process & Task dashboard 
 REM           views.
