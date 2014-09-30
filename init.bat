@@ -96,6 +96,11 @@ echo.
 xcopy /Y /Q "%SUPPORT_DIR%\standalone.xml" "%SERVER_CONF%"
 echo.
 
+echo - install domain model to repository...
+echo.
+mvn install:install-file -Dfile=%SUPPORT_DIR%\acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
+
+echo.
 echo ========================================================================
 echo =                                                                      =
 echo =  You can now start the %PRODUCT% with:                         =

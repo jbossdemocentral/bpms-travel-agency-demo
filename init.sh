@@ -84,12 +84,17 @@ echo "  - making sure standalone.sh for server is executable..."
 echo
 chmod u+x $JBOSS_HOME/bin/standalone.sh
 
+echo "  - install domain model to repository..."
+echo
+mvn install:install-file -Dfile=$SUPPORT_DIR/acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
+
 # Optional: uncomment this to install mock data for BPM Suite.
 #
 #echo - setting up mock bpm dashboard data...
 #cp $SUPPORT_DIR/1000_jbpm_demo_h2.sql $SERVER_DIR/dashbuilder.war/WEB-INF/etc/sql
 #echo
 
+echo
 echo "========================================================================"
 echo "=                                                                      ="
 echo "=  You can now start the $PRODUCT with:                         ="
