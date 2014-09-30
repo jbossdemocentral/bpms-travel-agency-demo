@@ -86,7 +86,7 @@ chmod u+x $JBOSS_HOME/bin/standalone.sh
 
 echo "  - install domain model to repository..."
 echo
-mvn install:install-file -Dfile=$SUPPORT_DIR/acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=$PRJ_DIR/acme-data-model/target/acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
 
 # Optional: uncomment this to install mock data for BPM Suite.
 #

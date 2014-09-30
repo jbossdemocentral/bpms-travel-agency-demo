@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.service.acme/HotelWS/" targetNamespace="http://soap.service.acme/HotelWS/" version="1.0">
+<xs:element name="getAvailableHotel" type="tns:getAvailableHotel"/>
+<xs:element name="getAvailableHotelResponse" type="tns:getAvailableHotelResponse"/>
+<xs:complexType name="getAvailableHotel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="in" type="tns:hotelRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="hotelRequest">
+    <xs:sequence>
+      <xs:element name="targetCity" type="xs:string"/>
+      <xs:element name="startDate" type="xs:string"/>
+      <xs:element name="endDate" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getAvailableHotelResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:resort"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="resort">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="hotelId" type="xs:int"/>
+      <xs:element name="hotelName" type="xs:string"/>
+      <xs:element name="ratePerPerson" type="xs:double"/>
+      <xs:element name="hotelCity" type="xs:string"/>
+      <xs:element name="availableFrom" type="xs:string"/>
+      <xs:element name="availableTo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

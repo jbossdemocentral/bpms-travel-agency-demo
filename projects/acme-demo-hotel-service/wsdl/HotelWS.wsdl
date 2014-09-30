@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="HotelWS" targetNamespace="http://soap.service.acme/HotelWS/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.service.acme/HotelWS/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://soap.service.acme/HotelWS/" schemaLocation="HotelWS_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getAvailableHotel">
+    <wsdl:part name="parameters" element="tns:getAvailableHotel">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAvailableHotelResponse">
+    <wsdl:part name="parameters" element="tns:getAvailableHotelResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HotelWS">
+    <wsdl:operation name="getAvailableHotel">
+      <wsdl:input name="getAvailableHotel" message="tns:getAvailableHotel">
+    </wsdl:input>
+      <wsdl:output name="getAvailableHotelResponse" message="tns:getAvailableHotelResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HotelWSSoapBinding" type="tns:HotelWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAvailableHotel">
+      <soap:operation soapAction="http://soap.service.acme/HotelWS/getAvailableHotel" style="document"/>
+      <wsdl:input name="getAvailableHotel">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAvailableHotelResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HotelWS">
+    <wsdl:port name="HotelWSImplPort" binding="tns:HotelWSSoapBinding">
+      <soap:address location="http://localhost:9090/HotelWSImplPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

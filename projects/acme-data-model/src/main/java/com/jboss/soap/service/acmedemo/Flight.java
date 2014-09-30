@@ -1,15 +1,12 @@
 
-package com.jboss.soap.service;
+package com.jboss.soap.service.acmedemo;
 
-import java.math.BigDecimal; 
-
+import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serializable; 
 
 
 /**
@@ -23,13 +20,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="company" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="endTime" type="{http://www.w3.org/2001/XMLSchema}time"/>
  *         &lt;element name="planeId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="ratePerPerson" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
  *         &lt;element name="startCity" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="targetCity" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="startTime" type="{http://www.w3.org/2001/XMLSchema}time"/>
- *         &lt;element name="travelDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="travelDate" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -47,7 +42,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "targetCity",
     "travelDate"
 })
-public class Flight implements java.io.Serializable {
+public class Flight implements Serializable {
 
     @XmlElement(required = true)
     protected String company;
@@ -173,12 +168,28 @@ public class Flight implements java.io.Serializable {
         this.targetCity = value;
     }
 
-	public String getTravelDate() {
-		return travelDate;
-	}
+    /**
+     * Gets the value of the travelDate property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTravelDate() {
+        return travelDate;
+    }
 
-	public void setTravelDate(String travelDate) {
-		this.travelDate = travelDate;
-	}
+    /**
+     * Sets the value of the travelDate property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTravelDate(String value) {
+        this.travelDate = value;
+    }
 
 }

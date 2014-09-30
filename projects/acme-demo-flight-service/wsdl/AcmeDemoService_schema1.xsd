@@ -22,13 +22,11 @@
 <xs:complexType name="flight">
     <xs:sequence>
       <xs:element name="company" type="xs:string"/>
-      <xs:element name="endTime" type="xs:time"/>
       <xs:element name="planeId" type="xs:int"/>
       <xs:element name="ratePerPerson" type="xs:decimal"/>
       <xs:element name="startCity" type="xs:string"/>
       <xs:element name="targetCity" type="xs:string"/>
-      <xs:element name="startTime" type="xs:time"/>
-      <xs:element name="travelDate" type="xs:date"/>
+      <xs:element name="travelDate" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
