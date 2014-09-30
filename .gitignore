@@ -7,3 +7,6 @@ RemoteSystemsTempFiles/
 *.jar
 repository/
 .metadata/
+.settings/
+.project
+.classpath
