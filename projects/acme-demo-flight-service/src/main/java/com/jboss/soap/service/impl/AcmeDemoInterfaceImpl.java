@@ -21,7 +21,7 @@ public class AcmeDemoInterfaceImpl implements AcmeDemoInterface  {
 		// TODO Auto-generated method stub
 		String startCity = in.getStartCity();
 		String endCity = in.getEndCity();
-		BigDecimal outboundBD = new BigDecimal(240);
+		BigDecimal outboundBD = new BigDecimal(525);
 		BigDecimal inboundBD = new BigDecimal(119);
 		
 	
