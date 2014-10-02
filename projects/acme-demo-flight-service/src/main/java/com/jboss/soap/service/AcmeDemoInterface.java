@@ -24,7 +24,7 @@ public interface AcmeDemoInterface {
     @RequestWrapper(localName = "listAvailablePlanes", targetNamespace = "http://service.soap.jboss.com/AcmeDemo/", className = "com.jboss.soap.service.ListAvailablePlanes")
     @WebMethod(action = "http://service.soap.jboss.com/AcmeDemo/listAvailablePlanes")
     @ResponseWrapper(localName = "listAvailablePlanesResponse", targetNamespace = "http://service.soap.jboss.com/AcmeDemo/", className = "com.jboss.soap.service.ListAvailablePlanesResponse")
-    public List<Flight> listAvailablePlanes(
+    public Flight listAvailablePlanes(
         @WebParam(name = "in", targetNamespace = "")
         com.jboss.soap.service.FlightRequest in);
 }

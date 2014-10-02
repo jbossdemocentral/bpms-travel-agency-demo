@@ -22,13 +22,13 @@ import javax.xml.bind.annotation.XmlType;
 public class ListAvailablePlanesResponse {
 
     @XmlElement(name = "return")
-    private List<com.jboss.soap.service.Flight> _return;
+    private com.jboss.soap.service.Flight _return;
 
-    public List<Flight> getReturn() {
+    public Flight getReturn() {
         return this._return;
     }
 
-    public void setReturn(List<Flight> new_return)  {
+    public void setReturn(Flight new_return)  {
         this._return = new_return;
     }
 

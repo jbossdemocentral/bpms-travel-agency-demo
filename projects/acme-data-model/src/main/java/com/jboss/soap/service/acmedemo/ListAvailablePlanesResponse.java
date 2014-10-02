@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ListAvailablePlanesResponse {
 
     @XmlElement(name = "return")
-    protected List<Flight> _return;
+    protected Flight _return;
 
     /**
      * Gets the value of the return property.
@@ -59,9 +59,9 @@ public class ListAvailablePlanesResponse {
      * 
      * 
      */
-    public List<Flight> getReturn() {
+    public Flight getReturn() {
         if (_return == null) {
-            _return = new ArrayList<Flight>();
+            _return = new Flight();
         }
         return this._return;
     }

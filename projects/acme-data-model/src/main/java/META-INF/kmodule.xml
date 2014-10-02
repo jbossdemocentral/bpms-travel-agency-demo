@@ -1,0 +1,9 @@
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule"; xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">;
+  <kbase name="defaultKieBase" default="true" eventProcessingMode="stream" equalsBehavior="identity" packages="*">
+    <ksession name="defaultKieSession" type="stateful" default="true" clockType="realtime">
+      <workItemHandlers>
+        <workItemHandler type="new org.jbpm.process.workitem.webservice.WebServiceWorkItemHandler(ksession, runtimeManager.getEnvironment().getClassLoader())" name="WebService"/>
+      </workItemHandlers>
+    </ksession>
+  </kbase>
+</kmodule>

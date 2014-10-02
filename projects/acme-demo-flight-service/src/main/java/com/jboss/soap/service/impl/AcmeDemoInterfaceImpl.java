@@ -17,7 +17,7 @@ import com.jboss.soap.service.FlightRequest;
 public class AcmeDemoInterfaceImpl implements AcmeDemoInterface  {
 	
 	
-	public List<Flight> listAvailablePlanes(FlightRequest in) {
+	public Flight listAvailablePlanes(FlightRequest in) {
 		// TODO Auto-generated method stub
 		String startCity = in.getStartCity();
 		String endCity = in.getEndCity();
@@ -36,20 +36,20 @@ public class AcmeDemoInterfaceImpl implements AcmeDemoInterface  {
 		
 		System.out.println("OUTBOUND FLIGHT variables set");
 		
-		Flight inbound = new Flight();
-		inbound.setCompany("EasyJet");
-		inbound.setPlaneId(12345);
-		inbound.setRatePerPerson(inboundBD);
-		inbound.setStartCity(endCity);
-		inbound.setTargetCity(startCity);
-		inbound.setTravelDate(in.getEndDate());
+//		Flight inbound = new Flight();
+//		inbound.setCompany("EasyJet");
+//		inbound.setPlaneId(12345);
+//		inbound.setRatePerPerson(inboundBD);
+//		inbound.setStartCity(endCity);
+//		inbound.setTargetCity(startCity);
+//		inbound.setTravelDate(in.getEndDate());
+//		
+//		System.out.println("INBOUND FLIGHT variables set");
+//		
+//		
+//		List<Flight> itinery = new ArrayList<Flight>();
+//		itinery.add(outbound);
 		
-		System.out.println("INBOUND FLIGHT variables set");
-		
-		
-		List<Flight> itinery = new ArrayList<Flight>();
-		itinery.add(outbound);
-		
-		return itinery; 
+		return outbound; 
 	}
 }
