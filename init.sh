@@ -76,10 +76,9 @@ mvn clean install -f $PRJ_DIR/pom.xml
 cp -r $PRJ_DIR/acme-demo-flight-service/target/acme-flight-service-1.0.war $SERVER_DIR
 cp -r $PRJ_DIR/acme-demo-hotel-service/target/acme-hotel-service-1.0.war $SERVER_DIR
 
+echo
 echo "	- adding acmeDataModel-1.0.jar to business-central.war/WEB-INF/lib"
 cp -r $PRJ_DIR/acme-data-model/target/acmeDataModel-1.0.jar $SERVER_DIR/business-central.war/WEB-INF/lib
-
-echo "	- acmeDataModel-1.0.jar has been successfully added to business-central.war/WEB-INF/lib"
 
 echo "  - setting up standalone.xml configuration adjustments..."
 echo
@@ -88,11 +87,6 @@ cp $SUPPORT_DIR/standalone.xml $SERVER_CONF
 echo "  - making sure standalone.sh for server is executable..."
 echo
 chmod u+x $JBOSS_HOME/bin/standalone.sh
-
-#echo "  - install domain model to repository..."
-#echo
-#mvn install:install-file -Dfile=$PRJ_DIR/acme-data-model/target/acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
-
 
 # Optional: uncomment this to install mock data for BPM Suite.
 #

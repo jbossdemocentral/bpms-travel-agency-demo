@@ -82,6 +82,11 @@ mvn clean install -f $PRJ_DIR/pom.xml
 xcopy /Y /Q "%PRJ_DIR%\acme-demo-flight-service\target\acme-flight-service-1.0.war" "%SERVER_DIR%"
 xcopy /Y /Q "%PRJ_DIR%\acme-demo-hotel-service\target\acme-hotel-service-1.0.war" "%SERVER_DIR%"
 
+echo.
+echo - adding acmeDataModel-1.0.jar to business-central.war/WEB-INF/lib
+xcopy /Y /Q %PRJ_DIR%\acme-data-model\target\acmeDataModel-1.0.jar %SERVER_DIR%\business-central.war\WEB-INF\lib
+
+
 REM Optional: uncomment this to install mock data for BPM Suite, providing 
 REM           colorful BAM history charts and filled Process & Task dashboard 
 REM           views.
