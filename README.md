@@ -37,7 +37,7 @@ Booking a trip to Edinburgh (just one scenario)
 
   Email Adress: [any-email]
 
-  Number of Travellers: 1
+  Number of Travellers: 6
 
   From Destination: London
 
@@ -57,6 +57,7 @@ Booking a trip to Edinburgh (just one scenario)
 	 by the rules. You can request a review to send it back for a pricing review or check the completed box to finish the task and
    process.
 
+5. To trigger different path for evaluation, just change the 'Number of Travellers: 2' in initial submission form.
 
 Supporting Articles
 -------------------
