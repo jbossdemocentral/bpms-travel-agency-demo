@@ -35,6 +35,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link BookHotelResponse }
+     * 
+     */
+    public BookHotelResponse createBookHotelResponse() {
+        return new BookHotelResponse();
+    }
+
+    /**
+     * Create an instance of {@link CancelBookingResponse }
+     * 
+     */
+    public CancelBookingResponse createCancelBookingResponse() {
+        return new CancelBookingResponse();
+    }
+
+    /**
+     * Create an instance of {@link BookHotel }
+     * 
+     */
+    public BookHotel createBookHotel() {
+        return new BookHotel();
+    }
+
+    /**
      * Create an instance of {@link GetAvailableHotel }
      * 
      */
@@ -50,6 +74,15 @@ public class ObjectFactory {
         return new GetAvailableHotelResponse();
     }
 
+    /**
+     * Create an instance of {@link CancelBooking }
+     * 
+     */
+    public CancelBooking createCancelBooking() {
+        return new CancelBooking();
+    }
+
+  
     /**
      * Create an instance of {@link Resort }
      * 

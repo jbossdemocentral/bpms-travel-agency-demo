@@ -35,6 +35,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link CancelBookingResponse }
+     * 
+     */
+    public CancelBookingResponse createCancelBookingResponse() {
+        return new CancelBookingResponse();
+    }
+
+    /**
      * Create an instance of {@link ListAvailablePlanesResponse }
      * 
      */
@@ -43,11 +51,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link BookFlightsResponse }
+     * 
+     */
+    public BookFlightsResponse createBookFlightsResponse() {
+        return new BookFlightsResponse();
+    }
+
+    /**
+     * Create an instance of {@link BookFlights }
+     * 
+     */
+    public BookFlights createBookFlights() {
+        return new BookFlights();
+    }
+
+    /**
      * Create an instance of {@link ListAvailablePlanes }
      * 
      */
     public ListAvailablePlanes createListAvailablePlanes() {
         return new ListAvailablePlanes();
+    }
+
+    /**
+     * Create an instance of {@link CancelBooking }
+     * 
+     */
+    public CancelBooking createCancelBooking() {
+        return new CancelBooking();
     }
 
     /**

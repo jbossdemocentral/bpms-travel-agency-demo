@@ -1,8 +1,6 @@
 
 package acme.service.soap.hotelws;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
     "availableFrom",
     "availableTo"
 })
-public class Resort implements Serializable {
+public class Resort {
 
     protected Integer hotelId;
     @XmlElement(required = true)

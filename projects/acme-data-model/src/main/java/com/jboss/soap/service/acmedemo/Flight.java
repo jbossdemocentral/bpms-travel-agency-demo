@@ -1,9 +1,7 @@
 
 package com.jboss.soap.service.acmedemo;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -43,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "targetCity",
     "travelDate"
 })
-public class Flight implements Serializable {
+public class Flight {
 
     @XmlElement(required = true)
     protected String company;
