@@ -4,7 +4,54 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema">
   <import namespace="http://soap.service.acme/HotelWS/" schemaLocation="HotelWS_schema1.xsd"/>
 </schema>
-  </wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soap.service.acme/HotelWS/">
+        	<xsd:element name="bookHotel">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element name="in" type="xsd:string"></xsd:element>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:element name="bookHotelResponse">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element name="out" type="xsd:string"></xsd:element>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:complexType name="bookingRequest">
+        		<xsd:sequence>
+        			<xsd:element name="hotelID" type="xsd:int"></xsd:element>
+        			<xsd:element name="hotelCity" type="xsd:string"></xsd:element>
+        			<xsd:element name="checkInDate" type="xsd:string"></xsd:element>
+        			<xsd:element name="checkOutDate"
+        				type="xsd:string">
+        			</xsd:element>
+        			<xsd:element name="quotedRoomType"
+        				type="xsd:string">
+        			</xsd:element>
+        			<xsd:element name="quotedAmount"
+        				type="xsd:double">
+        			</xsd:element>
+        			<xsd:element name="visitorName" type="xsd:string"></xsd:element>
+        		</xsd:sequence>
+        	</xsd:complexType>
+        	<xsd:element name="cancelBooking">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element name="in" type="xsd:string"></xsd:element>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        	<xsd:element name="cancelBookingResponse">
+        		<xsd:complexType>
+        			<xsd:sequence>
+        				<xsd:element name="out" type="xsd:int"></xsd:element>
+        			</xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element>
+        </xsd:schema>
+    </wsdl:types>
   <wsdl:message name="getAvailableHotel">
     <wsdl:part name="parameters" element="tns:getAvailableHotel">
     </wsdl:part>
@@ -13,12 +60,32 @@
     <wsdl:part name="parameters" element="tns:getAvailableHotelResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="bookHotelRequest">
+  	<wsdl:part name="parameters" element="tns:bookHotel"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bookHotelResponse">
+  	<wsdl:part name="parameters" element="tns:bookHotelResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelBookingRequest">
+  	<wsdl:part name="parameters" element="tns:cancelBooking"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelBookingResponse">
+  	<wsdl:part name="parameters" element="tns:cancelBookingResponse"></wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="HotelWS">
     <wsdl:operation name="getAvailableHotel">
       <wsdl:input name="getAvailableHotel" message="tns:getAvailableHotel">
     </wsdl:input>
       <wsdl:output name="getAvailableHotelResponse" message="tns:getAvailableHotelResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bookHotel">
+    	<wsdl:input message="tns:bookHotelRequest"></wsdl:input>
+    	<wsdl:output message="tns:bookHotelResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelBooking">
+    	<wsdl:input message="tns:cancelBookingRequest"></wsdl:input>
+    	<wsdl:output message="tns:cancelBookingResponse"></wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="HotelWSSoapBinding" type="tns:HotelWS">

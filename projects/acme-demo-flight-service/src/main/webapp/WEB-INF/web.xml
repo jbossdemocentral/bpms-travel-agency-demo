@@ -12,7 +12,7 @@
   <servlet>
     <display-name>AcmeDemoInterface</display-name>
     <servlet-name>AcmeDemoInterface</servlet-name>
-    <servlet-class>com.jboss.soap.service.impl.AcmeDemoInterfaceImpl</servlet-class>
+    <servlet-class>com.jboss.soap.service.acmedemo.impl.AcmeDemoInterfaceImpl</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AcmeDemoInterface</servlet-name>
