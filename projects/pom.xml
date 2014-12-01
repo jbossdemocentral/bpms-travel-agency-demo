@@ -35,6 +35,7 @@
     <module>acme-demo-flight-service</module>
     <module>acme-demo-hotel-service</module>
     <module>acme-data-model</module>
+    <module>instance-generator</module>
   </modules>
 
   <repositories>
