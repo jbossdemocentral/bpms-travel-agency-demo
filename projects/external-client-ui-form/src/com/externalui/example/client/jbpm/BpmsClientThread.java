@@ -78,8 +78,8 @@ public class BpmsClientThread {
                     "applicantName="+applicantName+
                     ",emailAddress="+emailAddress+
                     ",numberOfTravelers="+numberOfTravelers+
-                    ",preferredDateOfArrival"+preferredDateOfArrival+
-                    ",preferredDateOfDeparture"+preferredDateOfDeparture+
+                    ",preferredDateOfArrival="+preferredDateOfArrival+
+                    ",preferredDateOfDeparture="+preferredDateOfDeparture+
                     ",otherDetails="+otherDetails+
                     ",fromDestination="+fromDestination+
                     ",toDestination="+toDestination);
