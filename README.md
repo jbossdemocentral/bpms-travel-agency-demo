@@ -10,7 +10,7 @@ Welcome to the JBoss BPM Travel Agency!
 Quickstart
 ----------
 
-1. [Download and unzip.](https://github.com/eschabell/bpms-travel-agency-demo/archive/master.zip)
+1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
 
 2. Add products to installs directory.
 
@@ -69,14 +69,16 @@ Released versions
 
 See the tagged releases for the following versions of the product:
 
+- v0.1 - moved to JBoss Demo Central.
+
 - v0.1 - JBoss BPM Suite 6.0.3 and travel agency demo installed.
 
 
-![Agency Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
-![Calculate Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/calculate-process.png?raw=true)
-![Travel Process Overview](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/travel-process-definition.png?raw=true)
-![Started Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/started-process.png?raw=true)
-![Booking Task](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/complete-booking-task.png?raw=true)
-![Completed Booking Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/completed-process.png?raw=true)
+![Agency Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
+![Calculate Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/calculate-process.png?raw=true)
+![Travel Process Overview](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/travel-process-definition.png?raw=true)
+![Started Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/started-process.png?raw=true)
+![Booking Task](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/complete-booking-task.png?raw=true)
+![Completed Booking Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/completed-process.png?raw=true)
 
 
