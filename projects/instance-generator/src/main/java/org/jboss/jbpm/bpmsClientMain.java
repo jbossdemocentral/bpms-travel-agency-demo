@@ -28,7 +28,7 @@ public class bpmsClientMain {
 
 
             for (int i=0; i < config.MAX_INSTANCES.intValue(); i++) {
-             bpmsClientThread2 t = new bpmsClientThread2("t"+i, config);
+             bpmsClientThread3 t = new bpmsClientThread3("t"+i, config);
 
   //             bpmsClientThread t = new bpmsClientThread("t"+i);
 

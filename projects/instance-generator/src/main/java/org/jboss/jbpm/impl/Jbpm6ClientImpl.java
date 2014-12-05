@@ -43,7 +43,7 @@ public class Jbpm6ClientImpl implements Jbpm6Client{
 	public String startProcess(String deploymentId, String processId, String mapOfParams) throws HttpException{
 		return startProcessWithMap(deploymentId, processId, queryStringToMap(mapOfParams));
 	}
-	protected String startProcessWithMap(String deploymentId, String processId, Map<String,Object> params) throws HttpException{
+	public  String startProcessWithMap(String deploymentId, String processId, Map<String,Object> params) throws HttpException{
 		Preconditions.checkArgument(deploymentId.split(":").length==3);
 		return send(POST, "rest/runtime/"+deploymentId+"/process/"+processId+"/start"+mapToQueryString(params));
 	}
@@ -63,7 +63,11 @@ public class Jbpm6ClientImpl implements Jbpm6Client{
 	public String completeTaskWithMap(String id, Map<String, Object> params) throws HttpException{
 		return send(POST, "rest/task/"+id+"/complete"+mapToQueryString(params));
 	}
-	
+	public String getTaskContent (String id) throws HttpException {
+
+        return send(GET, "rest/task/"+id+"/content");
+    }
+
 	private Response send(String url, Http httpType){
 		RequestSpecification rs=
 				given().redirects().follow(true)
@@ -91,7 +95,10 @@ public class Jbpm6ClientImpl implements Jbpm6Client{
   		.insert(result.indexOf(">")+1, "<!-- "+response.getStatusLine()+" -->")
   		.toString();
 		}
+
+        System.out.println("Send response:" + result); // Display the string.
 		return result;
+
 	}
 
 	/**

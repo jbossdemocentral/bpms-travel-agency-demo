@@ -1,0 +1,77 @@
+{
+  "url":    "http://localhost:8080/business-central/",
+  "username":  "erics",
+  "password":  "bpmsuite1!", 
+  "max_task_delay": 10000,
+  "n_instances": 1,
+
+   "price": 5000,
+
+   "travellers" : ["1i","1i","2i","2i","2i","3i","4i"],
+
+   "review": ["False","False","True"],
+
+  "names":  ["Kiara Z. Hanson",
+            "Jordan X. May",
+            "Castor Lewis",
+            "Ainsley B. Griffin",
+            "Yael W. Dotson",
+            "Cyrus Burke",
+            "Martina L. Palmer",
+            "Lareina Castro",
+            "Leroy F. Blanchard",
+            "Jared Middleton",
+            "Kirby Hayden",
+            "Rinah Anthony",
+            "Aquila E. Howell",
+            "Jennifer Ortiz",
+            "Macaulay H. Morrison",
+            "Shellie Merrill",
+            "Jarrod Estrada",
+            "Ursula Hines",
+            "Armando P. Ruiz",
+            "Kirestin W. Head",
+            "Pamela D. Hammond",
+            "Dawn M. Kane"],
+
+   "vars": [
+		{
+		  "name": "price",
+		  "type": "int",
+		  "value": { "min":2400,
+			     "max":7000}
+                },
+		{
+		  "name": "travellers",
+		  "type": "choice",
+                  "value": ["1i","1i","2i","2i","2i","3i","4i"]
+		},
+		{
+		  "name": "review",
+		  "type": "choice",
+		  "value": ["False","False","True"]
+		}
+	    ],
+
+   
+
+   "tasks": [
+		{
+		  "name":"Employee Booking",
+		  "out": "reviewRequiredOut=${review},reviewRequiredDetailsOut=No Details,bookingConfirmedOut=NO"
+		},
+		{
+		  "name":"Price Review",
+		  "out": "totalPriceOut=${price},reviewerCommentOut=No Comments"
+		},
+		{
+		  "name":"Booking Complete",
+		  "out": ""
+		}
+
+
+	          
+	    ]
+
+}
+

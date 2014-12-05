@@ -2,6 +2,8 @@ package org.jboss.jbpm.impl;
 
 import java.util.ArrayList;
 import java.util.Random;
+import org.apache.commons.lang.text.StrSubstitutor;
+import org.json.simple.JSONArray;
 
 /**
  * Created by aubbiali on 27/11/14.
@@ -23,6 +25,8 @@ public class bpmsClientVars {
         return value.toString() + "i";
     }
 
+
+
     public bpmsClientVars() {
         choice = new ArrayList<String>();
     }
@@ -37,4 +41,6 @@ public class bpmsClientVars {
         else return null;
 
     }
+
+
 }
