@@ -55,7 +55,7 @@
 		</form>
 	</div>
 
-	<div id="footer">Copyright © 2014 Special Trips Agency Inc.</div>
+	<div id="footer">Copyright © npatel Inc. :))</div>
 
 </body>
 </html>
