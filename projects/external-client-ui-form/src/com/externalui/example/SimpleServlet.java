@@ -68,7 +68,7 @@ public class SimpleServlet extends HttpServlet {
 					"<html> \n" + 
 					  "<head> \n" + 
 					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"> \n" + 
-					  "<title> My first jsp </title> \n" + 
+					  "<title> Request Submitted </title> \n" + 
 					"</head> \n" + 
 					  "<body> \n" + 
 					"<font size=\"12px\" color=\"" + color + "\">" + 
