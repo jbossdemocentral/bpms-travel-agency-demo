@@ -6,13 +6,13 @@ set DEMO=Travel Agency Demo
 set AUTHORS=Nirja Patel, Shepherd Chengeta, Eric D. Schabell
 set PROJECT=git@github.com:jbossdemocentral/bpms-travel-agency-demo.git
 set PRODUCT=JBoss BPM Suite
-set JBOSS_HOME=%PROJECT_HOME%\target\jboss-eap-6.1
+set JBOSS_HOME=%PROJECT_HOME%target\jboss-eap-6.1
 set SERVER_DIR=%JBOSS_HOME%\standalone\deployments\
 set SERVER_CONF=%JBOSS_HOME%\standalone\configuration\
 set SERVER_BIN=%JBOSS_HOME%\bin
-set SRC_DIR=%PROJECT_HOME%\installs
-set SUPPORT_DIR=%PROJECT_HOME%\support
-set PRJ_DIR=%PROJECT_HOME%\projects
+set SRC_DIR=%PROJECT_HOME%installs
+set SUPPORT_DIR=%PROJECT_HOME%support
+set PRJ_DIR=%PROJECT_HOME%projects
 set BPMS=jboss-bpms-installer-6.0.3.GA-redhat-1.jar
 set VERSION=6.0.3
 
@@ -22,7 +22,7 @@ cls
 echo.
 echo #################################################################
 echo ##                                                             ##   
-echo ##  Setting up the %DEMO%                           ##
+echo ##  Setting up the %DEMO%                          ##
 echo ##                                                             ##   
 echo ##                                                             ##   
 echo ##     ####  ####   #   #      ### #   # ##### ##### #####     ##
@@ -35,7 +35,7 @@ echo ##                                                             ##
 echo ##  brought to you by,                                         ##   
 echo ##   %AUTHORS%          ##
 echo ##                                                             ##   
-echo ##  %PROJECT% ##
+echo ##  %PROJECT%##
 echo ##                                                             ##   
 echo #################################################################
 echo.
@@ -61,7 +61,13 @@ if exist %JBOSS_HOME% (
 REM Run installer.
 echo Product installer running now...
 echo.
-java -jar %SRC_DIR%/%BPMS% %SUPPORT_DIR%\installation-bpms -variablefile %SUPPORT_DIR%\installation-bpms.variables
+call java -jar %SRC_DIR%/%BPMS% %SUPPORT_DIR%\installation-bpms -variablefile %SUPPORT_DIR%\installation-bpms.variables
+
+if not "%ERRORLEVEL%" == "0" (
+	echo Error Occurred During %PRODUCT% Installation!
+	echo.
+	GOTO :EOF
+)
 
 echo - setting up demo projects...
 echo.
@@ -78,7 +84,7 @@ echo.
 echo.
 echo - setting up web services...
 echo.
-mvn clean install -f $PRJ_DIR/pom.xml
+call mvn clean install -f %PRJ_DIR%/pom.xml
 xcopy /Y /Q "%PRJ_DIR%\acme-demo-flight-service\target\acme-flight-service-1.0.war" "%SERVER_DIR%"
 xcopy /Y /Q "%PRJ_DIR%\acme-demo-hotel-service\target\acme-hotel-service-1.0.war" "%SERVER_DIR%"
 
@@ -103,7 +109,7 @@ echo.
 
 echo - install domain model to repository...
 echo.
-mvn install:install-file -Dfile=%PRJ_DIR%\acme-data-model\target\acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
+call mvn install:install-file -Dfile=%PRJ_DIR%\acme-data-model\target\acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
 
 echo.
 echo ========================================================================
