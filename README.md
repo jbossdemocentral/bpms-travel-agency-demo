@@ -12,7 +12,7 @@ Quickstart
 
 1. [Download and unzip.](https://github.com/eschabell/bpms-travel-agency-demo/archive/master.zip)
 
-2. Add products to installs directory.
+2. Add products to installs directory. For example download and add BPMS installer jar into the installs directory.
 
 3. Run 'init.sh' or 'init.bat' file.
 
