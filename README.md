@@ -72,11 +72,15 @@ See the tagged releases for the following versions of the product:
 - v0.1 - JBoss BPM Suite 6.0.3 and travel agency demo installed.
 
 
-![Agency Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
-![Calculate Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/calculate-process.png?raw=true)
-![Travel Process Overview](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/travel-process-definition.png?raw=true)
-![Started Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/started-process.png?raw=true)
-![Booking Task](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/complete-booking-task.png?raw=true)
-![Completed Booking Process](https://github.com/eschabell/bpms-travel-agency-demo/blob/master/docs/demo-images/completed-process.png?raw=true)
-
+![Agency Process](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/NewSTAprocess.png?raw=true)
+![Calculate Process](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/calculate-process.png?raw=true)
+![Compensation](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/Compensation.png?raw=true)
+![Special Trips UI Form](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/SpecialTripsUIform.png?raw=true)
+![Special Trips UI Success Form](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/UISuccessScreen.png?raw=true)
+![Task List Menu](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/TaskListMenu.png?raw=true)
+![Claim Task](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/ClaimTask.png?raw=true)
+![Credit Card Details](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/1234CreditCard.png?raw=true)
+![Check Logs for Compensation Path](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/CheckLogsForCompensationPath.png?raw=true)
+![Compensated Process](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/CompensatedProcess.png?raw=true)
+![Successful Booking](https://raw.githubusercontent.com/npatel2012/bpms-travel-agency-demo/master/docs/demo-images/SuccessfulProcess.png?raw=true)
 
