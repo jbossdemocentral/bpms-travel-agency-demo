@@ -80,6 +80,8 @@ Booking a trip to Edinburgh (just one scenario)
 
 Supporting Articles
 -------------------
+[3 Reasons You Need The New Travel Agency](http://www.schabell.org/2014/12/3-reasons-you-need-new-jboss-travel-agency.html)
+
 [How To Excite the Travel Industry With a BPM Story](http://www.schabell.org/2014/10/how-to-excite-travel-agencies-with-bpm-story.html)
 
 
