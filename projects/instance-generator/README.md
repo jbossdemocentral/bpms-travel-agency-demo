@@ -1,11 +1,13 @@
-jbpm6-process-client
-====================
+JSON based process client
+=========================
 
-A client library that enables interacting with the JBPM6 business-central app via rest
+A client library that enables interacting with the JBoss BPM Suite business-central application via rest.
 
-Instance Generator will connect to a BPMS server and generate and  progress a configurable number of instances, as long as the input parameters for the process and the out parameters of the tasks are simple types: no coding, just a JSON configuration file
+Instance Generator will connect to a BPMS server and generate and  progress a configurable number of instances, as long as the input parameters for the process and the out parameters of the tasks are simple types: no coding, just a JSON configuration file.
 
-I wanted to learns the REST apis, and have something that you can use without having an IDE or maven and git! it does not use ANY JBPMS library, so it is also an example to show how you can put together something language independent to interact with BPMS
+I wanted to learns the REST apis, and have something that you can use without having an IDE or maven and git! it does not use ANY JBPMS library, so it is also an example to show how you can put together something language independent to interact with BPMS.
+
+-- Andrea Ubbiali
 
 
 Instructions
@@ -83,7 +85,7 @@ What to do when excuting the task is specified in the "tasks" section of the JSO
 for example
 if the task is "Employee Booking", it will claim, start, and complete the task via REST passing the the variables defined in "vars",  or literals:
 
- {
+        {
              "name":"Employee  Booking",
              "outParams":[
               {"name":"reviewRequiredOut",            "value":"${review}"     },
@@ -94,6 +96,8 @@ if the task is "Employee Booking", it will claim, start, and complete the task v
               {"name":"expiryDateOut",              "value":"12/19"},
               {"name":"nameOfCardHolderOut",        "value":"${customers}"}
              ]
+
+        }
 
 
 Example use of tool
@@ -113,16 +117,14 @@ $ java -jar target/instance-generator-1.0-jar-with-dependencies.jar bpmsClient.j
 
 Full JSON configuration file
 ----------------------------------------------------------------------------------------------------------
-{
-  "url":    "http://localhost:8080/business-central/",
-  "username":  "erics",
-  "password":  "bpmsuite1!",
-  "max_task_delay": 10000,
-  "n_instances": 10,
+     {
+       "url":    "http://localhost:8080/business-central/",
+       "username":  "erics",
+       "password":  "bpmsuite1!",
+       "max_task_delay": 10000,
+       "n_instances": 10,
 
-
-
-   "vars": [
+       "vars": [
         {
           "name": "price",
           "type": "int",
@@ -181,7 +183,7 @@ Full JSON configuration file
         }
         ],
 
-   "process": {
+        "process": {
 
             "project":"org.specialtripsagency:specialtripsagencyproject:2.0.0",
             "name":"org.specialtripsagency.specialtripsagencyprocess",
@@ -198,7 +200,7 @@ Full JSON configuration file
 
 
 
-   "tasks": [
+        "tasks": [
 
              {
              "name":"Employee  Booking",
@@ -222,5 +224,5 @@ Full JSON configuration file
               
         ]
 
-}
+     }
 
