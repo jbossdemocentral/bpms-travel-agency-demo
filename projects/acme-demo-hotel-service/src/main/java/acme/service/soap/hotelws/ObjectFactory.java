@@ -24,7 +24,6 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _DataBaseException_QNAME = new QName("http://soap.service.acme/HotelWS/", "DataBaseException");
     private final static QName _GetAvailableHotel_QNAME = new QName("http://soap.service.acme/HotelWS/", "getAvailableHotel");
     private final static QName _GetAvailableHotelResponse_QNAME = new QName("http://soap.service.acme/HotelWS/", "getAvailableHotelResponse");
 
@@ -33,6 +32,30 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link BookHotelResponse }
+     * 
+     */
+    public BookHotelResponse createBookHotelResponse() {
+        return new BookHotelResponse();
+    }
+
+    /**
+     * Create an instance of {@link CancelBookingResponse }
+     * 
+     */
+    public CancelBookingResponse createCancelBookingResponse() {
+        return new CancelBookingResponse();
+    }
+
+    /**
+     * Create an instance of {@link BookHotel }
+     * 
+     */
+    public BookHotel createBookHotel() {
+        return new BookHotel();
     }
 
     /**
@@ -51,6 +74,15 @@ public class ObjectFactory {
         return new GetAvailableHotelResponse();
     }
 
+    /**
+     * Create an instance of {@link CancelBooking }
+     * 
+     */
+    public CancelBooking createCancelBooking() {
+        return new CancelBooking();
+    }
+
+  
     /**
      * Create an instance of {@link Resort }
      * 

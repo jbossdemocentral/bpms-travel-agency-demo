@@ -1,0 +1,139 @@
+{
+  "url":    "http://localhost:8080/business-central/",
+  "username":  "erics",
+  "password":  "bpmsuite1!",
+  "max_task_delay": 10000,
+  "n_instances": 10,
+
+   "price": 5000,
+
+   "travellers" : ["1i","1i","2i","2i","2i","3i","4i"],
+
+   "review": ["False","False","True"],
+   
+
+  "names":  ["Kiara Z. Hanson",
+            "Jordan X. May",
+            "Castor Lewis",
+            "Ainsley B. Griffin",
+            "Yael W. Dotson",
+            "Cyrus Burke",
+            "Martina L. Palmer",
+            "Lareina Castro",
+            "Leroy F. Blanchard",
+            "Jared Middleton",
+            "Kirby Hayden",
+            "Rinah Anthony",
+            "Aquila E. Howell",
+            "Jennifer Ortiz",
+            "Macaulay H. Morrison",
+            "Shellie Merrill",
+            "Jarrod Estrada",
+            "Ursula Hines",
+            "Armando P. Ruiz",
+            "Kirestin W. Head",
+            "Pamela D. Hammond",
+            "Dawn M. Kane"],
+
+   "vars": [
+		{
+		  "name": "price",
+		  "type": "int",
+		  "value": { "min":2400,
+			     "max":7000}
+                },
+		{
+		  "name": "travellers",
+		  "type": "choice",
+                  "value": ["1i","1i","2i","2i","2i","3i","4i"]
+		},
+		{
+		  "name": "review",
+		  "type": "choice",
+		  "value": ["False","False","True"]
+		},
+		{
+		  "name": "canceled",
+		  "type": "choice",
+		  "value": ["False","False","False","True"]
+		},
+		{
+		  "name": "confirmed",
+		  "type": "choice",
+		  "value": ["False","False","False","True"]
+		},
+		{"name": "creditcard",
+	         "type": "choice",
+		 "value": ["1234000011112222*","4444000011112222*","3333000011112222*","5555000011112222*"]
+		},
+		{
+		  "name": "customers",
+		  "type": "choice",
+		  "value": ["Kiara Z. Hanson",
+            		    "Jordan X. May",
+            	            "Castor Lewis",
+            		    "Ainsley B. Griffin",
+            		    "Yael W. Dotson",
+            		    "Cyrus Burke",
+            		    "Martina L. Palmer",
+            		    "Lareina Castro",
+            		    "Leroy F. Blanchard",
+            		    "Jared Middleton",
+            		    "Kirby Hayden",
+            	            "Rinah Anthony",
+            		    "Aquila E. Howell",
+            	            "Jennifer Ortiz",
+            	            "Macaulay H. Morrison",
+           	            "Shellie Merrill",
+            	            "Jarrod Estrada", 
+            	            "Ursula Hines",
+            	            "Armando P. Ruiz",
+            	            "Kirestin W. Head",
+            	            "Pamela D. Hammond",
+            	            "Dawn M. Kane"]
+		}
+	    ],
+
+   "process": {
+
+	        "project":"org.specialtripsagency:specialtripsagencyproject:2.0.0",
+		"name":"org.specialtripsagency.specialtripsagencyprocess",
+                "params":[
+			  {"name":"applicantName",	"value":"${customers}"     },
+			  {"name":"emailAddress", 	"value":"myemail@email.com"},
+			  {"name":"numberOfTravelers",	"value":"${travellers}"    },
+			  {"name":"otherDetails",	"value":"NO"		   },
+		          {"name":"fromDestination",	"value":"London"	   },
+			  {"name":"toDestination",	"value":"Edinburgh"	   }
+			]
+		},	
+
+
+
+
+   "tasks": [ 
+
+         	{
+		  "name":"Employee  Booking",
+                  "outParams":[
+			  {"name":"reviewRequiredOut",		"value":"${review}"     },
+			  {"name":"reviewRequiredDetailsOut", 	"value":"Provide Discount"	},
+			  {"name":"bookingConfirmedOut",	"value":"${confirmed}"	},
+			  {"name":"bookingCancelledOut",        "value":"${canceled}",     },
+			  {"name":"creditCardNumberOut",        "value":"${creditcard}" },
+			  {"name":"expiryDateOut",              "value":"12/19"},
+			  {"name":"nameOfCardHolderOut",	"value":"${customers}"}
+ 			]
+		},
+		{
+		  "name":"Price Review",
+                  "outParams":[
+			  {"name":"totalPriceOut",		"value":"${price}"     },
+			  {"name":"reviewerCommentOut", 	"value":"No Comments"   }
+			]
+		}
+	          
+	    ]
+
+}
+
