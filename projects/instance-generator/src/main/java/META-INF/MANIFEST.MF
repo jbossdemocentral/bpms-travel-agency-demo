@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Class-Path: guava-14.0.1.jar rest-assured-common-1.8.1.jar commons-lan
+ g3-3.1.jar asm-commons-4.0.jar antlr-2.7.7.jar httpcore-4.2.4.jar tag
+ soup-1.2.1.jar hamcrest-core-1.2.1.jar commons-lang-2.4.jar json-simp
+ le-1.1.jar groovy-xml-2.1.2.jar httpmime-4.2.1.jar hamcrest-library-1
+ .2.1.jar gson-1.7.2.jar jackson-core-asl-1.8.5.jar httpclient-4.2.5.j
+ ar xml-path-1.8.1.jar asm-4.0.jar commons-logging-1.1.1.jar jackson-m
+ apper-asl-1.8.5.jar groovy-2.1.2.jar asm-tree-4.0.jar groovy-json-2.1
+ .2.jar asm-analysis-4.0.jar json-path-1.8.1.jar commons-codec-1.6.jar
+  asm-util-4.0.jar jackson-databind-2.0.5.jar rest-assured-1.8.1.jar j
+ ackson-annotations-2.0.5.jar jackson-core-2.0.5.jar
+Main-Class: org.jboss.jbpm.bpmsClientMain
+

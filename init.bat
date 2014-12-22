@@ -122,6 +122,7 @@ echo =  Login into business central at:                                     =
 echo =                                                                      =
 echo =    http://localhost:8080/business-central  [u:erics / p:bpmsuite1!]  =
 echo =                                                                      =
+echo =  See README.md for general details to run the various demo cases.    =
 echo =                                                                      =
 echo =  %PRODUCT% %VERSION% %DEMO% Setup Complete.            =
 echo =                                                                      =

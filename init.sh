@@ -82,9 +82,14 @@ cp -r $PRJ_DIR/acme-demo-flight-service/target/acme-flight-service-1.0.war $SERV
 cp -r $PRJ_DIR/acme-demo-hotel-service/target/acme-hotel-service-1.0.war $SERVER_DIR
 
 echo
-echo "	- adding acmeDataModel-1.0.jar to business-central.war/WEB-INF/lib"
+echo "  - adding acmeDataModel-1.0.jar to business-central.war/WEB-INF/lib"
 cp -r $PRJ_DIR/acme-data-model/target/acmeDataModel-1.0.jar $SERVER_DIR/business-central.war/WEB-INF/lib
 
+echo
+echo "  - deploying external-client-ui-form-1.0.war to EAP deployments directory"
+cp -r $PRJ_DIR/external-client-ui-form/target/external-client-ui-form-1.0.war $SERVER_DIR/
+
+echo
 echo "  - setting up standalone.xml configuration adjustments..."
 echo
 cp $SUPPORT_DIR/standalone.xml $SERVER_CONF
@@ -92,6 +97,10 @@ cp $SUPPORT_DIR/standalone.xml $SERVER_CONF
 echo "  - making sure standalone.sh for server is executable..."
 echo
 chmod u+x $JBOSS_HOME/bin/standalone.sh
+
+echo "  - updating the CustomWorkItemHandler.conf file to use the appropriate email server..."
+echo
+cp -f $SUPPORT_DIR/CustomWorkItemHandlers.conf $SERVER_DIR/business-central.war/WEB-INF/classes/META-INF
 
 # Optional: uncomment this to install mock data for BPM Suite.
 #
@@ -110,6 +119,7 @@ echo "=  Login into business central at:                                     ="
 echo "=                                                                      ="
 echo "=    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)  ="
 echo "=                                                                      ="
+echo "=  See README.md for general details to run the various demo cases.    ="
 echo "=                                                                      ="
 echo "=  $PRODUCT $VERSION $DEMO Setup Complete.            ="
 echo "=                                                                      ="

@@ -2,15 +2,11 @@
 package acme.service.soap.hotelws;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -27,8 +23,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="hotelName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="ratePerPerson" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="hotelCity" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="targetDate" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="availability" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="availableFrom" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="availableTo" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +33,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  * 
  */
-@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "resort", propOrder = {
     "hotelId",
@@ -148,29 +143,52 @@ public class Resort implements Serializable {
         this.hotelCity = value;
     }
 
-	public String getAvailableFrom() {
-		return availableFrom;
-	}
-
-	public void setAvailableFrom(String availableFrom) {
-		this.availableFrom = availableFrom;
-	}
-
-	public String getAvailableTo() {
-		return availableTo;
-	}
-
-	public void setAvailableTo(String availableTo) {
-		this.availableTo = availableTo;
-	}
-}
-
     /**
-     * Gets the value of the targetDate property.
+     * Gets the value of the availableFrom property.
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    
+    public String getAvailableFrom() {
+        return availableFrom;
+    }
+
+    /**
+     * Sets the value of the availableFrom property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAvailableFrom(String value) {
+        this.availableFrom = value;
+    }
+
+    /**
+     * Gets the value of the availableTo property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAvailableTo() {
+        return availableTo;
+    }
+
+    /**
+     * Sets the value of the availableTo property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAvailableTo(String value) {
+        this.availableTo = value;
+    }
+
+}
