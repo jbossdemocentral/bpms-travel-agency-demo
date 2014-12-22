@@ -29,7 +29,7 @@ Booking a trip to Edinburgh (just one scenario)
 1. Build & deploy project.
 
 2. Start process with following data in start form (either from JBoss BPM Suite dashboard or using external client
-	 UI deployed at [http://localhost:8080/external-client-ui-form-1.0](http://localhost:8080/external-client-ui-form-1.0):
+	 UI deployed at [http://localhost:8080/external-client-ui-form-1.0](http://localhost:8080/external-client-ui-form-1.0)):
 
   ```
   Name: [your-name]
