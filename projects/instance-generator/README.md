@@ -9,7 +9,7 @@ I wanted to learns the REST apis, and have something that you can use without ha
 
 
 Instructions
---------------------------------
+------------
 
 you specify in the JSON file, the BPMS server, user, password
 
@@ -94,6 +94,21 @@ if the task is "Employee Booking", it will claim, start, and complete the task v
               {"name":"expiryDateOut",              "value":"12/19"},
               {"name":"nameOfCardHolderOut",        "value":"${customers}"}
              ]
+
+
+Example use of tool
+-------------------
+The project can be built from projects/instance-generator. This produces a jar in the target directory which you can run
+for example from the root of the instance-generator.
+
+$ cd projects/instance-generator
+
+$ mvn package
+
+Now with the JBoss BPM Suite Travel Agency demo installed, start the server, build&deploy the project and run the following 
+to kick off a set of process instances:
+
+$ java -jar target/instance-generator-1.0-jar-with-dependencies.jar bpmsClient.json
 
 
 Full JSON configuration file
@@ -208,3 +223,4 @@ Full JSON configuration file
         ]
 
 }
+
