@@ -92,24 +92,26 @@ echo.
 echo - adding acmeDataModel-1.0.jar to business-central.war/WEB-INF/lib
 xcopy /Y /Q %PRJ_DIR%\acme-data-model\target\acmeDataModel-1.0.jar %SERVER_DIR%\business-central.war\WEB-INF\lib
 
+echo.
+echo - deploying external-client-ui-form-1.0.war to EAP deployments directory
+xcopy /Y /Q %PRJ_DIR%\external-client-ui-form\target\external-client-ui-form-1.0.war %SERVER_DIR%
 
-REM Optional: uncomment this to install mock data for BPM Suite, providing 
-REM           colorful BAM history charts and filled Process & Task dashboard 
-REM           views.
-REM
-REM echo - setting up mock bpm dashboard data...
-REM echo.
-REM xcopy /Y /Q "%SUPPORT_DIR%\1000_jbpm_demo_h2.sql" "%SERVER_DIR%\dashbuilder.war\WEB-INF\etc\sql"
-REM echo. 
-
+echo.
 echo - setting up standalone.xml configuration adjustments...
 echo.
 xcopy /Y /Q "%SUPPORT_DIR%\standalone.xml" "%SERVER_CONF%"
 echo.
 
-echo - install domain model to repository...
 echo.
-call mvn install:install-file -Dfile=%PRJ_DIR%\acme-data-model\target\acmeDataModel-1.0.jar -DgroupId=special-trips -DartifactId=acmeDataModel -Dversion=1.0 -Dpackaging=jar
+echo - updating the CustomWorkItemHandler.conf file to use the appropriate email server...
+xcopy /Y /Q %SUPPORT_DIR%\CustomWorkItemHandlers.conf %SERVER_DIR%\business-central.war\WEB-INF\classes\META-INF\
+
+REM Optional: uncomment this to install mock data for BPM Suite
+REM
+REM echo - setting up mock bpm dashboard data...
+REM echo.
+REM xcopy /Y /Q "%SUPPORT_DIR%\1000_jbpm_demo_h2.sql" "%SERVER_DIR%\dashbuilder.war\WEB-INF\etc\sql"
+REM echo.
 
 echo.
 echo ========================================================================
