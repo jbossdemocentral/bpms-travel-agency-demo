@@ -49,7 +49,7 @@ Booking a trip to Edinburgh (just one scenario)
   Other Details / Notes: [any-text]
   ```
 
-3. Login to http://localhost:8080/business-central
+3. Login to [http://localhost:8080/business-central](http://localhost:8080/business-central)
 
   ```
   - login for admin role (u:erics / p:bpmsuite1!)
