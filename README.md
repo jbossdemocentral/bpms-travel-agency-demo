@@ -17,7 +17,7 @@ Quickstart
 
 4. Start JBoss BPMS Server by running 'standalone.sh' or 'standalone.bat' in the <path-to-project>/target/jboss-eap-6.1/bin directory.
 
-5. Login to http://localhost:8080/business-central
+5. Login to [http://localhost:8080/business-central](http://localhost:8080/business-central)
 
   ```
   - login for admin and other roles (u:erics / p:bpmsuite1!)
