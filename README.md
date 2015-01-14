@@ -1,6 +1,6 @@
 JBoss BPM Suite Travel Agency Demo
 ==================================
-This is an online employee travel booking process project. It contains multimple web services for looking up data for the process
+This is an online employee travel booking process project. It contains multiple web services for looking up data for the process
 and rules to calculate pricing. Furthermore, there are several tasks that can be activated to evaluate pricing and to review the
 final booking data before completing the booking.
 
@@ -97,6 +97,7 @@ See the tagged releases for the following versions of the product:
 - v0.1 - JBoss BPM Suite 6.0.3 and travel agency demo installed.
 
 
+[![Video part 1](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/video-part-1.png?raw=true)](http://vimeo.com/ericschabell/bpms-travel-agency-part-1)
 ![Agency Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
 ![Calculate Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/calculate-process.png?raw=true)
 ![Compensation](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/compensation-process.png?raw=true)
