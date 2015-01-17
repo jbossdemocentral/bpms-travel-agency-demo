@@ -28,7 +28,7 @@ Docker
 
 The following steps can be used to configure and run the demo in a docker container
 
-1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-helpdesk-demo/archive/master.zip)
+1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
 
 2. Add product installer to installs directory. For example download and add BPMS installer jar into the installs directory.
 
