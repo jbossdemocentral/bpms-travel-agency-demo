@@ -19,9 +19,39 @@ Quickstart
 
 5. Login to [http://localhost:8080/business-central](http://localhost:8080/business-central)
 
-  ```
-  - login for admin and other roles (u:erics / p:bpmsuite1!)
-  ```
+    ```
+     - login for admin and other roles (u:erics / p:bpmsuite1!)
+    ```
+  
+Docker
+-------------------------
+
+The following steps can be used to configure and run the demo in a docker container
+
+1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
+
+2. Add product installer to installs directory. For example download and add BPMS installer jar into the installs directory.
+
+3. Build demo image
+
+	```
+	docker build -t jbossdemocentral/bpms-travel-agency-demo .
+	```
+4. Start demo container
+
+	```
+	docker run --it -p 8080:8080 -p 9990:9990 jbossdemocentral/bpms-travel-agency-demo
+	```
+5. Login to http://<DOCKER_HOST>:8080/business-central
+  
+    ```
+     - login for admin and other roles (u:erics / p:bpmsuite1!)
+    ```
+    
+*Note*: Replace localhost with DOCKER_HOST when it appears in other locations within the documentation
+
+Additional information can be found in the jbossdemocentral docker [developer repository](https://github.com/jbossdemocentral/docker-developer)
+
 
 
 Booking a trip to Edinburgh (just one scenario)
