@@ -6,9 +6,11 @@ final booking data before completing the booking.
 
 Welcome to the JBoss BPM Travel Agency!
 
+There are two options available to you for using this demo; local and Docker.
 
-Quickstart
-----------
+
+Option 1 - Install on your machine
+----------------------------------
 1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
 
 2. Add products to installs directory. For example download and add BPMS installer jar into the installs directory.
@@ -23,9 +25,9 @@ Quickstart
      - login for admin and other roles (u:erics / p:bpmsuite1!)
     ```
   
-Optional Docker Install
------------------------
 
+Option 2 - Generate docker install
+----------------------------------
 The following steps can be used to configure and run the demo in a docker container
 
 1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
@@ -53,7 +55,6 @@ The following steps can be used to configure and run the demo in a docker contai
 *Note*: Replace localhost with DOCKER_HOST when it appears in other locations within the documentation
 
 Additional information can be found in the jbossdemocentral docker [developer repository](https://github.com/jbossdemocentral/docker-developer)
-
 
 
 Booking a trip to Edinburgh (just one scenario)
@@ -114,12 +115,17 @@ Supporting Articles
 -------------------
 [3 Reasons You Need The New Travel Agency](http://www.schabell.org/2014/12/3-reasons-you-need-new-jboss-travel-agency.html)
 
+[How to fly with the JBoss BPM Travel Agency (video 2 of 4)](http://www.schabell.org/2015/01/how-to-fly-with-jboss-bpm-travel-agency-part2.html)
+
+[How to fly with the JBoss BPM Travel Agency (video 1 of 4)](http://www.schabell.org/2015/01/how-to-fly-with-jboss-bpm-travel-agency.html)
+
+[3 Reasons You Need The New JBoss Travel Agency](http://www.schabell.org/2014/12/3-reasons-you-need-new-jboss-travel-agency.html)
+
 [How To Excite the Travel Industry With a BPM Story](http://www.schabell.org/2014/10/how-to-excite-travel-agencies-with-bpm-story.html)
 
 
 Released versions
 -----------------
-
 See the tagged releases for the following versions of the product:
 
 - v1.1 - JBoss BPM Suite 6.0.3 with optional docker installation.
@@ -132,10 +138,16 @@ See the tagged releases for the following versions of the product:
 
 
 [![Video part 1](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/video-part-1.png?raw=true)](http://vimeo.com/ericschabell/bpms-travel-agency-part-1)
+
 [![Video part 2](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/video-part-2.png?raw=true)](http://vimeo.com/ericschabell/bpms-travel-agency-part-2)
+
 ![Agency Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
+
 ![Calculate Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/calculate-process.png?raw=true)
+
 ![Compensation](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/compensation-process.png?raw=true)
+
 ![Special Trips UI Form](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/SpecialTripsUIform.png?raw=true)
+
 ![Started Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/started-process.png?raw=true)
 
