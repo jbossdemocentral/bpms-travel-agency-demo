@@ -1,6 +1,7 @@
 #!/bin/sh 
 DEMO="Travel Agency Demo"
-AUTHORS="Niraj Patel, Shepherd Chengeta, Eric D. Schabell"
+AUTHORS="Niraj Patel, Shepherd Chengeta,"
+AUTHORS2="Andrew Block, Eric D. Schabell"
 PROJECT="git@github.com:jbossdemocentral/bpms-travel-agency-demo.git"
 PRODUCT="JBoss BPM Suite"
 JBOSS_HOME=./target/jboss-eap-6.1
@@ -30,7 +31,8 @@ echo "##     ####  #     #     #    ###  ##### #####   #   #####      ##"
 echo "##                                                              ##"   
 echo "##                                                              ##"   
 echo "##  brought to you by,                                          ##"   
-echo "##   ${AUTHORS}           ##"
+echo "##                     ${AUTHORS}          ##"
+echo "##                       ${AUTHORS2}         ##"
 echo "##                                                              ##"   
 echo "##  ${PROJECT} ##"
 echo "##                                                              ##"   
