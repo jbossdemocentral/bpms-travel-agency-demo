@@ -6,7 +6,7 @@ final booking data before completing the booking.
 
 Welcome to the JBoss BPM Travel Agency!
 
-There are two options available to you for using this demo; local and Docker.
+There are three options available to you for using this demo; local, OpenShift and Docker.
 
 
 Option 1 - Install on your machine
@@ -24,7 +24,27 @@ Option 1 - Install on your machine
     ```
      - login for admin and other roles (u:erics / p:bpmsuite1!)
     ```
+
+
+Option 2 - Install with one click in xPaaS (bpmPaaS)
+----------------------------------------------------
+After clicking button, ensure `Gear` size is set to `medium`:
   
+[![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Install
+bpmPaaS.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=https://raw.githubusercontent.com/eschabell/cartridge-bmpPaaS-travel-agency-demo/master/metadata/manifest.yml&name=travelagency&gear_profile=medium&initial_git_url=)
+
+Once installed you can use the JBoss BPM Suite logins: 
+
+   * u:erics   p: bpmsuite  (admin)
+
+   * u: alan   p: bpmsuite  (analyst)
+
+   * u: daniel p: bpmsuite (developer)
+
+   * u: ursla  p: bpmsuite (user)
+
+   * u: mary   p: bpmsuite (manager)
+
 
 Option 2 - Generate docker install
 ----------------------------------
@@ -132,6 +152,8 @@ Released versions
 -----------------
 See the tagged releases for the following versions of the product:
 
+- v1.2 - JBoss BPM Travel Agency with one-click install on bpmPaaS.
+
 - v1.1 - JBoss BPM Suite 6.0.3 with optional docker installation.
 
 - v1.0 - JBoss BPM Suite 6.0.3 and updated travel agency demo with compensation features.
@@ -148,6 +170,8 @@ See the tagged releases for the following versions of the product:
 [![Video part 3](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/video-part-3.png?raw=true)](http://vimeo.com/ericschabell/bpms-travel-agency-part-3)
 
 [![Video part 3](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/video-part-4.png?raw=true)](http://vimeo.com/ericschabell/bpms-travel-agency-part-4)
+
+![Digital Sign](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/announce-sign.jpg?raw=true)
 
 ![Agency Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
 
