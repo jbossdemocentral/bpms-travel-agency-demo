@@ -171,6 +171,8 @@ See the tagged releases for the following versions of the product:
 
 [![Video part 3](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/video-part-4.png?raw=true)](http://vimeo.com/ericschabell/bpms-travel-agency-part-4)
 
+![Cloud Sign](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/cloud-sign.jpg?raw=true)
+
 ![Digital Sign](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/announce-sign.jpg?raw=true)
 
 ![Agency Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/agency-process.png?raw=true)
