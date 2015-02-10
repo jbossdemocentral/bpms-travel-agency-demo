@@ -26,7 +26,7 @@ Option 1 - Install on your machine
     ```
 
 
-Option 3 - Install with one click in xPaaS (bpmPaaS)
+Option 2 - Install with one click in xPaaS (bpmPaaS)
 ----------------------------------------------------
 After clicking button, ensure `Gear` size is set to `medium`:
   
@@ -46,7 +46,7 @@ Once installed you can use the JBoss BPM Suite logins:
    * u: mary   p: bpmsuite (manager)
 
 
-Option 2 - Generate docker install
+Option 3 - Generate docker install
 ----------------------------------
 The following steps can be used to configure and run the demo in a docker container
 
