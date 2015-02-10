@@ -26,7 +26,7 @@ Option 1 - Install on your machine
     ```
 
 
-Option 2 - Install with one click in xPaaS (bpmPaaS)
+Option 3 - Install with one click in xPaaS (bpmPaaS)
 ----------------------------------------------------
 After clicking button, ensure `Gear` size is set to `medium`:
   
