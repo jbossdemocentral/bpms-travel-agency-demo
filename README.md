@@ -30,8 +30,7 @@ Option 2 - Install with one click in xPaaS (bpmPaaS)
 ----------------------------------------------------
 After clicking button, ensure `Gear` size is set to `medium`:
   
-[![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Install
-bpmPaaS.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=https://raw.githubusercontent.com/jbossdemocentral/cartridge-bpmPaaS-travel-agency-demo/master/metadata/manifest.yml&name=travelagency&gear_profile=medium&initial_git_url=)
+[![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Install bpmPaaS.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=https://raw.githubusercontent.com/jbossdemocentral/cartridge-bpmPaaS-travel-agency-demo/master/metadata/manifest.yml&name=travelagency&gear_profile=medium&initial_git_url=)
 
 Once installed you can use the JBoss BPM Suite logins: 
 
