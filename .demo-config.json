@@ -1,5 +1,5 @@
 {
-  "name":"JBoss BPM Travel AgencyDemo",
+  "name":"JBoss BPM Travel Agency Demo",
   "summary":"This is an online employee travel booking process project. It contains multiple web services for looking up data for the process, rules to calculate pricing, decision table, compensations features that are triggered when paying with fraud detected credit card.
 
 Install options - local, OpenShift and Docker.",
