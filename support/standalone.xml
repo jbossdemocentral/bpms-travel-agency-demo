@@ -32,6 +32,7 @@
       <property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}/bin"/>
       <property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
       <property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
+			<property name="org.kie.mail.session" value="java:jboss/mail/Default"/>
 			<!-- property name="org.kie.example.repositories" value="${jboss.server.config.dir}/initial"/  -->
    </system-properties>
    <management>
@@ -220,7 +221,7 @@
       </subsystem>
       <subsystem xmlns="urn:jboss:domain:jsf:1.0"/>
       <subsystem xmlns="urn:jboss:domain:mail:1.1">
-         <mail-session jndi-name="java:jboss/mail/Default">
+         <mail-session jndi-name="java:jboss/mail/Default" from="info@redhat.com">
             <smtp-server outbound-socket-binding-ref="mail-smtp"/>
          </mail-session>
       </subsystem>
