@@ -7,6 +7,11 @@
 <title>Booking Form</title>
 
 <style>
+
+body {
+	font-family: sans-serif;
+}
+
 #header {
 	background-color: black;
 	color: white;
@@ -15,47 +20,130 @@
 }
 
 #footer {
-	background-color: black;
-	color: white;
-	clear: both;
 	text-align: center;
-	padding: 5px;
+	padding: 1em;
 }
+
+form {
+	border: 2px solid #f0f0f0;
+}
+
+form > div {
+	padding: .5em;
+}
+
+form > div:nth-child(odd) {
+	background-color: #f0f0f0;
+}
+
+form div label {
+	display: inline-block;
+	min-width: 25%;
+}
+
+form > div > div {
+	display: inline-block;
+}
+
+input[type="submit"] {
+	padding: .5em 1em .5em 1em;
+	background-color: red;
+	font-weight: bold;
+	color: white;
+	border: 0;
+	margin: 1em;
+	font-size: large;
+}
+
+h2 {
+	font-size: large;
+	color: red;
+	margin: 0;
+	padding: .4em;
+	padding-top: 1.5em;
+}
+
 </style>
 
 </head>
 <body>
 
 	<div id="header">
-		<h1>WELCOME TO SPECIAL TRIPS AGENCY WEB FORM!!!</h1>
+		<h1>SPECIAL TRIPS AGENCY - WEB FORM</h1>
 	</div>
 
 	<div id="section">
 		<form action="SimpleServlet">
-			<br>
 			<h2>Customer Details:</h2>
-			Applicant Name <input type="text" name="applicantName" size="20px" />
-			<br> Email Address <input type="text" name="emailAddress"
-				size="20px" /> <br>
+			
+			<div>
+				<label for = "applicantName">Applicant Name</label> 
+				<div>
+					<input type="text" id = "applicantName" name="applicantName" size="20px" />
+				</div>
+			</div>
+
+			<div>
+				<label for = "emailAddress">Email Address</label>
+				<div>
+					<input type="text" id = "emailAddress" name="emailAddress" size="20px" />
+				</div>
+			</div>
 
 			<h2>Travel Details:</h2>
-			Number Of Travelers <input type="text" name="numberOfTravelers"
-				size="20px" /> <br> From Destination <select
-				name="fromDestination">
-				<option value="London">London</option>
-			</select><br> To Destination <select name="toDestination">
-				<option value="Edinburgh">Edinburgh</option>
-			</select><br> Preferred Date Of Arrival (YYYY-MM-DD)<input type="text"
-				name="preferredDateOfArrival" size="20px" /> <br> Preferred
-			Date Of Departure (YYYY-MM-DD)<input type="text"
-				name="preferredDateOfDeparture" size="20px" /> <br> Other
-			Details <input type="text" name="otherDetails" value="N/A"
-				size="50px" /> <br> <br> <input type="submit"
-				value="SUBMIT"><br>
+			<div>
+				<label for = "numberOfTravellers">Number Of Travelers</label>
+				<div>
+					<input type="text" id = "numberOfTravellers" name="numberOfTravelers" size="20px" /> 
+				</div>
+			</div>
+				
+			<div>
+				<label for = "fromDestination">From Destination</label>
+				<div>
+					<select id = "fromDestination" name="fromDestination">
+						<option value="London">London</option>
+					</select>
+				</div>
+			</div>
+				
+			<div>	
+				<label for = "toDestination">To Destination </label>
+				<div>
+					<select id = "toDestination" name="toDestination">
+						<option value="Edinburgh">Edinburgh</option>
+					</select>
+				</div>
+			</div>
+
+			<div>
+				<label for = "preferredDateOfArrival">Preferred Date Of Arrival (YYYY-MM-DD)</label>
+				<div>
+					<input type="text" id = "preferredDateOfArrival" name="preferredDateOfArrival" size="20px" />
+				</div>
+			</div>
+			
+			<div> 
+				<label for = "preferredDateOfDeparture">Preferred Date Of Departure (YYYY-MM-DD)</label>
+			
+				<div>	
+					<input type="text" id = "preferredDateOfDeparture" name="preferredDateOfDeparture" size="20px" />
+				</div>
+			</div>
+
+			<div>
+				<label for = "otherDetails">Other Details</label>
+
+				<div>
+					<input type="text" id = "otherDetails" name="otherDetails" value="N/A" size="50px" />
+				</div>
+			</div>
+		
+			<input type="submit" value="SUBMIT"><br>
 		</form>
 	</div>
 
-	<div id="footer">Powered by Red Hat JBoss BPM Suite</div>
+	<div id="footer">Powered by <strong>Red Hat JBoss BPM Suite</strong></div>
 
 </body>
 </html>
