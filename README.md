@@ -193,7 +193,7 @@ See the tagged releases for the following versions of the product:
 
 ![Compensation](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/compensation-process.png?raw=true)
 
-![Special Trips UI Form](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/SpecialTripsUIform.png?raw=true)
+![Special Trips UI Form](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/SpecialTripsUIform.png)
 
-![Started Process](https://github.com/jbossdemocentral/bpms-travel-agency-demo/blob/master/docs/demo-images/started-process.png?raw=true)
+![Started Process](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/started-process.png)
 
