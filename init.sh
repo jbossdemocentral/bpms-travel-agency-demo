@@ -12,7 +12,7 @@ SRC_DIR=./installs
 SUPPORT_DIR=./support
 PRJ_DIR=./projects
 BPMS=jboss-bpmsuite-6.1.0.GA-installer.jar
-EAP=jboss-eap-6.4.0.CR2-installer.jar
+EAP=jboss-eap-6.4.0-installer.jar
 VERSION=6.1
 
 
