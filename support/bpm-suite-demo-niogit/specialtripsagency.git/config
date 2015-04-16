@@ -6,7 +6,7 @@
 	logallrefupdates = false
 	precomposeunicode = true
 [remote "origin"]
-	url = file:///Users/erics/demo-projects/bpmsuite/bpms-travel-agency-demo/specialtripsagency/.git
+	url = file:///Users/erics/demo-projects/bpms/bpms-travel-agency-demo/support/bpm-suite-demo-niogit/specialtripsagency.git
 	fetch = +refs/heads/*:refs/heads/*
 [branch "master"]
 	remote = origin
