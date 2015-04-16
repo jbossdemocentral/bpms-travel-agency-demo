@@ -1,5 +1,1 @@
-adminPassword=bpmsuite1!
 bpms.password=bpmsuite1!
-generated.keystores.server.storepass=bpmsuite1!
-generated.keystores.client.storepass=bpmsuite1!
-vault.keystorepwd=bpmsuite1!
