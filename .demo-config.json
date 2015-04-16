@@ -5,9 +5,9 @@
   "categories":["brms","bpms"],
   "level":"Easy Peasy",
   "published":true,
-  "prerequisites":"Java 1.7",
+  "prerequisites":"Java 1.7 or 1.8",
   "targetProduct":"JBoss BPM Suite",
-  "productVersion":"JBoss BPM Suite 6.0.3 onwards",
+  "productVersion":"JBoss BPM Suite 6.1",
   "technologies": ["JBoss BPM Suite"],
   "links": [ 
     { 
