@@ -5,6 +5,7 @@ import static javax.xml.xpath.XPathConstants.STRING;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.HttpException;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class BpmsClientThread {
@@ -100,7 +102,7 @@ public class BpmsClientThread {
             XPath xpath = XPathFactory.newInstance().newXPath();
 
             try {
-                processid = (String) xpath.evaluate("/process-instance/id", doc, STRING);
+                processid = (String) xpath.evaluate("/process-instance-response/id", doc, STRING);
             } catch (XPathExpressionException e) {
                 e.printStackTrace();
             }
@@ -109,7 +111,7 @@ public class BpmsClientThread {
             e.printStackTrace();
         }
         
-        System.out.println("Process 3:" + processid); // Display the string.  
+        System.out.println("Process 3: [" + processid + "]"); // Display the string.  
         return processid;
     }
 }

@@ -1,5 +1,8 @@
 package com.externalui.example;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -39,47 +42,37 @@ public class SimpleServlet extends HttpServlet {
 		BpmsClientThread t = new BpmsClientThread();
 		processId = t.starBusinessProcess(hm);
 		System.out.println("=====> After sending request: ");
+		
+		response.setCharacterEncoding("ISO-8859-1");
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
+		String content = "";
+		
 		if (processId == null) {
-			
-			color = "red";
-			
-			out.println ( 
-					"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" + 
-					"<html> \n" + 
-					  "<head> \n" + 
-					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"> \n" + 
-					  "<title> ERROR!!! </title> \n" + 
-					"</head> \n" + 
-					  "<body> \n" + 
-					"<font size=\"12px\" color=\"" + color + "\">" + 
-					  "Failed to start Business Process!!! <br>Please contact BPMS SYSTEMS ADMINISTRATOR for more details" +
-					"</font> \n" + 
-					  "</body> \n" + 
-					"</html>" 
-			);
+			content = getContent(getServletContext().getRealPath(File.separator) + "error.html");
 		} else {
-			
-			color = "green";
-			
-			out.println ( 
-					"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" + 
-					"<html> \n" + 
-					  "<head> \n" + 
-					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"> \n" + 
-					  "<title> Request Submitted </title> \n" + 
-					"</head> \n" + 
-					  "<body> \n" + 
-					"<font size=\"12px\" color=\"" + color + "\">" + 
-					  "Thank you for submitting your request!!! <br>" +
-					  "Your request has been processed successfully!!!<br>" +
-					  "Your Unique Process ID is: [" + processId + "]<br><br>" +
-					  "Our team will get in touch with you shortly with a Quote..\n" +
-					"</font> \n" + 
-					  "</body> \n" + 
-					"</html>" 
-			);
+			content = getContent(getServletContext().getRealPath(File.separator) + "success_response.html");
+			content = content.replace("CHANGEMEPROCESSID", processId);
 		}
+		
+		out.println (content); 
+	}
+
+	private String getContent(String file) {
+		String tempContent = ""; 
+		try {
+	        BufferedReader in = new BufferedReader(new FileReader(file));
+	        String str;
+	        
+	        while ((str = in.readLine()) != null) {
+	            tempContent +=str;
+	        }
+	        in.close();
+	    } catch (IOException e) {
+	    	System.out.println("IOException caught: ");
+	    	e.printStackTrace();
+	    }
+		return tempContent;
 	}
 }
