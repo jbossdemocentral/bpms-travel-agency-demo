@@ -1,12 +1,12 @@
 Download the following from the JBoss Customer Portal
 
- * EAP installer (jboss-eap-6.4.0-installer.jar)
- * BPM Suite installer (jboss-bpmsuite-6.1.0.GA-installer.jar)
+ * BPM Suite installer (jboss-bpmsuite-6.2.0.GA-installer.jar)
+ * EAP installer (jboss-eap-6.4.3-installer.jar)
 
 and copy to this directory for the init.sh script to work.
 
 Ensure that this file is executable by running:
 
-chmod +x <path-to-project>/installs/jboss-eap-6.4.0-installer.jar
-chmod +x <path-to-project>/installs/jboss-bpmsuite-6.1.0.GA-installer.jar
+chmod +x <path-to-project>/installs/jboss-bpmsuite-6.2.0.GA-installer.jar
+chmod +x <path-to-project>/installs/jboss-eap-6.4.3-installer.jar
 
