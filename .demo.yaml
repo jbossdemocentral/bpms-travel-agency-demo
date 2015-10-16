@@ -1,10 +1,10 @@
 id: jbossdemocentral-bpms-travel-agency
-title: This is an online employee travel booking process project with services, rules, decision tables, fraud detection and compensation features.
+title: JBoss BPM Travel Agency Demo
 github_repo_url: https://github.com/jbossdemocentral/bpms-travel-agency-demo
 technologies:
   - JBoss EAP
   - JBoss BPM Suite
-summary: This is an online employee travel booking process project. It contains multiple web services for looking up data for the process and rules to calculate pricing. Furthermore, there are several tasks that can be activated to evaluate pricing and to review the final booking data before completing the booking. There are three options available to you for using this demo; local, OpenShift and containerized. 
+summary: This is an online employee travel booking process project with services, rules, decision tables, fraud detection and compensation features.
 level: Beginner
 product: bpmsuite
-author: Niraj Patel, Shepherd Chengeta, Andrew Block, Eric D. Schabell
+author: Niraj Patel,Shepherd Chengeta,Andrew Block,Eric D. Schabell
