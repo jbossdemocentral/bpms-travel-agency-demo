@@ -166,7 +166,7 @@ Released versions
 -----------------
 See the tagged releases for the following versions of the product:
 
-- v1.5 - JBoss BPM Suite 6.2, JBoss EAP 6.4.3 and travel agency installed.
+- v1.5 - JBoss BPM Suite 6.2, JBoss EAP 6.4.4 and travel agency installed.
 
 - v1.4 - JBoss BPM Suite 6.1 with travel agency installed.
 
