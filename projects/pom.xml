@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>10</version>
+    <version>16</version>
   </parent>
 
   <name>JBoss BPM Travel Agency parent</name>
@@ -44,6 +44,9 @@
       <id>jboss-public-repository-group</id>
       <name>JBoss Public Repository Group</name>
 			<url>http://maven.repository.redhat.com/techpreview/all/</url>
+			<!--
+			<url>http://download.lab.bos.redhat.com/brewroot/repos/jb-ip-6.1-build/latest/maven/</url>
+			-->
       <releases>
         <enabled>true</enabled>
         <updatePolicy>never</updatePolicy>
