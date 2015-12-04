@@ -1,1 +1,68 @@
 UI fails to start process, see log in root of project.
+
+
+21:12:39,933 INFO  [org.jboss.resteasy.cdi.i18n] (http-/127.0.0.1:8080-7) RESTEASY006050: Found BeanManager at java:comp/BeanManager
+21:12:40,512 ERROR [org.jboss.resteasy.resteasy_jaxrs.i18n] (http-/127.0.0.1:8080-7) RESTEASY000100: Failed executing POST runtime/org.specialtripsagency:specialtripsagencyproject:2.0.0/process/org.specialtripsagency.specialtripsagencyprocess/start: org.jboss.resteasy.spi.UnauthorizedException
+	at org.jboss.resteasy.plugins.interceptors.SecurityInterceptor.preProcess(SecurityInterceptor.java:68) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:252) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:227) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:216) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:561) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:543) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:128) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.12.Final-redhat-1.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.2.Final-redhat-2.jar:1.0.2.Final-redhat-2]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:295) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.kie.remote.services.rest.jaxb.DynamicJaxbContextFilter.doFilter(DynamicJaxbContextFilter.java:63) [kie-remote-services-6.3.0.Final-redhat-5.jar:6.3.0.Final-redhat-5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:246) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.uberfire.ext.security.server.BasicAuthSecurityFilter.doFilter(BasicAuthSecurityFilter.java:53) [uberfire-servlet-security-0.7.4.Final-redhat-4.jar:0.7.4.Final-redhat-4]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:246) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.uberfire.ext.security.server.SecureHeadersFilter.doFilter(SecureHeadersFilter.java:53) [uberfire-servlet-security-0.7.4.Final-redhat-4.jar:0.7.4.Final-redhat-4]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:246) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.uberfire.ext.security.server.SecurityIntegrationFilter.doFilter(SecurityIntegrationFilter.java:45) [uberfire-servlet-security-0.7.4.Final-redhat-4.jar:0.7.4.Final-redhat-4]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:246) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:231) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:149) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:420) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.5.4.Final-redhat-4.jar:7.5.4.Final-redhat-4]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.5.4.Final-redhat-4.jar:7.5.4.Final-redhat-4]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:169) [jboss-as-web-7.5.4.Final-redhat-4.jar:7.5.4.Final-redhat-4]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:150) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:97) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.authenticator.SingleSignOn.invoke(SingleSignOn.java:400) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:102) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:854) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:653) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:926) [jbossweb-7.5.11.Final-redhat-1.jar:7.5.11.Final-redhat-1]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.8.0_45]
+
+21:12:40,596 ERROR [stderr] (thread-no-82) org.apache.http.HttpException: Failed to POST to rest/runtime/org.specialtripsagency:specialtripsagencyproject:2.0.0/process/org.specialtripsagency.specialtripsagencyprocess/start?map_applicantName=erics&map_emailAddress=eric@me.com&map_numberOfTravelers=2i&map_preferredDateOfArrival=2015-12-15&map_preferredDateOfDeparture=2015-12-12&map_otherDetails=N/A&map_fromDestination=Denver&map_toDestination=London - http status line = HTTP/1.1 401 Unauthorized; response content = <html><head><title>JBWEB000065: HTTP Status 401 - </title><style><!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}HR {color : #525D76;}--></style> </head><body><h1>JBWEB000065: HTTP Status 401 - </h1><HR size="1" noshade="noshade"><p><b>JBWEB000309: type</b> JBWEB000067: Status report</p><p><b>JBWEB000068: message</b> <u></u></p><p><b>JBWEB000069: description</b> <u>JBWEB000121: This request requires HTTP authentication.</u></p><HR size="1" noshade="noshade"></body></html>
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at com.externalui.example.client.jbpm.Jbpm6ClientImpl.send(Jbpm6ClientImpl.java:86)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at com.externalui.example.client.jbpm.Jbpm6ClientImpl.startProcessWithMap(Jbpm6ClientImpl.java:49)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at com.externalui.example.client.jbpm.Jbpm6ClientImpl.startProcess(Jbpm6ClientImpl.java:45)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at com.externalui.example.client.jbpm.BpmsClientThread.starBusinessProcess(BpmsClientThread.java:78)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at com.externalui.example.SimpleServlet.doGet(SimpleServlet.java:43)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:734)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:295)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:231)
+21:12:40,597 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:149)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:169)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:150)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:97)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.authenticator.SingleSignOn.invoke(SingleSignOn.java:419)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:102)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:854)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:653)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:926)
+21:12:40,598 ERROR [stderr] (thread-no-82) 	at java.lang.Thread.run(Thread.java:745)
