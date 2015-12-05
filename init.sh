@@ -4,7 +4,8 @@ AUTHORS="Niraj Patel, Shepherd Chengeta,"
 AUTHORS2="Andrew Block, Eric D. Schabell"
 PROJECT="git@github.com:jbossdemocentral/bpms-travel-agency-demo.git"
 PRODUCT="JBoss BPM Suite"
-JBOSS_HOME=./target/jboss-eap-6.4
+VERSION=6.2
+JBOSS_HOME=./target/jboss-bpmsuite-$VERSION
 SERVER_DIR=$JBOSS_HOME/standalone/deployments/
 SERVER_CONF=$JBOSS_HOME/standalone/configuration/
 SERVER_BIN=$JBOSS_HOME/bin
@@ -14,7 +15,6 @@ PRJ_DIR=./projects
 BPMS=jboss-bpmsuite-6.2.0.GA-installer.jar
 EAP=jboss-eap-6.4.0-installer.jar
 EAP_PATCH=jboss-eap-6.4.4-patch.zip
-VERSION=6.2
 
 
 # wipe screen.
@@ -165,7 +165,7 @@ echo "========================================================================"
 echo "=                                                                      ="
 echo "=  You can now start the $PRODUCT with:                         ="
 echo "=                                                                      ="
-echo "=   $SERVER_BIN/standalone.sh                           ="
+echo "=   $SERVER_BIN/standalone.sh                      ="
 echo "=                                                                      ="
 echo "=  Login into business central at:                                     ="
 echo "=                                                                      ="
