@@ -1,7 +1,6 @@
 # pack-refs with: peeled
-2b22d67d523a30f9bd935ae95c93ccf81732e100 refs/heads/erics-uf-user
-349a32b41b6a1e5d4143998b088bd9bada89fe65 refs/heads/locks
-b8b8174510731ac0acd54625ceb214c205486f86 refs/heads/mailman-uf-user
-51df0022df5d467c4f5a9617237db59d0530cdd7 refs/heads/master
-6e3e2a1d84146a5bb08700df5860a4bec76f74bd refs/heads/social
-9fe362bf5cfbb02f2888ef50c6d052f548a13d34 refs/heads/system-uf-user
+18e3fa5c1cbc1024dafcbff90ee4a6420f26b7a1 refs/heads/erics-uf-user
+c6929c4607299f18ee6d01012d7b155188c8ea69 refs/heads/locks
+be066eca4735224f21c6f06b2696a8598a8d1a8f refs/heads/mailman-uf-user
+14bdda7530bdd28accc818e621a1a4c93c08818f refs/heads/master
+dbe060aa6defabac69afd584fef894eb673859c9 refs/heads/social
