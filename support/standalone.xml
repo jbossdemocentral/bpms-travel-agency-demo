@@ -37,6 +37,7 @@
 				<property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
 				<property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
 				<property name="org.kie.mail.session" value="java:jboss/mail/Default"/>
+        <property name="org.kie.override.deploy.enabled" value="true"/>
     </system-properties>
 
 
