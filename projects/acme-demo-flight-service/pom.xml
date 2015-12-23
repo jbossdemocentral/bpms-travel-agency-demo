@@ -4,4 +4,17 @@
   <artifactId>acme-flight-service</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+				  <source>1.6</source>
+				  <target>1.6</target>
+			  </configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
