@@ -7,7 +7,7 @@ MAINTAINER Andrew Block <andy.block@gmail.com>
 # Environment Variables 
 ENV BPMS_HOME /opt/jboss/bpms/jboss-eap-6.4
 ENV BPMS_VERSION_MAJOR 6
-ENV BPMS_VERSION_MINOR 1
+ENV BPMS_VERSION_MINOR 2
 ENV BPMS_VERSION_MICRO 0
 ENV BPMS_VERSION_BUILD GA
 
@@ -32,7 +32,6 @@ RUN sed -i "s:<installpath>.*</installpath>:<installpath>$BPMS_HOME</installpath
 
 # Copy demo and support files
 COPY support/bpm-suite-demo-niogit $BPMS_HOME/bin/.niogit
-COPY support/CustomWorkItemHandlers.conf $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/META-INF/
 COPY projects /opt/jboss/bpms-projects
 COPY support/userinfo.properties $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/
 COPY support/application-roles.properties support/standalone.xml $BPMS_HOME/standalone/configuration/
@@ -46,7 +45,7 @@ RUN mvn clean install -f /opt/jboss/bpms-projects/pom.xml \
   && cp -r /opt/jboss/bpms-projects/acme-demo-hotel-service/target/acme-hotel-service-1.0.war $BPMS_HOME/standalone/deployments/ \
   && cp -r /opt/jboss/bpms-projects/acme-data-model/target/acmeDataModel-1.0.jar $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/lib/ \
   && cp -r /opt/jboss/bpms-projects/external-client-ui-form/target/external-client-ui-form-1.0.war $BPMS_HOME/standalone/deployments/ \
-  && chown -R jboss:jboss $BPMS_HOME/bin/.niogit $BPMS_HOME/standalone/configuration/application-roles.properties $BPMS_HOME/standalone/configuration/standalone.xml  $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/META-INF/CustomWorkItemHandlers.conf $BPMS_HOME/standalone/deployments/acme-flight-service-1.0.war $BPMS_HOME/standalone/deployments/acme-hotel-service-1.0.war $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/lib/acmeDataModel-1.0.jar $BPMS_HOME/standalone/deployments/external-client-ui-form-1.0.war \
+  && chown -R jboss:jboss $BPMS_HOME/bin/.niogit $BPMS_HOME/standalone/configuration/application-roles.properties $BPMS_HOME/standalone/configuration/standalone.xml  $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties $BPMS_HOME/standalone/deployments/acme-flight-service-1.0.war $BPMS_HOME/standalone/deployments/acme-hotel-service-1.0.war $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/lib/acmeDataModel-1.0.jar $BPMS_HOME/standalone/deployments/external-client-ui-form-1.0.war \
   && rm -rf ~/.m2/repository /opt/jboss/bpms-projects  
 
 # Run as JBoss 
