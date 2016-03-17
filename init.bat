@@ -15,7 +15,7 @@ set SERVER_BIN=%JBOSS_HOME%\bin
 set SRC_DIR=%PROJECT_HOME%installs
 set SUPPORT_DIR=%PROJECT_HOME%support
 set PRJ_DIR=%PROJECT_HOME%projects
-set BPMS=jboss-bpmsuite-6.2.0.GA-installer.jar
+set BPMS=jboss-bpmsuite-installer-6.2.0.BZ-1299002.jar
 set EAP=jboss-eap-6.4.0-installer.jar
 set EAP_PATCH=jboss-eap-6.4.4-patch.zip
 

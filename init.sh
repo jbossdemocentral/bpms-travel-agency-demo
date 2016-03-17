@@ -12,7 +12,7 @@ SERVER_BIN=$JBOSS_HOME/bin
 SRC_DIR=./installs
 SUPPORT_DIR=./support
 PRJ_DIR=./projects
-BPMS=jboss-bpmsuite-6.2.0.GA-installer.jar
+BPMS=jboss-bpmsuite-installer-6.2.0.BZ-1299002.jar
 EAP=jboss-eap-6.4.0-installer.jar
 EAP_PATCH=jboss-eap-6.4.4-patch.zip
 
