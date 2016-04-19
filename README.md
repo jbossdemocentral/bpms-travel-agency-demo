@@ -4,9 +4,8 @@ This is an online employee travel booking process project. It contains multiple 
 and rules to calculate pricing. Furthermore, there are several tasks that can be activated to evaluate pricing and to review the
 final booking data before completing the booking.
 
-Welcome to the JBoss BPM Travel Agency!
-
-There are three options available to you for using this demo; local, OpenShift and containerized.
+There are four options available to you for using this demo; local, Openshift Online, Red Hat CDK OpenShift Enterprise and
+Containerized.
 
 
 Option 1 - Install on your machine
@@ -47,7 +46,15 @@ Once installed you can use the JBoss BPM Suite logins:
 Current hosting of bpmPaaS is on JBoss BPM Suite 6.0.2 in OpenShift Online.
 
 
-Option 3 - Generate containerized installation
+Option 3 - Install on Red Hat CDK OpenShift Enterprise image
+------------------------------------------------------------
+The following steps can be used to install this demo on OpenShift Enterprise using the
+Red Hat Container Development Kit (CDK)
+
+1. [App Dev Cloud with JBoss Travel Agency Demo](https://github.com/redhatdemocentral/rhcs-travel-agency-demo)
+
+
+Option 4 - Generate containerized installation
 ----------------------------------------------
 The following steps can be used to configure and run the demo in a container
 
@@ -135,6 +142,8 @@ Booking a trip to Edinburgh (just one scenario)
 
 Supporting Articles
 -------------------
+- [How to help the travel industry take bookings into the Cloud](http://www.schabell.org/2016/04/how-to-help-travel-industry-take-bookings-into-cloud.html)
+
 - [7 Steps to Your First Process with JBoss BPM Suite Starter Kit](http://www.schabell.org/2015/08/7-steps-first-process-jboss-bpmsuite-starter-kit.html)
 
 - [A Micro Services Migration Story with JBoss BPM Travel Agency](http://www.schabell.org/2015/05/micro-services-migration-story-with-jboss-bpm-travel-agency.html)
@@ -165,6 +174,8 @@ Supporting Articles
 Released versions
 -----------------
 See the tagged releases for the following versions of the product:
+
+- v1.8 - JBoss BPM Suite 6.2.0-BZ-1299002 on JBoss EAP 6.4.4 with travel agency installed and RH CDK on OSE Cloud install option.
 
 - v1.7 - JBoss BPM Suite 6.2.0-BZ-1299002 on JBoss EAP 6.4.4 with travel agency installed.
 
