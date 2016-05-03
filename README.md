@@ -144,6 +144,8 @@ Supporting Articles
 -------------------
 - [How to help the travel industry take bookings into the Cloud](http://www.schabell.org/2016/04/how-to-help-travel-industry-take-bookings-into-cloud.html)
 
+- [How to help the travel industry take bookings into the Cloud](http://www.schabell.org/2016/04/how-to-help-travel-industry-take-bookings-into-cloud.html)
+
 - [7 Steps to Your First Process with JBoss BPM Suite Starter Kit](http://www.schabell.org/2015/08/7-steps-first-process-jboss-bpmsuite-starter-kit.html)
 
 - [A Micro Services Migration Story with JBoss BPM Travel Agency](http://www.schabell.org/2015/05/micro-services-migration-story-with-jboss-bpm-travel-agency.html)
