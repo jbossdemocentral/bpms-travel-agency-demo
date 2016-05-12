@@ -177,6 +177,8 @@ Released versions
 -----------------
 See the tagged releases for the following versions of the product:
 
+- v1.9 - JBoss BPM Suite 6.3.0.GA on JBoss EAP 6.4.7.
+
 - v1.8 - JBoss BPM Suite 6.2.0-BZ-1299002 on JBoss EAP 6.4.4 with travel agency installed and RH CDK on OSE Cloud install option.
 
 - v1.7 - JBoss BPM Suite 6.2.0-BZ-1299002 on JBoss EAP 6.4.4 with travel agency installed.
