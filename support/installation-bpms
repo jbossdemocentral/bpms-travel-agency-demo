@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <AutomatedInstallation langpack="eng">
 <productName>BPMS</productName>
-<productVersion>6.2.0</productVersion>
+<productVersion>6.3.0</productVersion>
 <com.izforge.izpack.panels.HTMLLicencePanel id="HTMLLicencePanel"/>
 <com.izforge.izpack.panels.TargetPanel id="DirectoryPanel">
-<installpath>target/jboss-bpmsuite-6.2</installpath>
+<installpath>target/jboss-bpmsuite-6.3</installpath>
 </com.izforge.izpack.panels.TargetPanel>
 <com.izforge.izpack.panels.UserInputPanel id="security">
 <userInput>
@@ -48,6 +48,7 @@
 <com.izforge.izpack.panels.UserInputPanel id="QuartzDatabasePanel"/>
 <com.redhat.installer.asconfiguration.datasource.panel.JBossDatasourceConfigPanel id="BusinessCentralDatasource"/>
 <com.redhat.installer.asconfiguration.datasource.panel.JBossDatasourceConfigPanel id="DashbuilderDatasource"/>
+<com.izforge.izpack.panels.UserInputPanel id="optaplanner.configuration"/>
 <com.izforge.izpack.panels.SummaryPanel id="SummaryPanel"/>
 <com.izforge.izpack.panels.InstallPanel id="InstallPanel"/>
 <com.izforge.izpack.panels.ProcessPanel id="ProcessPanel"/>

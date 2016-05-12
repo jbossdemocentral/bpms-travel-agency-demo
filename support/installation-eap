@@ -4,7 +4,7 @@
 <productVersion>6.4.0</productVersion>
 <com.izforge.izpack.panels.HTMLLicencePanel id="HTMLLicencePanel"/>
 <com.izforge.izpack.panels.TargetPanel id="DirectoryPanel">
-<installpath>target/jboss-bpmsuite-6.2</installpath>
+<installpath>target/jboss-bpmsuite-6.3</installpath>
 </com.izforge.izpack.panels.TargetPanel>
 <com.izforge.izpack.panels.TreePacksPanel id="TreePacksPanel">
 <pack index="0" name="Red Hat JBoss Enterprise Application Platform" selected="true"/>
