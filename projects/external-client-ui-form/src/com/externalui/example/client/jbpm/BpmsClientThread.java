@@ -75,7 +75,7 @@ public class BpmsClientThread {
     	otherDetails = hm.get("otherDetails");
 
         try {
-			response = client.startProcess("org.specialtripsagency:specialtripsagencyproject:2.0.0",
+			response = client.startProcess("org.specialtripsagency:specialtripsagencyproject:2.0.1",
                     "org.specialtripsagency.specialtripsagencyprocess",
                     "applicantName="+applicantName+
                     ",emailAddress="+emailAddress+
