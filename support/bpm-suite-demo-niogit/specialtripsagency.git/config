@@ -6,7 +6,7 @@
 	logallrefupdates = false
 	precomposeunicode = true
 [remote "origin"]
-	url = file:///Users/erics/demo-projects/bpms/bpms-travel-agency-demo/support/bpm-suite-demo-niogit/specialtripsagency.git
+	url = https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo
 	fetch = +refs/heads/*:refs/heads/*
 [branch "master"]
 	remote = origin

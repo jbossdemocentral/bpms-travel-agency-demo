@@ -32,11 +32,13 @@
         <property name="org.kie.example" value="false"/>
         <property name="org.jbpm.designer.perspective" value="full"/>
         <property name="designerdataobjects" value="false"/>
-				<property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}/bin"/>
-				<property name="org.kie.server.repo" value="${jboss.server.data.dir}"/>
-				<property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
-				<property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
-				<property name="org.kie.mail.session" value="java:jboss/mail/Default"/>
+	<property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}/bin"/>
+	<property name="org.kie.server.repo" value="${jboss.server.data.dir}"/>
+	<property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
+	<property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
+	<!--
+	<property name="org.kie.mail.session" value="java:jboss/mail/Default"/>
+	-->
         <property name="org.kie.override.deploy.enabled" value="true"/>
     </system-properties>
 
