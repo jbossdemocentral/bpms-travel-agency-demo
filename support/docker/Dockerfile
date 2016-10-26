@@ -4,7 +4,7 @@ FROM jbossdemocentral/developer
 # Maintainer details
 MAINTAINER Andrew Block <andy.block@gmail.com>
 
-# Environment Variables 
+# Environment Variables
 ENV BPMS_HOME /opt/jboss/bpms/jboss-eap-6.4
 ENV BPMS_VERSION_MAJOR 6
 ENV BPMS_VERSION_MINOR 3
@@ -21,7 +21,7 @@ COPY support/installation-bpms support/installation-eap support/installation-bpm
 
 # Update Permissions on Installers
 USER root
-RUN chown 1000:1000 /opt/jboss/jboss-eap-$EAP_VERSION_MAJOR.$EAP_VERSION_MINOR.$EAP_VERSION_MICRO-installer.jar /opt/jboss/jboss-bpmsuite-$BPMS_VERSION_MAJOR.$BPMS_VERSION_MINOR.$BPMS_VERSION_MICRO.$BPMS_VERSION_PATCH-installer.jar 
+RUN chown 1000:1000 /opt/jboss/jboss-eap-$EAP_VERSION_MAJOR.$EAP_VERSION_MINOR.$EAP_VERSION_MICRO-installer.jar /opt/jboss/jboss-bpmsuite-$BPMS_VERSION_MAJOR.$BPMS_VERSION_MINOR.$BPMS_VERSION_MICRO.$BPMS_VERSION_PATCH-installer.jar
 USER 1000
 
 # Prepare and run installer and cleanup installation components
@@ -34,6 +34,11 @@ RUN sed -i "s:<installpath>.*</installpath>:<installpath>$BPMS_HOME</installpath
 
 # Copy demo and support files
 COPY support/bpm-suite-demo-niogit $BPMS_HOME/bin/.niogit
+# Clone the brms-coolstore-repo repository
+USER root
+RUN rm -rf $BPMS_HOME/bin/.niogit/specialtripsagency.git && git clone --bare https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo.git $BRMS_HOME/bin/.niogit/specialtripsagency.git
+USER 1000
+
 COPY projects /opt/jboss/bpms-projects
 COPY support/userinfo.properties $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/
 COPY support/application-roles.properties support/standalone.xml $BPMS_HOME/standalone/configuration/
@@ -48,9 +53,9 @@ RUN mvn clean install -f /opt/jboss/bpms-projects/pom.xml \
   && cp -r /opt/jboss/bpms-projects/acme-data-model/target/acmeDataModel-1.0.jar $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/lib/ \
   && cp -r /opt/jboss/bpms-projects/external-client-ui-form/target/external-client-ui-form-1.0.war $BPMS_HOME/standalone/deployments/ \
   && chown -R 1000:1000 $BPMS_HOME/bin/.niogit $BPMS_HOME/standalone/configuration/application-roles.properties $BPMS_HOME/standalone/configuration/standalone.xml  $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties $BPMS_HOME/standalone/deployments/acme-flight-service-1.0.war $BPMS_HOME/standalone/deployments/acme-hotel-service-1.0.war $BPMS_HOME/standalone/deployments/business-central.war/WEB-INF/lib/acmeDataModel-1.0.jar $BPMS_HOME/standalone/deployments/external-client-ui-form-1.0.war \
-  && rm -rf ~/.m2/repository /opt/jboss/bpms-projects  
+  && rm -rf ~/.m2/repository /opt/jboss/bpms-projects
 
-# Run as JBoss 
+# Run as JBoss
 USER 1000
 
 # Expose Ports
