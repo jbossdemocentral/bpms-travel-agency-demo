@@ -126,6 +126,7 @@ If ($process.ExitCode -ne 0) {
 }
 
 Write-Host "Applying JBoss EAP patch now...`n"
+Write-Host "The patch process will run in a separate window. Please wait for the 'Press any key to continue ...' message...`n"
 $argList = '--command="patch apply ' + "$SRC_DIR\$EAP_PATCH" + ' --override-all"'
 $patchProcess = (Start-Process -FilePath "$JBOSS_HOME\bin\jboss-cli.bat" -ArgumentList $argList -Wait -PassThru)
 Write-Host "Process finished with return code: " $patchProcess.ExitCode
@@ -151,9 +152,6 @@ If ($bpmsProcess.ExitCode -ne 0) {
 
 Write-Host "- enabling demo accounts role setup in application-roles.properties file...`n"
 Copy-Item "$SUPPORT_DIR\application-roles.properties" $SERVER_CONF -force
-
-Write-Host "- Setting up demo projects...`n"
-New-Item -ItemType directory -Path "$SERVER_BIN\.niogit\" | Out-Null
 
 ################################# Begin setup demo projects ##########################################
 
