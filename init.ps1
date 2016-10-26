@@ -25,7 +25,7 @@ $PRJ_DIR="$PROJECT_HOME\projects"
 $BPMS="jboss-bpmsuite-6.3.0.GA-installer.jar"
 $EAP="jboss-eap-6.4.0-installer.jar"
 $EAP_PATCH="jboss-eap-6.4.7-patch.zip"
-$PROJECT_GIT_REPO="https://github.com/jbossdemocentral/bpms-travel0-agency-demo-repo"
+$PROJECT_GIT_REPO="https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo"
 $PROJECT_GIT_DIR="$PROJECT_HOME\support\demo_project_git"
 $OFFLINE_MODE="false"
 
@@ -159,7 +159,7 @@ New-Item -ItemType directory -Path "$SERVER_BIN\.niogit\" | Out-Null
 
 Write-Host "- Setting up demo projects...`n"
 New-Item -ItemType directory -Path "$SERVER_BIN\.niogit\" | Out-Null
-Copy-Item "$SUPPORT_DIR\bpm-suite-demo-niogit\*" "$SERVER_BIN\.niogit\" -force -recurse
+Copy-Item "$SUPPORT_DIR\brms-demo-niogit\*" "$SERVER_BIN\.niogit\" -force -recurse
 
 If (! $o) {
   # Not in offline mode, so downloading the latest repo. We first download the repo in a temp dir and we only delete the old, cached repo, when the download is succesful.
@@ -167,34 +167,33 @@ If (! $o) {
   If (Test-Path "$PROJECT_HOME\target\temp") {
 	Remove-Item "$PROJECT_HOME\target\temp" -Force -Recurse
   }
-  $argList = "clone --bare $PROJECT_GIT_REPO $PROJECT_HOME\target\temp\brms-coolstore-repo.git"
+  $argList = "clone --bare $PROJECT_GIT_REPO $PROJECT_HOME\target\temp\bpms-specialtripsagency.git"
   $gitProcess = (Start-Process -FilePath "git" -ArgumentList $argList -Wait -PassThru -NoNewWindow)
   If ($gitProcess.ExitCode -ne 0) {
 		Write-Host "Error cloning the project's Git repo. If there is no Internet connection available, please run this script in 'offline-mode' ('-o') to use a previously downloaded and cached version of the project's Git repo... Aborting"
 		exit 1
   }
   Write-Host ""
-  Write-Host "  - replacing cached project git repo: $PROJECT_GIT_DIR/brms-coolstore-repo.git`n"
+  Write-Host "  - replacing cached project git repo: $PROJECT_GIT_DIR/bpms-specialtripsagency.git`n"
   If (Test-Path "$PROJECT_GIT_DIR") {
 	Remove-Item "$PROJECT_GIT_DIR" -Force -Recurse
   }
   New-Item -ItemType directory -Path "$PROJECT_GIT_DIR"
-  Copy-Item "$PROJECT_HOME\target\temp\brms-coolstore-repo.git" "$PROJECT_GIT_DIR\brms-coolstore-repo.git" -Force -Recurse
+  Copy-Item "$PROJECT_HOME\target\temp\bpms-specialtripsagency.git" "$PROJECT_GIT_DIR\bpms-specialtripsagency.git" -Force -Recurse
   Remove-Item "$PROJECT_HOME\target\temp" -Force -Recurse
 } else {
   Write-Host "  - running in offline-mode, using cached project's Git repo.`n"
 
-  If (-Not (Test-Path "$PROJECT_GIT_DIR\brms-coolstore-repo.git")) {
+  If (-Not (Test-Path "$PROJECT_GIT_DIR\bpms-specialtripsagency.git")) {
     Write-Host "No project Git repo found. Please run the script without the 'offline' ('-o') option to automatically download the required Git repository!`n"
     exit 1
   }
 }
 # Copy the repo to the JBoss BPMSuite installation directory.
-Remove-Item "$JBOSS_HOME\bin\.niogit\coolstore-demo.git" -Force -Recurse
-Copy-Item "$PROJECT_GIT_DIR\brms-coolstore-repo.git" "$SERVER_BIN\.niogit\coolstore-demo.git" -force -recurse
+Remove-Item "$JBOSS_HOME\bin\.niogit\specialtripsagency.git" -Force -Recurse
+Copy-Item "$PROJECT_GIT_DIR\bpms-specialtripsagency.git" "$SERVER_BIN\.niogit\specialtripsagency.git" -force -recurse
 
 ################################# End setup demo projects ##########################################
-
 
 
 Write-Host "- setting up web services...`n"
