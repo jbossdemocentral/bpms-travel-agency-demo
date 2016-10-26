@@ -102,6 +102,7 @@ if ((Get-Command "javac.exe" -ErrorAction SilentlyContinue) -eq $null)
    exit
 }
 
+
 # Remove the old installation if it exists
 If (Test-Path "$JBOSS_HOME") {
 	Write-Host "Removing existing installation.`n"
@@ -157,7 +158,7 @@ Copy-Item "$SUPPORT_DIR\application-roles.properties" $SERVER_CONF -force
 
 Write-Host "- Setting up demo projects...`n"
 New-Item -ItemType directory -Path "$SERVER_BIN\.niogit\" | Out-Null
-Copy-Item "$SUPPORT_DIR\brms-demo-niogit\*" "$SERVER_BIN\.niogit\" -force -recurse
+Copy-Item "$SUPPORT_DIR\bpm-suite-demo-niogit\*" "$SERVER_BIN\.niogit\" -force -recurse
 
 If (! $o) {
   # Not in offline mode, so downloading the latest repo. We first download the repo in a temp dir and we only delete the old, cached repo, when the download is succesful.
