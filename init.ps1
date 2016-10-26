@@ -1,3 +1,8 @@
+Param(
+    [switch]$h,
+    [switch]$o
+)
+
 Write-Host "Installing Travel Agency Demo"
 
 # wipe screen
@@ -20,6 +25,17 @@ $PRJ_DIR="$PROJECT_HOME\projects"
 $BPMS="jboss-bpmsuite-6.3.0.GA-installer.jar"
 $EAP="jboss-eap-6.4.0-installer.jar"
 $EAP_PATCH="jboss-eap-6.4.7-patch.zip"
+$PROJECT_GIT_REPO="https://github.com/jbossdemocentral/bpms-travel0-agency-demo-repo"
+$PROJECT_GIT_DIR="$PROJECT_HOME\support\demo_project_git"
+$OFFLINE_MODE="false"
+
+If ($h) {
+	Write-Host "Usage: init.ps1 [args...]"
+    Write-Host "where args include:"
+    Write-Host "    -o              run this script in offline mode. The project's Git repo will not be downloaded. Instead a cached version will be used if available."
+    Write-Host "    -h              prints this help."
+	exit
+}
 
 Write-Host "#################################################################"
 Write-Host "##                                                             ##"
@@ -43,12 +59,11 @@ Write-Host "#################################################################`n"
 
 
 #Test whether Maven is available.
-if ((Get-Command "mvn" -ErrorAction SilentlyContinue) -eq $null) 
-{ 
+if ((Get-Command "mvn" -ErrorAction SilentlyContinue) -eq $null)
+{
    Write-Host "Maven is required but not installed yet... aborting.`n"
    exit
 }
-
 
 If (Test-Path "$SRC_DIR\$EAP") {
 	Write-Host "Product sources are present...`n"
@@ -56,7 +71,7 @@ If (Test-Path "$SRC_DIR\$EAP") {
 	Write-Host "Need to download $EAP package from the Customer Support Portal"
 	Write-Host "and place it in the $SRC_DIR directory to proceed...`n"
 	exit
-} 
+}
 
 If (Test-Path "$SRC_DIR\$EAP_PATCH") {
 	Write-Host "Product patches are present...`n"
@@ -75,14 +90,14 @@ If (Test-Path "$SRC_DIR\$BPMS") {
 }
 
 #Test whether Java is available.
-if ((Get-Command "java.exe" -ErrorAction SilentlyContinue) -eq $null) 
-{ 
+if ((Get-Command "java.exe" -ErrorAction SilentlyContinue) -eq $null)
+{
    Write-Host "The 'java' command is required but not available. Please install Java and add it to your PATH.`n"
    exit
 }
 
-if ((Get-Command "javac.exe" -ErrorAction SilentlyContinue) -eq $null) 
-{ 
+if ((Get-Command "javac.exe" -ErrorAction SilentlyContinue) -eq $null)
+{
    Write-Host "The 'javac' command is required but not available. Please install Java and add it to your PATH.`n"
    exit
 }
@@ -90,8 +105,8 @@ if ((Get-Command "javac.exe" -ErrorAction SilentlyContinue) -eq $null)
 # Remove the old installation if it exists
 If (Test-Path "$JBOSS_HOME") {
 	Write-Host "Removing existing installation.`n"
-	# The "\\?\" prefix is a trick to get around the 256 path-length limit in Windows. 
-	# If we don't do this, the Remove-Item command fails when it tries to delete files with a name longer than 256 characters. 
+	# The "\\?\" prefix is a trick to get around the 256 path-length limit in Windows.
+	# If we don't do this, the Remove-Item command fails when it tries to delete files with a name longer than 256 characters.
 	Remove-Item "\\?\$JBOSS_HOME" -Force -Recurse
 	# The command above does not seem to work reliably, so trying this alternative instead.
 	#Get-ChildItem -Path "$JBOSS_HOME\\*" -Recurse | Remove-Item -Force -Recurse
@@ -135,11 +150,52 @@ If ($bpmsProcess.ExitCode -ne 0) {
 }
 
 Write-Host "- enabling demo accounts role setup in application-roles.properties file...`n"
-Copy-Item "$SUPPORT_DIR\application-roles.properties" $SERVER_CONF -force 
+Copy-Item "$SUPPORT_DIR\application-roles.properties" $SERVER_CONF -force
+
+Write-Host "- Setting up demo projects...`n"
+New-Item -ItemType directory -Path "$SERVER_BIN\.niogit\" | Out-Null
+
+################################# Begin setup demo projects ##########################################
 
 Write-Host "- Setting up demo projects...`n"
 New-Item -ItemType directory -Path "$SERVER_BIN\.niogit\" | Out-Null
 Copy-Item "$SUPPORT_DIR\bpm-suite-demo-niogit\*" "$SERVER_BIN\.niogit\" -force -recurse
+
+If (! $o) {
+  # Not in offline mode, so downloading the latest repo. We first download the repo in a temp dir and we only delete the old, cached repo, when the download is succesful.
+  Write-Host "  - cloning the project's Git repo from: $PROJECT_GIT_REPO`n"
+  If (Test-Path "$PROJECT_HOME\target\temp") {
+	Remove-Item "$PROJECT_HOME\target\temp" -Force -Recurse
+  }
+  $argList = "clone --bare $PROJECT_GIT_REPO $PROJECT_HOME\target\temp\brms-coolstore-repo.git"
+  $gitProcess = (Start-Process -FilePath "git" -ArgumentList $argList -Wait -PassThru -NoNewWindow)
+  If ($gitProcess.ExitCode -ne 0) {
+		Write-Host "Error cloning the project's Git repo. If there is no Internet connection available, please run this script in 'offline-mode' ('-o') to use a previously downloaded and cached version of the project's Git repo... Aborting"
+		exit 1
+  }
+  Write-Host ""
+  Write-Host "  - replacing cached project git repo: $PROJECT_GIT_DIR/brms-coolstore-repo.git`n"
+  If (Test-Path "$PROJECT_GIT_DIR") {
+	Remove-Item "$PROJECT_GIT_DIR" -Force -Recurse
+  }
+  New-Item -ItemType directory -Path "$PROJECT_GIT_DIR"
+  Copy-Item "$PROJECT_HOME\target\temp\brms-coolstore-repo.git" "$PROJECT_GIT_DIR\brms-coolstore-repo.git" -Force -Recurse
+  Remove-Item "$PROJECT_HOME\target\temp" -Force -Recurse
+} else {
+  Write-Host "  - running in offline-mode, using cached project's Git repo.`n"
+
+  If (-Not (Test-Path "$PROJECT_GIT_DIR\brms-coolstore-repo.git")) {
+    Write-Host "No project Git repo found. Please run the script without the 'offline' ('-o') option to automatically download the required Git repository!`n"
+    exit 1
+  }
+}
+# Copy the repo to the JBoss BPMSuite installation directory.
+Remove-Item "$JBOSS_HOME\bin\.niogit\coolstore-demo.git" -Force -Recurse
+Copy-Item "$PROJECT_GIT_DIR\brms-coolstore-repo.git" "$SERVER_BIN\.niogit\coolstore-demo.git" -force -recurse
+
+################################# End setup demo projects ##########################################
+
+
 
 Write-Host "- setting up web services...`n"
 $argList = "clean install -f $PRJ_DIR\pom.xml"
