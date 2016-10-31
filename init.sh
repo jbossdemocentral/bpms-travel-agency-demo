@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 DEMO="Travel Agency Demo"
 AUTHORS="Niraj Patel, Shepherd Chengeta,"
 AUTHORS2="Andrew Block, Eric D. Schabell, Duncan Doyle"
@@ -15,41 +15,71 @@ PRJ_DIR=./projects
 BPMS=jboss-bpmsuite-6.3.0.GA-installer.jar
 EAP=jboss-eap-6.4.0-installer.jar
 EAP_PATCH=jboss-eap-6.4.7-patch.zip
-
+PROJECT_GIT_REPO=https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo
+PROJECT_GIT_DIR=./support/demo_project_git
+OFFLINE_MODE=false
 
 # wipe screen.
-clear 
+clear
+
+function usage {
+      echo "Usage: init.sh [args...]"
+      echo "where args include:"
+      echo "    -o              run this script in offline mode. The project's Git repo will not be downloaded. Instead a cached version will be used if available."
+      echo "    -h              prints this help."
+}
+
+#Parse the params
+while getopts "oh" opt; do
+  case $opt in
+    o)
+      OFFLINE_MODE=true
+      ;;
+    h)
+      usage
+      exit 0
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
 
 echo
 echo "##################################################################"
-echo "##                                                              ##"   
+echo "##                                                              ##"
 echo "##  Setting up the ${DEMO}                           ##"
-echo "##                                                              ##"   
-echo "##                                                              ##"   
+echo "##                                                              ##"
+echo "##                                                              ##"
 echo "##     ####  ####   #   #      ### #   # ##### ##### #####      ##"
 echo "##     #   # #   # # # # #    #    #   #   #     #   #          ##"
 echo "##     ####  ####  #  #  #     ##  #   #   #     #   ###        ##"
 echo "##     #   # #     #     #       # #   #   #     #   #          ##"
 echo "##     ####  #     #     #    ###  ##### #####   #   #####      ##"
-echo "##                                                              ##"   
-echo "##                                                              ##"   
-echo "##  brought to you by,                                          ##"   
+echo "##                                                              ##"
+echo "##                                                              ##"
+echo "##  brought to you by,                                          ##"
 echo "##               ${AUTHORS}    		##"
 echo "##               ${AUTHORS2}	##"
-echo "##                                                              ##"   
+echo "##                                                              ##"
 echo "##  ${PROJECT} ##"
-echo "##                                                              ##"   
+echo "##                                                              ##"
 echo "##################################################################"
 echo
 
 command -v mvn -q >/dev/null 2>&1 || { echo >&2 "Maven is required but not installed yet... aborting."; exit 1; }
 
-# make some checks first before proceeding.	
+# make some checks first before proceeding.
 if [ -r $SRC_DIR/$EAP ] || [ -L $SRC_DIR/$EAP ]; then
 	echo Product sources are present...
 	echo
 else
-	echo Need to download $EAP package from the Customer Portal 
+	echo Need to download $EAP package from the Customer Portal
 	echo and place it in the $SRC_DIR directory to proceed...
 	echo
 	exit
@@ -59,7 +89,7 @@ if [ -r $SRC_DIR/$EAP_PATCH ] || [ -L $SRC_DIR/$EAP_PATCH ]; then
 	echo Product patches are present...
 	echo
 else
-	echo Need to download $EAP_PATCH package from the Customer Portal 
+	echo Need to download $EAP_PATCH package from the Customer Portal
 	echo and place it in the $SRC_DIR directory to proceed...
 	echo
 	exit
@@ -69,7 +99,7 @@ if [ -r $SRC_DIR/$BPMS ] || [ -L $SRC_DIR/$BPMS ]; then
 		echo Product sources are present...
 		echo
 else
-		echo Need to download $BPMS package from the Customer Portal 
+		echo Need to download $BPMS package from the Customer Portal
 		echo and place it in the $SRC_DIR directory to proceed...
 		echo
 		exit
@@ -121,7 +151,31 @@ cp $SUPPORT_DIR/application-roles.properties $SERVER_CONF
 
 echo "  - setting up demo projects..."
 echo
+# Copy the default (internal) BPMSuite repo's.
 cp -r $SUPPORT_DIR/bpm-suite-demo-niogit $SERVER_BIN/.niogit
+# Copy the demo project repo.
+if ! $OFFLINE_MODE
+then
+  # Not in offline mode, so downloading the latest repo. We first download the repo in a temp dir and we only delete the old, cached repo, when the download is succesful.
+  echo "  - cloning the project's Git repo from: $PROJECT_GIT_REPO"
+  echo
+  rm -rf ./target/temp && git clone --bare $PROJECT_GIT_REPO ./target/temp/bpms-specialtripsagency.git || { echo; echo >&2 "Error cloning the project's Git repo. If there is no Internet connection available, please run this script in 'offline-mode' ('-o') to use a previously downloaded and cached version of the project's Git repo... Aborting"; echo; exit 1; }
+
+  echo "  - replacing cached project git repo: $PROJECT_GIT_DIR/bpms-specialtripsagency.git"
+  echo
+  rm -rf $PROJECT_GIT_DIR/bpms-specialtripsagency.git && mkdir -p $PROJECT_GIT_DIR && cp -R target/temp/bpms-specialtripsagency.git $PROJECT_GIT_DIR/bpms-specialtripsagency.git && rm -rf ./target/temp
+else
+  echo "  - running in offline-mode, using cached project's Git repo."
+  echo
+  if [ ! -d "$PROJECT_GIT_DIR" ]
+  then
+    echo "No project Git repo found. Please run the script without the 'offline' ('-o') option to automatically download the required Git repository!"
+    echo
+    exit 1
+  fi
+fi
+# Copy the repo to the JBoss BPMSuite installation directory.
+rm -rf $JBOSS_HOME/bin/.niogit/specialtripsagency.git && cp -R $PROJECT_GIT_DIR/bpms-specialtripsagency.git $SERVER_BIN/.niogit/specialtripsagency.git
 
 echo "  - setting up web services..."
 echo
