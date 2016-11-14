@@ -40,6 +40,10 @@
 	<property name="org.kie.mail.session" value="java:jboss/mail/Default"/>
 	-->
         <property name="org.kie.override.deploy.enabled" value="true"/>
+	<property name="service.flight.host" value="localhost"/>
+	<property name="service.flight.port" value="8080"/>
+	<property name="service.hotel.host" value="localhost"/>
+	<property name="service.hotel.port" value="8080"/>
     </system-properties>
 
 
