@@ -15,47 +15,75 @@
   http://www.fsf.org. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.jboss</groupId>
-    <artifactId>jboss-parent</artifactId>
-    <version>16.0.0.redhat-1</version>
-  </parent>
+	<parent>
+		<groupId>org.jboss</groupId>
+		<artifactId>jboss-parent</artifactId>
+		<version>16.0.0.redhat-1</version>
+	</parent>
 
-  <name>JBoss BPM Travel Agency parent</name>
-  <artifactId>bpm-travel-agency-parent</artifactId>
-  <groupId>org.jboss</groupId>
-  <version>1.0</version>
-  <packaging>pom</packaging>
+	<name>JBoss BPM Travel Agency parent</name>
+	<artifactId>bpm-travel-agency-parent</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
 
-  <modules>
-    <module>acme-demo-flight-service</module>
-    <module>acme-demo-hotel-service</module>
-    <module>acme-data-model</module>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<modules>
+		<module>acme-demo-flight-service</module>
+		<module>acme-demo-hotel-service</module>
+		<module>acme-data-model</module>
 <!--    <module>instance-generator</module>      incubation project: build by hand.-->
-    <module>external-client-ui-form</module>
-  </modules>
+		<module>external-client-ui-form</module>
+	</modules>
 
-  <repositories>
-    <repository>
-      <id>jboss-public-repository-group</id>
-      <name>JBoss Public Repository Group</name>
+	<repositories>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
 			<url>http://maven.repository.redhat.com/techpreview/all/</url>
 			<!--
 			<url>http://download.lab.bos.redhat.com/brewroot/repos/jb-ip-6.1-build/latest/maven/</url>
 			-->
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>daily</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
- 
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<profiles>
+		<!-- OpenShift profile which is automatically enabled when running the build in OpenShift -->
+		<profile>
+			<id>openshift</id>
+			<distributionManagement>
+				<repository>
+					<id>openshift-releases</id>
+					<name>OpenShift Releases Maven repo</name>
+					<url>http://nexus-bpms-travel-agency.127.0.0.1.xip.io/content/repositories/releases/</url>
+				</repository>
+				<snapshotRepository>
+					<id>openshift-snapshots</id>
+					<name>OpenShift Snapshots Maven repo</name>
+					<url>http://nexus-bpms-travel-agency.127.0.0.1.xip.io/content/repositories/snapshots/</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
 </project>

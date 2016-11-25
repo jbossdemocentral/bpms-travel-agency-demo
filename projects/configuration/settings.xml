@@ -1,0 +1,56 @@
+<!-- Maven configuration file used by OpenShift S2I -->
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <localRepository>/Users/ddoyle/.m2/repository</localRepository>
+  <servers>
+    <server>
+      <username>deployment</username>
+      <password>deployment123</password>
+      <id>openshift-releases</id>
+    </server>
+    <server>
+      <username>deployment</username>
+      <password>deployment123</password>
+      <id>openshift-snapshots</id>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+    <!-- 
+      <repositories>
+        <repository>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+          <id>jboss-eap-6.3.0.GA-repository</id>
+          <name>JBoss EAP 6.3.0.GA Maven Repository</name>
+          <url>file:///Users/ddoyle/.m2/jboss-eap-6.3.0.GA-maven-repository</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <releases />
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>jboss-eap-plugin-repository</id>
+          <url>file:///Users/ddoyle/.m2/jboss-eap-6.3.0.GA-maven-repository</url>
+        </pluginRepository>
+      </pluginRepositories>
+      <id>jboss-eap-6.3.0.GA-repository</id>
+    </profile>
+    -->
+  </profiles>
+  <activeProfiles>
+    <activeProfile>jboss-eap-6.3.0.GA-repository</activeProfile>
+    </activeProfiles>
+  <pluginGroups>
+  	<!-- 
+    <pluginGroup>org.kie</pluginGroup>
+     -->
+  </pluginGroups>
+</settings>
