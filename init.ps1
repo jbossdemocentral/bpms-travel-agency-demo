@@ -14,17 +14,18 @@ $AUTHORS="Nirja Patel, Shepherd Chengeta,"
 $AUTHORS2="Andrew Block, Eric D. Schabell, Duncan Doyle"
 $PROJECT="git@github.com:jbossdemocentral/bpms-travel-agency-demo.git"
 $PRODUCT="JBoss BPM Suite"
-$VERSION="6.3"
-$JBOSS_HOME="$PROJECT_HOME\target\jboss-bpmsuite-$VERSION"
+$VERSION="6.4"
+$TARGERT="$PROJECT_HOME\target"
+$JBOSS_HOME="$TARGET\jboss-bpmsuite-$VERSION"
 $SERVER_DIR="$JBOSS_HOME\standalone\deployments\"
 $SERVER_CONF="$JBOSS_HOME\standalone\configuration\"
 $SERVER_BIN="$JBOSS_HOME\bin"
 $SRC_DIR="$PROJECT_HOME\installs"
 $SUPPORT_DIR="$PROJECT_HOME\support"
 $PRJ_DIR="$PROJECT_HOME\projects"
-$BPMS="jboss-bpmsuite-6.3.0.GA-installer.jar"
-$EAP="jboss-eap-6.4.0-installer.jar"
-$EAP_PATCH="jboss-eap-6.4.7-patch.zip"
+$BPMS="jboss-bpmsuite-6.4.0.GA-deployable-eap7.x.zip"
+$EAP="jboss-eap-7.0.0-installer.jar"
+#$EAP_PATCH="jboss-eap-6.4.7-patch.zip"
 $PROJECT_GIT_REPO="https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo"
 $PROJECT_GIT_DIR="$PROJECT_HOME\support\demo_project_git"
 $OFFLINE_MODE="false"
@@ -73,6 +74,7 @@ If (Test-Path "$SRC_DIR\$EAP") {
 	exit
 }
 
+<#
 If (Test-Path "$SRC_DIR\$EAP_PATCH") {
 	Write-Host "Product patches are present...`n"
 } Else {
@@ -80,6 +82,7 @@ If (Test-Path "$SRC_DIR\$EAP_PATCH") {
 	Write-Host "and place it in the $SRC_DIR directory to proceed...`n"
 	exit
 }
+#>
 
 If (Test-Path "$SRC_DIR\$BPMS") {
 	Write-Host "Product sources are present...`n"
@@ -102,6 +105,18 @@ if ((Get-Command "javac.exe" -ErrorAction SilentlyContinue) -eq $null)
    exit
 }
 
+# Test whether 7Zip is available.
+# We use 7Zip because it seems to be one of the few ways to extract the BPM Suite zip file without hitting the 260 character limit problem of the Windows API.
+# This is definitely not ideal, but I can't unzip without problems when using the default Powershell unzip utilities.
+# 7-Zip can be downloaded here: http://www.7-zip.org/download.html
+if ((Get-Command "7z.exe" -ErrorAction SilentlyContinue) -eq $null)
+{
+   Write-Host "The '7z.exe' command is required but not available. Please install 7-Zip.`n"
+	 Write-Host "7-Zip is used to overcome the Windows 260 character limit on paths while extracting the JBoss BPM Suite ZIP file.`n"
+	 Write-Host "7-Zip can be donwloaded here: http://www.7-zip.org/download.html`n"
+	 Write-Host "Please make sure to add '7z.exe' to your 'PATH' after installation.`n"
+   exit
+}
 
 # Remove the old installation if it exists
 If (Test-Path "$JBOSS_HOME") {
@@ -126,6 +141,7 @@ If ($process.ExitCode -ne 0) {
 	exit
 }
 
+<#
 Write-Host "Applying JBoss EAP patch now...`n"
 Write-Host "The patch process will run in a separate window. Please wait for the 'Press any key to continue ...' message...`n"
 $argList = '--command="patch apply ' + "$SRC_DIR\$EAP_PATCH" + ' --override-all"'
@@ -139,20 +155,30 @@ If ($patchProcess.ExitCode -ne 0) {
 }
 
 Write-Host "JBoss EAP patch applied succesfully!`n"
+#>
 
-Write-Host "JBoss BPM Suite installer running now..."
-$argList = "-jar $SRC_DIR\$BPMS $SUPPORT_DIR\installation-bpms -variablefile $SUPPORT_DIR\installation-bpms.variables"
-$bpmsProcess = (Start-Process -FilePath java.exe -ArgumentList $argList -Wait -PassThru)
-Write-Host "Process finished with return code: " $bpmsProcess.ExitCode
-Write-Host ""
+Write-Host "Deploying JBoss BPM Suite now..."
+# Using 7-Zip. This currently seems to be the only way to overcome the Windows 260 character path limit.
+$argList = "x -o$TARGET -y $SRC_DIR\$BPMS"
+$unzipProcess = (Start-Process -FilePath 7z.exe -ArgumentList $argList -Wait -PassThru -NoNewWindow)
 
-If ($bpmsProcess.ExitCode -ne 0) {
+If ($unzipProcess.ExitCode -ne 0) {
 	Write-Error "Error occurred during JBoss BPM Suite installation."
 	exit
 }
 
-Write-Host "- enabling demo accounts role setup in application-roles.properties file...`n"
-Copy-Item "$SUPPORT_DIR\application-roles.properties" $SERVER_CONF -force
+Write-Host ""
+
+Write-Host "- enabling demo accounts setup ...`n"
+$argList1 = "-a -r ApplicationRealm -u bpmsAdmin -p 'bpmsuite1!' -ro 'analyst,admin,user,manager,taskuser,reviewerrole,employeebookingrole,kie-server,rest-all' --silent"
+$argList2 = "-a -r ApplicationRealm -u erics -p 'bpmsuite1!' -ro 'analyst,admin,user,manager,taskuser,reviewerrole,employeebookingrole,kie-server,rest-all' --silent"
+try {
+	Invoke-Expression "$JBOSS_HOME\bin\add-user.ps1 $argList1"
+  Invoke-Expression "$JBOSS_HOME\bin\add-user.ps1 $argList2"
+} catch {
+	Write-Error "Error occurred during user account setup."
+	exit
+}
 
 ################################# Begin setup demo projects ##########################################
 
@@ -220,18 +246,18 @@ Copy-Item "$SUPPORT_DIR\userinfo.properties" "$SERVER_DIR\business-central.war\W
 # Write-Host "- setting up mock bpm dashboard data...`n"
 # Copy-Item "$SUPPORT_DIR\1000_jbpm_demo_h2.sql" "$SERVER_DIR\dashbuilder.war\WEB-INF\etc\sql"
 
-Write-Host "========================================================================"
-Write-Host "=                                                                      ="
-Write-Host "=  You can now start the $PRODUCT with:                         ="
-Write-Host "=                                                                      ="
-Write-Host "=   $SERVER_BIN/standalone.sh                      ="
-Write-Host "=                                                                      ="
-Write-Host "=  Login into business central at:                                     ="
-Write-Host "=                                                                      ="
-Write-Host "=    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)  ="
-Write-Host "=                                                                      ="
-Write-Host "=  See README.md for general details to run the various demo cases.    ="
-Write-Host "=                                                                      ="
-Write-Host "=  $PRODUCT $VERSION $DEMO Setup Complete.              ="
-Write-Host "=                                                                      ="
-Write-Host "========================================================================"
+Write-Host "============================================================================"
+Write-Host "=                                                                          ="
+Write-Host "=  You can now start the $PRODUCT with:                             ="
+Write-Host "=                                                                          ="
+Write-Host "=   $SERVER_BIN/standalone.sh                              ="
+Write-Host "=                                                                          ="
+Write-Host "=  Login into business central at:                                         ="
+Write-Host "=                                                                          ="
+Write-Host "=    http://localhost:8080/business-central  (u:bpmsAdmin / p:bpmsuite1!)  ="
+Write-Host "=                                                                          ="
+Write-Host "=  See README.md for general details to run the various demo cases.        ="
+Write-Host "=                                                                          ="
+Write-Host "=  $PRODUCT $VERSION $DEMO Setup Complete.                  ="
+Write-Host "=                                                                          ="
+Write-Host "============================================================================"
