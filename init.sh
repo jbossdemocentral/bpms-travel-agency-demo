@@ -4,18 +4,20 @@ AUTHORS="Niraj Patel, Shepherd Chengeta,"
 AUTHORS2="Andrew Block, Eric D. Schabell, Duncan Doyle"
 PROJECT="git@github.com:jbossdemocentral/bpms-travel-agency-demo.git"
 PRODUCT="JBoss BPM Suite"
-VERSION=6.3
-JBOSS_HOME=./target/jboss-bpmsuite-$VERSION
+VERSION=6.4
+TARGET=./target
+JBOSS_HOME=$TARGET/jboss-eap-7.0
 SERVER_DIR=$JBOSS_HOME/standalone/deployments/
 SERVER_CONF=$JBOSS_HOME/standalone/configuration/
 SERVER_BIN=$JBOSS_HOME/bin
 SRC_DIR=./installs
 SUPPORT_DIR=./support
 PRJ_DIR=./projects
-BPMS=jboss-bpmsuite-6.3.0.GA-installer.jar
-EAP=jboss-eap-6.4.0-installer.jar
-EAP_PATCH=jboss-eap-6.4.7-patch.zip
+BPMS=jboss-bpmsuite-6.4.0.GA-deployable-eap7.x.zip
+EAP=jboss-eap-7.0.0-installer.jar
+#EAP_PATCH=jboss-eap-6.4.7-patch.zip
 PROJECT_GIT_REPO=https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo
+PROJECT_GIT_BRANCH=master
 PROJECT_GIT_DIR=./support/demo_project_git
 OFFLINE_MODE=false
 
@@ -85,15 +87,15 @@ else
 	exit
 fi
 
-if [ -r $SRC_DIR/$EAP_PATCH ] || [ -L $SRC_DIR/$EAP_PATCH ]; then
-	echo Product patches are present...
-	echo
-else
-	echo Need to download $EAP_PATCH package from the Customer Portal
-	echo and place it in the $SRC_DIR directory to proceed...
-	echo
-	exit
-fi
+#if [ -r $SRC_DIR/$EAP_PATCH ] || [ -L $SRC_DIR/$EAP_PATCH ]; then
+#	echo Product patches are present...
+#	echo
+#else
+#	echo Need to download $EAP_PATCH package from the Customer Portal
+#	echo and place it in the $SRC_DIR directory to proceed...
+#	echo
+#	exit
+#fi
 
 if [ -r $SRC_DIR/$BPMS ] || [ -L $SRC_DIR/$BPMS ]; then
 		echo Product sources are present...
@@ -123,22 +125,21 @@ if [ $? -ne 0 ]; then
 	exit
 fi
 
-echo
-echo "Applying JBoss EAP 6.4.7 patch now..."
-echo
-$JBOSS_HOME/bin/jboss-cli.sh --command="patch apply $SRC_DIR/$EAP_PATCH --override-modules"
+#echo
+#echo "Applying JBoss EAP 6.4.7 patch now..."
+#echo
+#$JBOSS_HOME/bin/jboss-cli.sh --command="patch apply $SRC_DIR/$EAP_PATCH --override-modules"
+#
+#if [ $? -ne 0 ]; then
+#	echo
+#	echo Error occurred during JBoss EAP patching!
+#	exit
+#fi
 
-if [ $? -ne 0 ]; then
-	echo
-	echo Error occurred during JBoss EAP patching!
-	exit
-fi
-
 echo
-echo JBoss BPM Suite installer running now...
+echo Deploying JBoss BPM Suite now...
 echo
-java -jar $SRC_DIR/$BPMS $SUPPORT_DIR/installation-bpms -variablefile $SUPPORT_DIR/installation-bpms.variables
-
+unzip -qo $SRC_DIR/$BPMS -d $TARGET
 if [ $? -ne 0 ]; then
 	echo Error occurred during $PRODUCT installation!
 	exit
@@ -147,7 +148,8 @@ fi
 echo
 echo "  - enabling demo accounts role setup in application-roles.properties file..."
 echo
-cp $SUPPORT_DIR/application-roles.properties $SERVER_CONF
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u bpmsAdmin -p bpmsuite1! -ro analyst,admin,user,manager,taskuser,reviewerrole,employeebookingrole,kie-server,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u erics -p bpmsuite1! -ro analyst,admin,user,manager,taskuser,reviewerrole,employeebookingrole,kie-server,rest-all --silent
 
 echo "  - setting up demo projects..."
 echo
@@ -159,11 +161,19 @@ then
   # Not in offline mode, so downloading the latest repo. We first download the repo in a temp dir and we only delete the old, cached repo, when the download is succesful.
   echo "  - cloning the project's Git repo from: $PROJECT_GIT_REPO"
   echo
-  rm -rf ./target/temp && git clone --bare $PROJECT_GIT_REPO ./target/temp/bpms-specialtripsagency.git || { echo; echo >&2 "Error cloning the project's Git repo. If there is no Internet connection available, please run this script in 'offline-mode' ('-o') to use a previously downloaded and cached version of the project's Git repo... Aborting"; echo; exit 1; }
+#  rm -rf ./target/temp && git clone --bare $PROJECT_GIT_REPO ./target/temp/bpms-specialtripsagency.git || { echo; echo >&2 "Error cloning the project's Git repo. If there is no Internet connection available, please run this script in 'offline-mode' ('-o') to use a previously downloaded and cached version of the project's Git repo... Aborting"; echo; exit 1; }
+  rm -rf ./target/temp && git clone -b $PROJECT_GIT_BRANCH --single-branch $PROJECT_GIT_REPO ./target/temp/bpms-specialtripsagency.git || { echo; echo >&2 "Error cloning the project's Git repo. If there is no Internet connection available, please run this script in 'offline-mode' ('-o') to use a previously downloaded and cached version of the project's Git repo... Aborting"; echo; exit 1; }
+  pushd ./target/temp/bpms-specialtripsagency.git
+  # rename the checked-out branch to master.
+  echo "Renaming cloned branch '$PROJECT_GIT_BRANCH' to 'master'."
+  git branch -m $PROJECT_GIT_BRANCH master
+  popd
 
   echo "  - replacing cached project git repo: $PROJECT_GIT_DIR/bpms-specialtripsagency.git"
   echo
-  rm -rf $PROJECT_GIT_DIR/bpms-specialtripsagency.git && mkdir -p $PROJECT_GIT_DIR && cp -R target/temp/bpms-specialtripsagency.git $PROJECT_GIT_DIR/bpms-specialtripsagency.git && rm -rf ./target/temp
+#  rm -rf $PROJECT_GIT_DIR/bpms-specialtripsagency.git && mkdir -p $PROJECT_GIT_DIR && cp -R target/temp/bpms-specialtripsagency.git $PROJECT_GIT_DIR/bpms-specialtripsagency.git && rm -rf ./target/temp
+  # Make a bare clone of the Git repo.
+  rm -rf $PROJECT_GIT_DIR/bpms-specialtripsagency.git && mkdir -p $PROJECT_GIT_DIR && git clone --bare target/temp/bpms-specialtripsagency.git $PROJECT_GIT_DIR/bpms-specialtripsagency.git && rm -rf ./target/temp
 else
   echo "  - running in offline-mode, using cached project's Git repo."
   echo
@@ -211,18 +221,18 @@ chmod u+x $JBOSS_HOME/bin/standalone.sh
 #echo
 
 echo
-echo "========================================================================"
-echo "=                                                                      ="
-echo "=  You can now start the $PRODUCT with:                         ="
-echo "=                                                                      ="
-echo "=   $SERVER_BIN/standalone.sh                      ="
-echo "=                                                                      ="
-echo "=  Login into business central at:                                     ="
-echo "=                                                                      ="
-echo "=    http://localhost:8080/business-central  (u:erics / p:bpmsuite1!)  ="
-echo "=                                                                      ="
-echo "=  See README.md for general details to run the various demo cases.    ="
-echo "=                                                                      ="
-echo "=  $PRODUCT $VERSION $DEMO Setup Complete.              ="
-echo "=                                                                      ="
-echo "========================================================================"
+echo "============================================================================"
+echo "=                                                                          ="
+echo "=  You can now start the $PRODUCT with:                             ="
+echo "=                                                                          ="
+echo "=   $SERVER_BIN/standalone.sh                               ="
+echo "=                                                                          ="
+echo "=  Login into business central at:                                         ="
+echo "=                                                                          ="
+echo "=    http://localhost:8080/business-central  (u:bpmsAdmin / p:bpmsuite1!)  ="
+echo "=                                                                          ="
+echo "=  See README.md for general details to run the various demo cases.        ="
+echo "=                                                                          ="
+echo "=  $PRODUCT $VERSION $DEMO Setup Complete.                  ="
+echo "=                                                                          ="
+echo "============================================================================"

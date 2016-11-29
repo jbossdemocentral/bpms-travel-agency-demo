@@ -4,9 +4,16 @@ This is an online employee travel booking process project. It contains multiple 
 and rules to calculate pricing. Furthermore, there are several tasks that can be activated to evaluate pricing and to review the
 final booking data before completing the booking.
 
-There are four options available to you for using this demo; local, Openshift Online, Red Hat CDK OpenShift Enterprise and
-Containerized.
+There are four options available to you for using this demo; local, Docker, Openshift Online and Red Hat CDK OpenShift Enterprise.
 
+Software
+--------
+The following software is required to run this demo:
+- [JBoss EAP 7.0 installer](https://developers.redhat.com/download-manager/file/jboss-eap-7.0.0-installer.jar)
+- [JBoss BPM Suite 6.4.0.GA deployable for EAP 7](https://developers.redhat.com/download-manager/content/origin/files/sha256/be/be13e233f70054ed071ebde7c8129d59431a5eb5cbf95eee046627592b679a1f/jboss-bpmsuite-6.4.0.GA-deployable-eap7.x.zip)
+- Git client
+- Maven 3.2+
+- [7-Zip](http://www.7-zip.org/download.html) (Windows only): to overcome the Windows 260 character path length limit, we need 7-Zip to unzip the BPM Suite deployable.
 
 Option 1 - Install on your machine
 ----------------------------------
@@ -16,22 +23,45 @@ Option 1 - Install on your machine
 
 3. Run 'init.sh' or 'init.bat' file. 'init.bat' must be run with Administrative privileges.
 
-4. Start JBoss BPMS Server by running 'standalone.sh' or 'standalone.bat' in the <path-to-project>/target/jboss-eap-6.4/bin directory.
+4. Start JBoss BPMS Server by running 'standalone.sh' or 'standalone.bat' in the <path-to-project>/target/jboss-eap-7.0/bin directory.
 
 5. Login to [http://localhost:8080/business-central](http://localhost:8080/business-central)
 
     ```
-     - login for admin and other roles (u:erics / p:bpmsuite1!)
+     - login for admin and other roles (u:bpmsAdmin / p:bpmsuite1!)
     ```
 
 
-Option 2 - Install with one click in xPaaS (bpmPaaS)
+Option 2 - Run in Docker
+----------------------------------------------
+The following steps can be used to configure and run the demo in a container
+
+1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
+
+2. Add product installer to installs directory. For example download and add BPMS installer jar into the installs directory.
+
+3. Run the 'init-docker.sh' or 'init-docker.ps1' file.
+
+4. Start the container: `docker run -it -p 8080:8080 -p 9990:9990 jbossdemocentral/bpms-travel-agency-demo`
+
+5. Login to http://&lt;DOCKER_HOST&gt;:8080/business-central
+
+    ```
+     - login for admin and other roles (u:bpmsAdmin / p:bpmsuite1!)
+    ```
+
+*Note*: Replace localhost with DOCKER_HOST when it appears in other locations within the documentation
+
+Additional information can be found in the jbossdemocentral docker [developer repository](https://github.com/jbossdemocentral/docker-developer)
+
+
+Option 3 - Install with one click in xPaaS (bpmPaaS)
 ----------------------------------------------------
 After clicking button, ensure `Gear` size is set to `medium`:
-  
+
 [![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Install bpmPaaS.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=https://raw.githubusercontent.com/jbossdemocentral/cartridge-bpmPaaS-travel-agency-demo/master/metadata/manifest.yml&name=travelagency&gear_profile=medium&initial_git_url=)
 
-Once installed you can use the JBoss BPM Suite logins: 
+Once installed you can use the JBoss BPM Suite logins:
 
    * u:erics   p: bpmsuite  (admin)
 
@@ -46,43 +76,12 @@ Once installed you can use the JBoss BPM Suite logins:
 Current hosting of bpmPaaS is on JBoss BPM Suite 6.0.2 in OpenShift Online.
 
 
-Option 3 - Install on Red Hat CDK OpenShift Enterprise image
+Option 4 - Install on Red Hat CDK OpenShift Enterprise image
 ------------------------------------------------------------
 The following steps can be used to install this demo on OpenShift Enterprise using the
 Red Hat Container Development Kit (CDK)
 
 1. [App Dev Cloud with JBoss Travel Agency Demo](https://github.com/redhatdemocentral/rhcs-travel-agency-demo)
-
-
-Option 4 - Generate containerized installation
-----------------------------------------------
-The following steps can be used to configure and run the demo in a container
-
-1. [Download and unzip.](https://github.com/jbossdemocentral/bpms-travel-agency-demo/archive/master.zip)
-
-2. Add product installer to installs directory. For example download and add BPMS installer jar into the installs directory.
-
-3. Copy contents of support/docker directory to the project root.
-
-4. Build demo image
-
-	```
-	docker build -t jbossdemocentral/bpms-travel-agency-demo .
-	```
-5. Start demo container
-
-	```
-	docker run -it -p 8080:8080 -p 9990:9990 jbossdemocentral/bpms-travel-agency-demo
-	```
-6. Login to http://&lt;DOCKER_HOST&gt;:8080/business-central
-  
-    ```
-     - login for admin and other roles (u:erics / p:bpmsuite1!)
-    ```
-    
-*Note*: Replace localhost with DOCKER_HOST when it appears in other locations within the documentation
-
-Additional information can be found in the jbossdemocentral docker [developer repository](https://github.com/jbossdemocentral/docker-developer)
 
 
 Booking a trip to Edinburgh (just one scenario)
@@ -119,24 +118,24 @@ Booking a trip to Edinburgh (just one scenario)
 4. Two web services will be run and a sub-process to calculate the cost before deciding it is not needed that this booking be
 	 reviewed on pricing, so you will find a task 'Employee Booking' for you to process.
 
-5. Navigate to the "Tasks" tab -> "Task List" and click on it. 
+5. Navigate to the "Tasks" tab -> "Task List" and click on it.
 
 6. Expand the right-side pane window.   Click on the "Work" tab and click on "claim" to claim the task.
 
-7. Fill in the form provided for the task, it allows review of all the booking data submitted, generated by services and 
-   calculated by the rules. You can request a review to send it back for a pricing review or check the completed box to 
+7. Fill in the form provided for the task, it allows review of all the booking data submitted, generated by services and
+   calculated by the rules. You can request a review to send it back for a pricing review or check the completed box to
    finish the task and process (isBookingConfirmed). All tasks have automated reassignment, meaning if not completed within 1 minute
    they will be put back into the group.
 
-8. Enter credit card details (beginning with 1234...) for compensation to be triggered., Expiry details of the 
+8. Enter credit card details (beginning with 1234...) for compensation to be triggered., Expiry details of the
    card (e.g. 12/12) and your full name.
 
 9. Check the logs and you will see that the process has been compensated.
 
-10. To trigger different path for successful booking of Flights, just change the 'Credit Card details' to use any 
+10. To trigger different path for successful booking of Flights, just change the 'Credit Card details' to use any
     card number that does not begin with 1234....
 
-11. For details on demoing the compensation aspects of the Travel Agency demo project, 
+11. For details on demoing the compensation aspects of the Travel Agency demo project,
     see [docs/compensation-howto/README-COMPENSATION.md](docs/compensation-howto/README-COMPENSATION.md)
 
 
@@ -176,6 +175,8 @@ Supporting Articles
 Released versions
 -----------------
 See the tagged releases for the following versions of the product:
+
+- v1.10 - JBoss BPM Suite 6.4.0.GA on JBoss EAP 7.0.0.GA.
 
 - v1.9 - JBoss BPM Suite 6.3.0.GA on JBoss EAP 6.4.7.
 
@@ -223,4 +224,3 @@ See the tagged releases for the following versions of the product:
 ![Special Trips UI Form](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/SpecialTripsUIform.png)
 
 ![Started Process](https://raw.githubusercontent.com/jbossdemocentral/bpms-travel-agency-demo/master/docs/demo-images/started-process.png)
-
