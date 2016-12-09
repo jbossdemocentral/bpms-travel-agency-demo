@@ -50,9 +50,9 @@ public class SimpleServlet extends HttpServlet {
 		String content = "";
 		
 		if (processId == null) {
-			content = getContent(getServletContext().getRealPath(File.separator) + "error.html");
+			content = getContent(getServletContext().getRealPath(File.separator) + File.separator + "error.html");
 		} else {
-			content = getContent(getServletContext().getRealPath(File.separator) + "success_response.html");
+			content = getContent(getServletContext().getRealPath(File.separator) + File.separator + "success_response.html");
 			content = content.replace("CHANGEMEPROCESSID", processId);
 		}
 		
