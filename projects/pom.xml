@@ -2,18 +2,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-<!--
 	<parent>
 		<groupId>org.jboss</groupId>
 		<artifactId>jboss-parent</artifactId>
 		<version>16.0.0.redhat-1</version>
 	</parent>
--->
 	<name>JBoss BPM Travel Agency parent</name>
 	<artifactId>bpm-travel-agency-parent</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
-<!--
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -25,31 +22,22 @@
 			</plugins>
 		</pluginManagement>
 	</build>
--->
-<!--
 	<modules>
 		<module>acme-demo-flight-service</module>
 		<module>acme-demo-hotel-service</module>
 		<module>acme-data-model</module>
--->
 <!--    <module>instance-generator</module>      incubation project: build by hand.-->
-
-<!--
 		<module>external-client-ui-form</module>
 	</modules>
--->
 
-<!--
 	<repositories>
 		<repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Repository Group</name>
 			<url>http://maven.repository.redhat.com/techpreview/all/</url>
--->
 			<!--
 			<url>http://download.lab.bos.redhat.com/brewroot/repos/jb-ip-6.1-build/latest/maven/</url>
 			-->
-<!--
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
@@ -60,10 +48,8 @@
 			</snapshots>
 		</repository>
 	</repositories>
--->
 	<profiles>
 		<!-- OpenShift profile which is automatically enabled when running the build in OpenShift -->
-<!--
 		<profile>
 			<id>openshift</id>
 			<distributionManagement>
@@ -79,6 +65,5 @@
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
--->
 	</profiles>
 </project>
