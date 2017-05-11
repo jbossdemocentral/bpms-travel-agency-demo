@@ -64,20 +64,18 @@
 		<!-- OpenShift profile which is automatically enabled when running the build in OpenShift -->
 		<profile>
 			<id>openshift</id>
-			<!--
 			<distributionManagement>
 				<repository>
 					<id>openshift-releases</id>
 					<name>OpenShift Releases Maven repo</name>
-					<url>http://nexus-bpms-travel-agency.127.0.0.1.xip.io/content/repositories/releases/</url>
+					<url>http://nexus:8081/nexus/content/repositories/releases/</url>
 				</repository>
 				<snapshotRepository>
 					<id>openshift-snapshots</id>
 					<name>OpenShift Snapshots Maven repo</name>
-					<url>http://nexus-bpms-travel-agency.127.0.0.1.xip.io/content/repositories/snapshots/</url>
+					<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
 				</snapshotRepository>
 			</distributionManagement>
-			-->
 		</profile>
 	</profiles>
 </project>
