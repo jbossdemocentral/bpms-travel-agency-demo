@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: jenkins-maven-slave
+  group: xpaas
+metadata:
+  name: jenkins-maven-slave
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      slave-directory: /home/jenkins
+      slave-label: maven-with-nexus
+    labels:
+      role: jenkins-slave
+      app: jenkins-slave
+    name: jenkins-maven-slave
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      description: Builds Jenkins slave image with maven
+    labels:
+      name: jenkins-maven-slave
+      app: jenkins-slave
+    name: jenkins-maven-slave
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: jenkins-maven-slave:latest
+    source:
+      contextDir: ${DOCKERFILE_CONTEXT}
+      git:
+        uri: ${DOCKERFILE_REPOSITORY}
+        ref: master
+      type: Git
+    strategy:
+      type: Docker
+    triggers:
+    - type: ConfigChange
+parameters:
+- description: The directory in the git repository containing the Dockerfile.
+  name: DOCKERFILE_CONTEXT
+  required: true
+- description: The git repository containing the Dockerfile
+  name: DOCKERFILE_REPOSITORY
+  required: true
