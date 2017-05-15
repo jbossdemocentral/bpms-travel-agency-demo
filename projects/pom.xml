@@ -27,15 +27,11 @@
 		</pluginManagement>
 	</build>
 	<modules>
-<!--
 		<module>acme-demo-flight-service</module>
 		<module>acme-demo-hotel-service</module>
 		<module>acme-data-model</module>
--->
 <!--    <module>instance-generator</module>      incubation project: build by hand.-->
-<!--
 		<module>external-client-ui-form</module>
--->
 	</modules>
 
 	<repositories>
