@@ -62,12 +62,12 @@
 			<id>openshift</id>
 			<distributionManagement>
 				<repository>
-					<id>openshift-releases</id>
+					<id>nexus</id>
 					<name>OpenShift Releases Maven repo</name>
 					<url>http://nexus:8081/nexus/content/repositories/releases/</url>
 				</repository>
 				<snapshotRepository>
-					<id>openshift-snapshots</id>
+					<id>nexus</id>
 					<name>OpenShift Snapshots Maven repo</name>
 					<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
 				</snapshotRepository>
