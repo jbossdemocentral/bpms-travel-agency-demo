@@ -1,28 +1,119 @@
 apiVersion: v1
-kind: BuildConfig
+kind: Template
+labels:
+  template: kitchensink-binary-pipeline
 metadata:
-  name: bpms-travel-agency-pipeline
-  labels:
+  name: kitchensink-binary-pipeline
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      build: bpms-travel-agency-pipeline
     name: bpms-travel-agency-pipeline
-  annotations:
-    pipeline.alpha.openshift.io/uses: '[{"name": "myphp", "namespace": "", "kind": "DeploymentConfig"}]'
-spec:
-  triggers:
-    -
-      type: GitHub
-      github:
-        secret: secret101
-    -
-      type: Generic
-      generic:
-        secret: secret101
-  runPolicy: Serial
-  source:
-    type: None
-  strategy:
-    type: JenkinsPipeline
-    jenkinsPipelineStrategy:
-      jenkinsfile: "node('maven') {\nstage 'build'\nopenshiftBuild(buildConfig: 'myphp', showBuildLogs: 'true')\nstage 'deploy'\nopenshiftDeploy(deploymentConfig: 'myphp')\nopenshiftScale(deploymentConfig: 'myphp',replicaCount: '2')\n}"
-  output:
-  resources:
-  postCommit:
+    annotations:
+      pipeline.alpha.openshift.io/uses: '[{"name": "ks-test", "namespace": "${namespace_test}", "kind": "DeploymentConfig"},{"name": "ks-staging", "namespace": "${namespace_staging}", "kind": "DeploymentConfig"},{"name": "ks-green", "namespace": "${namespace_prod}", "kind": "DeploymentConfig"},{"name": "ks-blue", "namespace": "${namespace_prod}", "kind": "DeploymentConfig"}]'
+  spec:
+    runPolicy: Serial
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfile: |-
+          def mvnCmd = "mvn -s /home/jenkins/.m2/settings.xml"
+          def nexus_url="http://nexus:8081"
+          def version = ""
+          def branch = ""
+          def groupId = ""
+          def artifactId = ""
+          //def namespace_ci = "${KS_CI_PROJECT}"
+          //def namespace_test = "${KS_TEST_PROJECT}"
+          //def namespace_staging = "${KS_STAGING_PROJECT}"
+          //def namespace_prod = "${KS_PROD_PROJECT}"
+          //def ks_test_app = "http://ks-test-${KS_TEST_PROJECT}.${KS_DOMAIN}"
+          def tag="blue"
+          def altTag="green"
+          node ('maven-with-nexus') {
+            stage ('Build') {
+              git url: 'https://github.com/jbossdemocentral/bpms-travel-agency-demo', branch: 'openshift-build'
+              version = getBuildVersion("projects/pom.xml")
+              //groupId = getGroupIdFromPom("projects/pom.xml")
+              //artifactId = getArtifactIdFromPom("projects/pom.xml")
+              echo "Building version ${version}"
+              branch = 'build-' + version
+              //sh "git checkout -b ${branch}"
+              sh "${mvnCmd} versions:set -DgenerateBackupPoms=false -DnewVersion=${version} -f projects/pom.xml"
+              sh "${mvnCmd} clean deploy -DskipTests=true -f projects/pom.xml -P openshift"
+            }
+          }
+
+          def getVersionFromPom(pom) {
+            def matcher = readFile(pom) =~ '<version>(.+)</version>'
+            matcher ? matcher[0][1] : null
+          }
+
+          def getGroupIdFromPom(pom) {
+            def matcher = readFile(pom) =~ '<groupId>(.+)</groupId>'
+            matcher ? matcher[0][1] : null
+          }
+
+          def getArtifactIdFromPom(pom) {
+            def matcher = readFile(pom) =~ '<artifactId>(.+)</artifactId>'
+            matcher ? matcher[0][1] : null
+          }
+
+          def String getBuildVersion(pom) {
+            return getVersionFromPom(pom).minus("-SNAPSHOT") + '.' + env.BUILD_NUMBER
+          }
+
+          void tearDownEnvironment(environment, namespace) {
+            try {
+              sh "oc delete dc ks-${environment} -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete dc ks-${environment}-postgresql -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete service ks-${environment} -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete service ks-${environment}-postgresql -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete route ks-${environment} -n ${namespace}"
+            } catch (err) {}             
+          }
+      type: JenkinsPipeline
+#    triggers:
+#    - github:
+#        secret: ${GITHUB_WEBHOOK_SECRET}
+#      type: GitHub
+#    - generic:
+#        secret: ${GENERIC_WEBHOOK_SECRET}
+#      type: Generic
+#- description: CI Project name
+#  displayName: CI Project Name
+#  name: KS_CI_PROJECT
+#  required: true
+#- description: TEST Project name
+#  displayName: TEST Project Name
+#  name: KS_TEST_PROJECT
+#  required: true
+#- description: STAGING Project name
+#  displayName: STAGING Project Name
+#  name: KS_STAGING_PROJECT
+#  required: true
+#- description: PROD Project name
+#  displayName: PROD Project Name
+#  name: KS_PROD_PROJECT
+#  required: true
+#- description: GitHub webhook secret
+#  displayName: GitHub Webhook Secret
+#  from: '[a-zA-Z0-9]{8}'
+#  generate: expression
+#  name: GITHUB_WEBHOOK_SECRET
+#  required: true
+#- description: Generic webhook secret
+#  displayName: Generic Webhook Secret
+#  from: '[a-zA-Z0-9]{8}'
+#  generate: expression
+#  name: GENERIC_WEBHOOK_SECRET
+#  required: true

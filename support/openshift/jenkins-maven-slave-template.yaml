@@ -34,7 +34,7 @@ objects:
       contextDir: ${DOCKERFILE_CONTEXT}
       git:
         uri: ${DOCKERFILE_REPOSITORY}
-        ref: master
+        ref: ${DOCKERFILE_REF}
       type: Git
     strategy:
       type: Docker
@@ -47,3 +47,7 @@ parameters:
 - description: The git repository containing the Dockerfile
   name: DOCKERFILE_REPOSITORY
   required: true
+- description: The ait branchcontaining the Dockerfile
+  name: DOCKERFILE_REF
+  required: true
+  default: master
