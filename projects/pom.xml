@@ -64,12 +64,12 @@
 				<repository>
 					<id>nexus</id>
 					<name>OpenShift Releases Maven repo</name>
-					<url>http://nexus:8081/nexus/content/repositories/releases/</url>
+					<url>http://nexus:8081/content/repositories/releases/</url>
 				</repository>
 				<snapshotRepository>
 					<id>nexus</id>
 					<name>OpenShift Snapshots Maven repo</name>
-					<url>http://nexus:8081/nexus/content/repositories/snapshots/</url>
+					<url>http://nexus:8081/content/repositories/snapshots/</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
