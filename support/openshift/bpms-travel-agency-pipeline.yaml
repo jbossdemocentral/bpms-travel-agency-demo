@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Template
 labels:
-  template: kitchensink-binary-pipeline
+  template: bpms-travel-agency-demo-binary-pipeline
 metadata:
-  name: kitchensink-binary-pipeline
+  name: bpms-travel-agency-demo-binary-pipeline
 objects:
 - apiVersion: v1
   kind: BuildConfig
@@ -40,7 +40,7 @@ objects:
               echo "Building version ${version}"
               branch = 'build-' + version
               //sh "git checkout -b ${branch}"
-              sh "${mvnCmd} versions:set -DgenerateBackupPoms=false -DnewVersion=${version} -f projects/pom.xml"
+              //sh "${mvnCmd} versions:set -DgenerateBackupPoms=false -DnewVersion=${version} -f projects/pom.xml"
               sh "${mvnCmd} clean deploy -DskipTests=true -f projects/pom.xml -P openshift"
             }
           }
