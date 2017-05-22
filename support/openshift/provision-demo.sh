@@ -387,9 +387,8 @@ function deploy_gogs() {
   import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo" 1 "bpms-travel-agency-demo-repo"
  
   # import Flight and Hotel Service Deployment projects. Required for our binary builds of these services in an EAP container.
-  import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-flight-service-ocp.git" 2 "flight-service-ocp"
-  import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-hotelt-service-ocp.git" 3 "hotel-service-ocp"
-
+  import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-flight-service-ocp.git" 1 "flight-service-ocp"
+  import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-hotel-service-ocp.git" 1 "hotel-service-ocp"
 
 #  read -r -d '' _DATA_JSON << EOM
 #{
@@ -623,7 +622,7 @@ function deploy_pipeline() {
   echo_header "Configuring CI/CD..."
 
   local _PIPELINE_NAME=bpms-travel-agency-pipeline
-  local _TEMPLATE=https://raw.githubusercontent.com/$GITHUB_ACCOUNT/bpms-travel-agency-demo/$GITHUB_REF/suppoer/openshift/bpms-travel-agency-pipeline.yaml
+  local _TEMPLATE=https://raw.githubusercontent.com/$GITHUB_ACCOUNT/bpms-travel-agency-demo/$GITHUB_REF/support/openshift/bpms-travel-agency-pipeline.yaml
 
   # TODO: Parameterize our pipeline template.
   #oc process -f $_TEMPLATE --param=PIPELINE_NAME=$_PIPELINE_NAME --param=DEV_PROJECT=$PRJ_INVENTORY --param=TEST_PROJECT=$PRJ_COOLSTORE_TEST --param=PROD_PROJECT=$PRJ_COOLSTORE_PROD --param=GENERIC_WEBHOOK_SECRET=$WEBHOOK_SECRET -n $PRJ_CI | oc create -f - -n $PRJ_CI
@@ -643,13 +642,13 @@ function deploy_pipeline() {
 #  ],
 #  "active": true
 #}
-EOM
+#EOM
 
 
-  _RETURN=$(curl -o /dev/null -sL -w "%{http_code}" -H "Content-Type: application/json" -d "$_DATA_JSON" -u $GOGS_ADMIN_USER:$GOGS_ADMIN_PASSWORD -X POST http://$GOGS_ROUTE/api/v1/repos/$GOGS_ADMIN_USER/coolstore-microservice/hooks)
-  if [ $_RETURN != "201" ] && [ $_RETURN != "200" ] ; then
-   echo "WARNING: Failed (http code $_RETURN) to configure webhook on Gogs"
-  fi
+#  _RETURN=$(curl -o /dev/null -sL -w "%{http_code}" -H "Content-Type: application/json" -d "$_DATA_JSON" -u $GOGS_ADMIN_USER:$GOGS_ADMIN_PASSWORD -X POST http://$GOGS_ROUTE/api/v1/repos/$GOGS_ADMIN_USER/coolstore-microservice/hooks)
+#  if [ $_RETURN != "201" ] && [ $_RETURN != "200" ] ; then
+#   echo "WARNING: Failed (http code $_RETURN) to configure webhook on Gogs"
+#  fi
 }
 
 function verify_build_and_deployments() {
@@ -781,27 +780,28 @@ case "$ARG_COMMAND" in
     deploy)
         echo "Deploying BPM Suite Travel Agency demo ($ARG_DEMO)..."
 
-#        if [ "$ENABLE_CI_CD" = true ] ; then
-#          create_cicd_projects
-#        else
-#          create_projects
-#        fi
+        if [ "$ENABLE_CI_CD" = true ] ; then
+          create_cicd_projects
+        else
+          create_projects
+        fi
 
 configure_project_permissions
 
         print_info
-#        deploy_nexus
-#        wait_for_nexus_to_be_ready
-#	deploy_gogs
+        deploy_nexus
+        wait_for_nexus_to_be_ready
+	deploy_gogs
 
- import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo" 1 "bpms-travel-agency-demo"
+# import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo" 1 "bpms-travel-agency-demo"
 # import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo" 1 "bpms-travel-agency-demo-repo"
 
 # import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-flight-service-ocp.git" 1 "flight-service-ocp"
 # import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-hotel-service-ocp.git" 1 "hotel-service-ocp"
 
-#	deploy_jenkins
+	deploy_jenkins
 	deploy_jenkins_maven_slave	
+        deploy_pipeline
         #build_images
         #deploy_guides
         #deploy_coolstore_prod_env
