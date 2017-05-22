@@ -33,7 +33,7 @@ objects:
           def altTag="green"
           node ('maven-with-nexus') {
             stage ('Build') {
-              git url: 'https://github.com/jbossdemocentral/bpms-travel-agency-demo', branch: 'openshift-build'
+              git url: 'http://gogs:3000/team/bpms-travel-agency-demo', branch: 'openshift-build'
               version = getBuildVersion("projects/pom.xml")
               //groupId = getGroupIdFromPom("projects/pom.xml")
               //artifactId = getArtifactIdFromPom("projects/pom.xml")
