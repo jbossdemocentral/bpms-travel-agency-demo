@@ -1,0 +1,177 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Template
+label:
+   application: bpms-travel-agency-demo
+metadata:
+  annotations:
+    description: BPMS Travel Agency Demo
+    iconClass: icon-javsa
+    tags: javaee,jboss
+  name: bpms-travel-agency-deploy
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${APPLICATION_NAME}-${APPLICATION_ENV}
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: ${APPLICATION_NAME}-${APPLICATION_ENV}
+    strategy:
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: ${APPLICATION_NAME}-${APPLICATION_ENV}
+          deploymentconfig: ${APPLICATION_NAME}-${APPLICATION_ENV}
+        name: ${APPLICATION_NAME}-${APPLICATION_ENV}
+      spec:
+        containers:
+        - env:
+          - name: OPENSHIFT_KUBE_PING_LABELS
+            value: application=${APPLICATION_NAME}-${APPLICATION_ENV}
+          - name: OPENSHIFT_KUBE_PING_NAMESPACE
+            valueFrom:
+             fieldRef:
+              fieldPath: metadata.namespace
+          - name: MQ_CLUSTER_PASSWORD
+            value: ${MQ_CLUSTER_PASSWORD}
+          - name: JGROUPS_CLUSTER_PASSWORD
+            value: ${JGROUPS_CLUSTER_PASSWORD}
+          - name: AUTO_DEPLOY_EXPLODED
+            value: "false"
+          image: ${APPLICATION_NAME}-${APPLICATION_ENV}
+          imagePullPolicy: Always
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /opt/eap/bin/jboss-cli.sh
+                - -c
+                - :shutdown(timeout=60)
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: ${APPLICATION_NAME}-${APPLICATION_ENV}
+          ports:
+          - containerPort: 8778
+            name: jolokia
+            protocol: TCP
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          - containerPort: 8443
+            name: https
+            protocol: TCP
+          - containerPort: 8888
+            name: ping
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 2
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 600Mi
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 75
+    triggers:
+
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APPLICATION_NAME}-${APPLICATION_ENV}
+        from:
+          kind: ImageStreamTag
+          name: ${IS_NAME}:${IS_VERSION}
+          namespace: ${IS_NAMESPACE}
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      description: The BPMS Travel Agency Demo
+    labels:
+      app: ${APPLICATION_NAME}-${APPLICATION_ENV}
+    name: ${APPLICATION_NAME}-${APPLICATION_ENV}
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    - name: 8778-tcp
+      port: 8778
+      protocol: TCP
+      targetPort: 8778
+    selector:
+      deploymentconfig: ${APPLICATION_NAME}-${APPLICATION_ENV}
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: ${APPLICATION_NAME}-${APPLICATION_ENV}
+  spec:
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}-${APPLICATION_ENV}
+      weight: 100
+parameters:
+- displayName: Application name
+  name: APPLICATION_NAME
+  required: true
+- displayName: Application environment
+  name: APPLICATION_ENV
+  required: true
+- displayName: ImageStream Name
+  name: IS_NAME
+  required: true
+- displayName: ImageStream Version
+  name: IS_VERSION
+  required: true
+- displayName: ImageStream Namespace
+  name: IS_NAMESPACE
+  required: true
+- displayName: A-MQ cluster admin password
+  from: '[a-zA-Z0-9]{8}'
+  generate: expression
+  name: MQ_CLUSTER_PASSWORD
+  required: true
+- displayName: JGroups cluster password
+  from: '[a-zA-Z0-9]{8}'
+  generate: expression
+  name: JGROUPS_CLUSTER_PASSWORD
+  required: true

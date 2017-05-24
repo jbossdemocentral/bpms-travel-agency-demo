@@ -264,6 +264,8 @@ function configure_project_permissions() {
   do
     oc adm policy add-role-to-group admin system:serviceaccounts:$PRJ_CI -n $project >/dev/null
     oc adm policy add-role-to-group admin system:serviceaccounts:$project -n $project >/dev/null
+    # This role is required to allow the default user in the application project to pull images from the CI project.
+    oc adm policy add-role-to-user system:image-puller system:serviceaccount:${PRJ_TRAVEL_AGENCY_PROD}:default --namespace=$PRJ_CI
   done
 
   if [ $LOGGEDIN_USER == 'system:admin' ] ; then
@@ -476,7 +478,7 @@ function deploy_jenkins() {
 # Deploy Jenkins Slave with Maven configuration.
 function deploy_jenkins_maven_slave() {
   echo_header "Deploying Jenkins Slaves..."
-  oc process -f http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/openshift-build/support/openshift/jenkins-maven-slave-template.yaml -p DOCKERFILE_REPOSITORY="http://gogs:3000/team/bpms-travel-agency-demo" -p DOCKERFILE_REF="openshift-build" -p DOCKERFILE_CONTEXT=support/openshift/jenkins-maven-slave -n $PRJ_CI | oc create -f - -n $PRJ_CI
+  oc process -f http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/jenkins-maven-slave-template.yaml -p DOCKERFILE_REPOSITORY="http://gogs:3000/team/bpms-travel-agency-demo" -p DOCKERFILE_REF="openshift-build" -p DOCKERFILE_CONTEXT=support/openshift/jenkins-maven-slave -n $PRJ_CI | oc create -f - -n $PRJ_CI
 }
 
 function remove_coolstore_storage_if_ephemeral() {
@@ -579,6 +581,26 @@ function build_images() {
     sleep 10
   done
 }
+
+function deploy_buildconfig() {
+  local _TEMPLATE="http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/bpms-travel-agency-build.yaml"
+
+  echo_header "Deploying BuildConfig and ImageStreams..."
+  oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p GIT_URI=http://gogs:3000/team/flight-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI 
+  oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p GIT_URI=http://gogs:3000/team/hotel-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI 
+} 
+
+function deploy_deploymentconfig() {
+  local _TEMPLATE="http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/bpms-travel-agency-deploy.yaml"
+  
+  echo_header "Deploying DeploymentConfig, Service and Routes..."
+  oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p APPLICATION_ENV=prod -p IS_NAME=flight-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD 
+  oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p APPLICATION_ENV=prod -p IS_NAME=hotel-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD
+
+}
+
+
+
 
 function wait_for_builds_to_complete() {
   # wait for builds
@@ -780,28 +802,24 @@ case "$ARG_COMMAND" in
     deploy)
         echo "Deploying BPM Suite Travel Agency demo ($ARG_DEMO)..."
 
-        if [ "$ENABLE_CI_CD" = true ] ; then
-          create_cicd_projects
-        else
-          create_projects
-        fi
+#        if [ "$ENABLE_CI_CD" = true ] ; then
+#          create_cicd_projects
+#        else
+#          create_projects
+#        fi
 
 configure_project_permissions
 
         print_info
-        deploy_nexus
-        wait_for_nexus_to_be_ready
-	deploy_gogs
+#        deploy_nexus
+#        wait_for_nexus_to_be_ready
+#	deploy_gogs
 
-# import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo" 1 "bpms-travel-agency-demo"
-# import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo" 1 "bpms-travel-agency-demo-repo"
-
-# import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-flight-service-ocp.git" 1 "flight-service-ocp"
-# import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-hotel-service-ocp.git" 1 "hotel-service-ocp"
-
-	deploy_jenkins
-	deploy_jenkins_maven_slave	
-        deploy_pipeline
+#	deploy_jenkins
+#	deploy_jenkins_maven_slave	
+#        deploy_pipeline
+        deploy_buildconfig
+	deploy_deploymentconfig
         #build_images
         #deploy_guides
         #deploy_coolstore_prod_env

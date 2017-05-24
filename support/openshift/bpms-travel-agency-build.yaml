@@ -1,0 +1,63 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Template
+labels:
+  application: bpms-travel-agency-demo
+metadata:
+  annotations:
+    description: BPMS Travel Agency Demo application
+    iconClass: icon-java
+    tags: javaee,jboss,angularjs
+  name: bpms-travel-agency-build
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: ${APPLICATION_NAME}
+  spec:
+    tags:
+    - name: latest
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: ${APPLICATION_NAME}-binary
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APPLICATION_NAME}:latest
+    source:
+      git:
+        ref: ${GIT_REF}
+        uri: ${GIT_URI}
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: ${MAVEN_MIRROR_URL}
+        forcePull: false
+        from:
+          kind: ImageStreamTag
+          name: jboss-eap70-openshift:1.4
+          namespace: openshift
+        incremental: false
+      type: Source
+parameters:
+- displayName: Application name
+  name: APPLICATION_NAME
+  value: ks
+- description: Git source URI for application
+  displayName: Git repository
+  name: GIT_URI
+  required: true
+- displayName: Git branch/tag
+  name: GIT_REF
+  required: true
+  value: master
+- description: 'Maven mirror repository, e.g.: http://nexus.ci.svc.cluster.local:8081/content/groups/public/'
+  displayName: Maven mirror repository
+  name: MAVEN_MIRROR_URL
