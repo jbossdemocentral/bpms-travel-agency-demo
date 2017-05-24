@@ -48,5 +48,26 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<profiles>
+		<!-- OpenShift profile which is automatically enabled when running the build in OpenShift -->
+		<profile>
+			<id>openshift</id>
+			<build>
+				<plugins>
+      		<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+          		<webResources>
+            		<resource>
+              		<!-- this is relative to the pom.xml directory -->
+              		<directory>src/openshift/resources</directory>
+            		</resource>
+          		</webResources>
+        		</configuration>
+      		</plugin>
+    		</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
