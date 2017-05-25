@@ -156,6 +156,7 @@ GITHUB_URI=https://github.com/$GITHUB_ACCOUNT/bpms-travel-agency-demo.git
 # maven 
 #MAVEN_MIRROR_URL=${ARG_MAVEN_MIRROR_URL:-http://nexus.$PRJ_CI.svc.cluster.local:8081/content/groups/public}
 MAVEN_MIRROR_URL=${ARG_MAVEN_MIRROR_URL:-http://nexus:8081/content/groups/public}
+MAVEN_MIRROR_URL_SVC=${ARG_MAVEN_MIRROR_URL:-http://nexus.$PRJ_CI.svc.cluster.local:8081/content/groups/public}
 
 GOGS_USER=developer
 GOGS_PASSWORD=developer
@@ -582,7 +583,7 @@ function build_images() {
   done
 }
 
-function deploy_buildconfig() {
+function deploy_build() {
   local _TEMPLATE="http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/bpms-travel-agency-build.yaml"
 
   echo_header "Deploying BuildConfig and ImageStreams..."
@@ -590,12 +591,24 @@ function deploy_buildconfig() {
   oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p GIT_URI=http://gogs:3000/team/hotel-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI 
 } 
 
-function deploy_deploymentconfig() {
+function deploy_deploy() {
   local _TEMPLATE="http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/bpms-travel-agency-deploy.yaml"
   
   echo_header "Deploying DeploymentConfig, Service and Routes..."
   oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p APPLICATION_ENV=prod -p IS_NAME=flight-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD 
   oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p APPLICATION_ENV=prod -p IS_NAME=hotel-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD
+
+}
+
+function deploy_bpms_ips() {
+
+  echo_header "Deploying JBoss BPM Suite - Intelligent Process Server..."
+  
+  #We need to create the service account for the IPS
+  oc create serviceaccount processserver-service-account -n travel-agency-prod-developer
+  oc policy add-role-to-user view system:serviceaccount:$PRJ_TRAVEL_AGENCY_PROD:processserver-service-account
+
+  oc new-app --template=processserver63-postgresql-s2i -p APPLICATION_NAME="bpms-travel-agency-process" -p KIE_SERVER_USER="bpmsAdmin" -p KIE_SERVER_PASSWORD="bpmsuite@01" -p SOURCE_REPOSITORY_URL="http://gogs.$PRJ_CI.svc.cluster.local:3000/team/bpms-travel-agency-demo-repo.git" -p SOURCE_REPOSITORY_REF=fix-maven-build -p CONTEXT_DIR=specialtripsagencyproject -p KIE_CONTAINER_DEPLOYMENT="travel_agency_container=org.specialtripsagency:specialtripsagencyproject:2.0.1" -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL_SVC -n $PRJ_TRAVEL_AGENCY_PROD
 
 }
 
@@ -818,8 +831,9 @@ configure_project_permissions
 #	deploy_jenkins
 #	deploy_jenkins_maven_slave	
 #        deploy_pipeline
-        deploy_buildconfig
-	deploy_deploymentconfig
+#        deploy_build
+#	deploy_deploy
+	deploy_bpms_ips
         #build_images
         #deploy_guides
         #deploy_coolstore_prod_env
