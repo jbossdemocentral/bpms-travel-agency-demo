@@ -108,8 +108,7 @@ objects:
         - ${APPLICATION_NAME}-${APPLICATION_ENV}
         from:
           kind: ImageStreamTag
-          name: ${IS_NAME}:${IS_VERSION}
-          namespace: ${IS_NAMESPACE}
+          name: ${APPLICATION_NAME}:${APPLICATION_ENV}
       type: ImageChange
     - type: ConfigChange
 - apiVersion: v1
@@ -155,15 +154,6 @@ parameters:
   required: true
 - displayName: Application environment
   name: APPLICATION_ENV
-  required: true
-- displayName: ImageStream Name
-  name: IS_NAME
-  required: true
-- displayName: ImageStream Version
-  name: IS_VERSION
-  required: true
-- displayName: ImageStream Namespace
-  name: IS_NAMESPACE
   required: true
 - displayName: A-MQ cluster admin password
   from: '[a-zA-Z0-9]{8}'
