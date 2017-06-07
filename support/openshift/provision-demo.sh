@@ -16,15 +16,9 @@ function usage() {
     echo "   delete                   Clean up and remove demo projects and objects"
     echo "   verify                   Verify the demo is deployed correctly"
     echo "   idle                     Make all demo servies idle"
-    echo 
+    echo
     echo "DEMOS:"
     echo "   travel-agency            Travel Agency demo with all services deployed"
-    echo "   msa                      Microservices app with all services deployed" 
-    echo "   msa-min                  Microservices app with minimum services deployed" 
-#    echo "   agile-integration        Agile integration microservices"
-#    echo "   business-automation      Business automation and microservices"
-    echo "   cicd-eap                 CI/CD and microservices with JBoss EAP (dev-test-prod)"
-    echo "   cicd-eap-min             CI/CD and microservices with JBoss EAP (dev-prod)"
     echo
     echo "OPTIONS:"
     echo "   --user [username]         The admin user for the demo projects. mandatory if logged in as system:admin"
@@ -142,18 +136,14 @@ OPENSHIFT_USER=${ARG_USERNAME:-$LOGGEDIN_USER}
 # project
 PRJ_SUFFIX=${ARG_PROJECT_SUFFIX:-`echo $OPENSHIFT_USER | sed -e 's/[-@].*//g'`}
 PRJ_CI=ci-$PRJ_SUFFIX
-#PRJ_COOLSTORE_TEST=coolstore-test-$PRJ_SUFFIX
 PRJ_TRAVEL_AGENCY_PROD=travel-agency-prod-$PRJ_SUFFIX
-#PRJ_INVENTORY=inventory-dev-$PRJ_SUFFIX
-#PRJ_DEVELOPER=developer-$PRJ_SUFFIX
-#PRJ_TRAVEL_AGENCY=travel-agency-$PRJ_SUFFIX
 
 # config
 GITHUB_ACCOUNT=${GITHUB_ACCOUNT:-jbossdemocentral}
 GITHUB_REF=${GITHUB_REF:-openshift-build}
 GITHUB_URI=https://github.com/$GITHUB_ACCOUNT/bpms-travel-agency-demo.git
 
-# maven 
+# maven
 #MAVEN_MIRROR_URL=${ARG_MAVEN_MIRROR_URL:-http://nexus.$PRJ_CI.svc.cluster.local:8081/content/groups/public}
 MAVEN_MIRROR_URL=${ARG_MAVEN_MIRROR_URL:-http://nexus:8081/content/groups/public}
 MAVEN_MIRROR_URL_SVC=${ARG_MAVEN_MIRROR_URL:-http://nexus.$PRJ_CI.svc.cluster.local:8081/content/groups/public}
@@ -168,32 +158,9 @@ WEBHOOK_SECRET=UfW7gQ6Jx4
 ################################################################################
 # DEMO MATRIX                                                                  #
 ################################################################################
-ENABLE_CI_CD=false
-ENABLE_TEST_ENV=true
-SCALE_DOWN_PROD=false
-WORKSHOP_YAML=demo-all.yml
-
 case $ARG_DEMO in
-    msa)
-        WORKSHOP_YAML=demo-msa.yml
-        ;;
-    msa-min)
-        SCALE_DOWN_PROD=true
-        WORKSHOP_YAML=demo-msa-min.yml
-        ;;
-    cicd-eap)
-        ENABLE_CI_CD=true
-        WORKSHOP_YAML=demo-cicd-eap.yml
-        ;;
-    cicd-eap-min)
-        ENABLE_CI_CD=true
-        ENABLE_TEST_ENV=false
-        WORKSHOP_YAML=demo-cicd-eap-min.yml
-        ;;
     travel-agency)
-	ENABLE_CI_CID=false
-        ENABLE_TEST_ENV=false
-	WORKSHOP_YAML=demo-cicd-eap-min.yml
+	   # No need to set anything here anymore.
 	;;
     *)
         echo "ERROR: Invalid demo name: \"$ARG_DEMO\""
@@ -216,7 +183,7 @@ function print_info() {
   echo "Current user:        $LOGGEDIN_USER"
   echo "Ephemeral:           $ARG_EPHEMERAL"
   echo "Project suffix:      $PRJ_SUFFIX"
-  echo "GitHub repo:         https://github.com/$GITHUB_ACCOUNT/coolstore-microservice"
+  echo "GitHub repo:         https://github.com/$GITHUB_ACCOUNT/bpms-travel-agency-demo"
   echo "GitHub branch/tag:   $GITHUB_REF"
   echo "Gogs url:            http://$GOGS_ROUTE"
   echo "Gogs admin user:     $GOGS_ADMIN_USER"
@@ -266,13 +233,14 @@ function configure_project_permissions() {
     oc adm policy add-role-to-group admin system:serviceaccounts:$PRJ_CI -n $project >/dev/null
     oc adm policy add-role-to-group admin system:serviceaccounts:$project -n $project >/dev/null
     # This role is required to allow the default user in the application project to pull images from the CI project.
-    oc adm policy add-role-to-user system:image-puller system:serviceaccount:${PRJ_TRAVEL_AGENCY_PROD}:default --namespace=$PRJ_CI
+    #oc adm policy add-role-to-user system:image-puller system:serviceaccount:${PRJ_TRAVEL_AGENCY_PROD}:default --namespace=$PRJ_CI
+
   done
 
   if [ $LOGGEDIN_USER == 'system:admin' ] ; then
     for project in $_PROJECTS
     do
-      oc adm policy add-role-to-user admin $ARG_USERNAME -n $project 
+      oc adm policy add-role-to-user admin $ARG_USERNAME -n $project
       oc annotate --overwrite namespace $project demo=demo1-$PRJ_SUFFIX demo=demo-modern-arch-$PRJ_SUFFIX
     done
     oc adm pod-network join-projects --to=$PRJ_CI $_PROJECTS >/dev/null 2>&1
@@ -286,24 +254,6 @@ function configure_project_permissions() {
   oc delete route testroute -n $PRJ_CI >/dev/null
 }
 
-# Create Infra Project for CI/CD
-function create_cicd_projects() {
-  echo_header "Creating project..."
-
-  echo "Creating project $PRJ_CI"
-  oc new-project $PRJ_CI --display-name='CI/CD' --description='CI/CD Components (Jenkins, Gogs, etc)' >/dev/null
-  echo "Creating project $PRJ_COOLSTORE_TEST"
-  oc new-project $PRJ_COOLSTORE_TEST --display-name='CoolStore TEST' --description='CoolStore Test Environment' >/dev/null
-  echo "Creating project $PRJ_COOLSTORE_PROD"
-  oc new-project $PRJ_COOLSTORE_PROD --display-name='CoolStore PROD' --description='CoolStore Production Environment' >/dev/null
-  echo "Creating project $PRJ_INVENTORY"
-  oc new-project $PRJ_INVENTORY --display-name='Inventory TEST' --description='Inventory Test Environment' >/dev/null
-  echo "Creating project $PRJ_DEVELOPER"
-  oc new-project $PRJ_DEVELOPER --display-name='Developer Project' --description='Personal Developer Project' >/dev/null
-
-  configure_project_permissions $PRJ_CI $PRJ_COOLSTORE_TEST $PRJ_COOLSTORE_PROD $PRJ_INVENTORY $PRJ_DEVELOPER
-}
-
 # Create Project
 function create_projects() {
   echo_header "Creating project..."
@@ -313,18 +263,6 @@ function create_projects() {
 
   echo "Creating project $PRJ_TRAVEL_AGENCY_PROD"
   oc new-project $PRJ_TRAVEL_AGENCY_PROD --display-name='Travel Agency PROD' --description='Travel Agency Production Environment' >/dev/null
-
-  configure_project_permissions $PRJ_CI $PRJ_COOLSTORE_PROD
-}
-
-# Add Inventory Service Template
-function add_inventory_template_to_projects() {
-  echo_header "Adding inventory template to $PRJ_DEVELOPER project"
-  local _TEMPLATE=https://raw.githubusercontent.com/$GITHUB_ACCOUNT/coolstore-microservice/$GITHUB_REF/openshift/templates/inventory-template.json
-  curl -sL $_TEMPLATE | tr -d '\n' | tr -s '[:space:]' \
-    | sed "s|\"MAVEN_MIRROR_URL\", \"value\": \"\"|\"MAVEN_MIRROR_URL\", \"value\": \"$MAVEN_MIRROR_URL\"|g" \
-    | sed "s|\"https://github.com/jbossdemocentral/coolstore-microservice\"|\"http://$GOGS_ROUTE/$GOGS_USER/coolstore-microservice.git\"|g" \
-    | oc create -f - -n $PRJ_DEVELOPER
 }
 
 # Deploy Nexus
@@ -355,7 +293,7 @@ function wait_for_nexus_to_be_ready() {
 # Deploy Gogs
 function deploy_gogs() {
   echo_header "Deploying Gogs git server..."
-  
+
   local _TEMPLATE="https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-persistent-template.yaml"
   if [ "$ARG_EPHEMERAL" = true ] ; then
     _TEMPLATE="https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-template.yaml"
@@ -388,13 +326,13 @@ function deploy_gogs() {
   # import project  GitHub repo
   import_repo_into_gogs "$_GITHUB_REPO" 1 "bpms-travel-agency-demo"
   import_repo_into_gogs "https://github.com/jbossdemocentral/bpms-travel-agency-demo-repo" 1 "bpms-travel-agency-demo-repo"
- 
+
   # import Flight and Hotel Service Deployment projects. Required for our binary builds of these services in an EAP container.
   import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-flight-service-ocp.git" 1 "flight-service-ocp"
   import_repo_into_gogs "https://github.com/DuncanDoyle/bpms-travel-agency-demo-hotel-service-ocp.git" 1 "hotel-service-ocp"
 
 #  read -r -d '' _DATA_JSON << EOM
-#{
+# {
 #  "clone_addr": "$_GITHUB_REPO",
 #  "uid": 1,
 #  "repo_name": "coolstore-microservice"
@@ -461,11 +399,10 @@ EOM
 }
 
 
-
 # Deploy Jenkins
 function deploy_jenkins() {
   echo_header "Deploying Jenkins..."
-  
+
   if [ "$ARG_EPHEMERAL" = true ] ; then
     oc new-app jenkins-ephemeral -l app=jenkins -p MEMORY_LIMIT=1Gi -n $PRJ_CI
   else
@@ -482,120 +419,39 @@ function deploy_jenkins_maven_slave() {
   oc process -f http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/jenkins-maven-slave-template.yaml -p DOCKERFILE_REPOSITORY="http://gogs:3000/team/bpms-travel-agency-demo" -p DOCKERFILE_REF="openshift-build" -p DOCKERFILE_CONTEXT=support/openshift/jenkins-maven-slave -n $PRJ_CI | oc create -f - -n $PRJ_CI
 }
 
-function remove_coolstore_storage_if_ephemeral() {
+# TODO: Do we need this function?
+function remove_storage_if_ephemeral() {
   local _PROJECT=$1
   if [ "$ARG_EPHEMERAL" = true ] ; then
-    remove_storage_claim inventory-postgresql inventory-postgresql-data inventory-postgresql-pv $_PROJECT
-    remove_storage_claim catalog-mongodb mongodb-data mongodb-data-pv $_PROJECT
+    # TODO: Remove storage claim of Travel Agency project.
+    #remove_storage_claim inventory-postgresql inventory-postgresql-data inventory-postgresql-pv $_PROJECT
+    #remove_storage_claim catalog-mongodb mongodb-data mongodb-data-pv $_PROJECT
   fi
-}
-
-function scale_down_deployments() {
-  local _PROJECT=$1
-    shift
-    while test ${#} -gt 0
-    do
-      oc scale --replicas=0 dc $1 -n $_PROJECT
-      shift
-    done
-}
-
-# Deploy Coolstore into Coolstore TEST project
-function deploy_coolstore_test_env() {
-  local _TEMPLATE="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/coolstore-microservice/$GITHUB_REF/openshift/templates/coolstore-deployments-template.yaml"
-
-  echo_header "Deploying CoolStore app into $PRJ_COOLSTORE_TEST project..."
-  echo "Using deployment template $_TEMPLATE_DEPLOYMENT"
-  oc process -f $_TEMPLATE --param=APP_VERSION=test --param=HOSTNAME_SUFFIX=$PRJ_COOLSTORE_TEST.$DOMAIN -n $PRJ_COOLSTORE_TEST | oc create -f - -n $PRJ_COOLSTORE_TEST
-  sleep 2
-  remove_coolstore_storage_if_ephemeral $PRJ_COOLSTORE_TEST
-
-  # scale down to zero if minimal
-  # if [ "$ARG_MINIMAL" == true ] ; then
-  #  scale_down_deployments $PRJ_COOLSTORE_TEST coolstore-gw web-ui inventory cart catalog catalog-mongodb inventory-postgresql pricing
-  # fi  
-}
-
-# Configure Blue-Green Deployment for Inventory in PROD project
-function configure_bluegreen_in_prod() {
-  local _TEMPLATE_BLUEGREEN="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/coolstore-microservice/$GITHUB_REF/openshift/templates/inventory-bluegreen-template.yaml"
-
-  echo_header "Configuring blue/green deployments in $PRJ_COOLSTORE_PROD project..."
-  echo "Using bluegreen template $_TEMPLATE_BLUEGREEN"
-
-  oc delete all,pvc -l application=inventory --now --ignore-not-found -n $PRJ_COOLSTORE_PROD
-  oc process -f $_TEMPLATE_BLUEGREEN --param=APP_VERSION_BLUE=prod-blue --param=APP_VERSION_GREEN=prod-green --param=HOSTNAME_SUFFIX=$PRJ_COOLSTORE_PROD.$DOMAIN -n $PRJ_COOLSTORE_PROD | oc create -f - -n $PRJ_COOLSTORE_PROD
-  sleep 2
-  remove_coolstore_storage_if_ephemeral $PRJ_COOLSTORE_PROD
-}
-
-function configure_imagestream_tag_in_prod(){
-  oc set triggers dc/cart --containers=cart --from-image='cart:prod'
-  oc set triggers dc/catalog --containers=catalog --from-image='catalog:prod'
-  oc set triggers dc/coolstore-gw --containers=coolstore-gw --from-image='coolstore-gw:prod'
-  oc set triggers dc/web-ui --containers=web-ui --from-image='web-ui:prod'
-  oc set triggers dc/pricing --containers=pricing --from-image='pricing:prod'
-}
-
-# Deploy Coolstore into Coolstore PROD project
-function deploy_coolstore_prod_env() {
-  local _TEMPLATE_PREFIX="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/coolstore-microservice/$GITHUB_REF/openshift/templates"
-  local _TEMPLATE_DEPLOYMENT="$_TEMPLATE_PREFIX/coolstore-deployments-template.yaml"
-  local _TEMPLATE_NETFLIX="$_TEMPLATE_PREFIX/netflix-oss-list.yaml"
-
-  echo_header "Deploying CoolStore app into $PRJ_COOLSTORE_PROD project..."
-  echo "Using deployment template $_TEMPLATE_DEPLOYMENT"
-  echo "Using Netflix OSS template $_TEMPLATE_NETFLIX"
-
-  oc process -f $_TEMPLATE_DEPLOYMENT --param=HOSTNAME_SUFFIX=$PRJ_COOLSTORE_PROD.$DOMAIN -n $PRJ_COOLSTORE_PROD | oc create -f - -n $PRJ_COOLSTORE_PROD
-  oc create -f $_TEMPLATE_NETFLIX -n $PRJ_COOLSTORE_PROD
-  remove_coolstore_storage_if_ephemeral $PRJ_COOLSTORE_PROD
-
-  # driven by the demo type
-  if [ "$SCALE_DOWN_PROD" = true ] ; then
-    scale_down_deployments $PRJ_COOLSTORE_PROD cart turbine-server hystrix-dashboard pricing
-   fi  
-}
-
-# Deploy Inventory service into Inventory DEV project
-function deploy_inventory_dev_env() {
-  local _TEMPLATE="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/coolstore-microservice/$GITHUB_REF/openshift/templates/inventory-template.json"
-
-  echo_header "Deploying Inventory service into $PRJ_INVENTORY project..."
-  echo "Using template $_TEMPLATE"
-  oc process -f $_TEMPLATE --param=GIT_URI=http://$GOGS_ROUTE/$GOGS_ADMIN_USER/coolstore-microservice.git --param=MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_INVENTORY | oc create -f - -n $PRJ_INVENTORY
-  sleep 2
-}
-
-function build_images() {
-  local _TEMPLATE_BUILDS="https://raw.githubusercontent.com/$GITHUB_ACCOUNT/coolstore-microservice/$GITHUB_REF/openshift/templates/coolstore-builds-template.yaml"
-  echo "Using build template $_TEMPLATE_BUILDS"
-  oc process -f $_TEMPLATE_BUILDS --param=GIT_URI=$GITHUB_URI --param=GIT_REF=$GITHUB_REF --param=MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_COOLSTORE_PROD | oc create -f - -n $PRJ_COOLSTORE_PROD
-
-  sleep 10
-
-  # build images
-  for buildconfig in web-ui inventory cart catalog coolstore-gw pricing
-  do
-    oc start-build $buildconfig -n $PRJ_COOLSTORE_PROD
-    wait_while_empty "$buildconfig build" 180 "oc get builds -n $PRJ_COOLSTORE_PROD | grep $buildconfig | grep Running"
-    sleep 10
-  done
 }
 
 function deploy_build() {
   local _TEMPLATE="http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/bpms-travel-agency-build.yaml"
 
   echo_header "Deploying BuildConfig and ImageStreams..."
-  oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p GIT_URI=http://gogs:3000/team/flight-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI 
-  oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p GIT_URI=http://gogs:3000/team/hotel-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI 
-} 
+  oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p GIT_URI=http://gogs:3000/team/flight-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI
+  oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p GIT_URI=http://gogs:3000/team/hotel-service-ocp -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL -n $PRJ_CI | oc create -f - -n $PRJ_CI
+
+  # build images
+
+  #for buildconfig in flight-service hotel-service
+  #do
+  #  oc start-build $buildconfig -n $PRJ_CI
+  #  wait_while_empty "$buildconfig build" 180 "oc get builds -n $PRJ_TRAVEL_AGENCY_PROD | grep $buildconfig | grep Running"
+  #  sleep 10
+  #done
+
+}
 
 function deploy_deploy() {
   local _TEMPLATE="http://$GOGS_ROUTE/team/bpms-travel-agency-demo/raw/$GITHUB_REF/support/openshift/bpms-travel-agency-deploy.yaml"
-  
+
   echo_header "Deploying DeploymentConfig, Service and Routes..."
-  oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p APPLICATION_ENV=prod -p IS_NAME=flight-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD 
+  oc process -f _TEMPLATE -p APPLICATION_NAME=flight-service -p APPLICATION_ENV=prod -p IS_NAME=flight-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD
   oc process -f _TEMPLATE -p APPLICATION_NAME=hotel-service -p APPLICATION_ENV=prod -p IS_NAME=hotel-service -p IS_VERSION=latest -p IS_NAMESPACE=$PRJ_CI -n $PRJ_TRAVEL_AGENCY_PROD | oc create -f - -n $PRJ_TRAVEL_AGENCY_PROD
 
 }
@@ -603,17 +459,18 @@ function deploy_deploy() {
 function deploy_bpms_ips() {
 
   echo_header "Deploying JBoss BPM Suite - Intelligent Process Server..."
-  
-  #We need to create the service account for the IPS
-  oc create serviceaccount processserver-service-account -n travel-agency-prod-developer
-  oc policy add-role-to-user view system:serviceaccount:$PRJ_TRAVEL_AGENCY_PROD:processserver-service-account
 
-  oc new-app --template=processserver63-postgresql-s2i -p APPLICATION_NAME="bpms-travel-agency-process" -p KIE_SERVER_USER="bpmsAdmin" -p KIE_SERVER_PASSWORD="bpmsuite@01" -p SOURCE_REPOSITORY_URL="http://gogs.$PRJ_CI.svc.cluster.local:3000/team/bpms-travel-agency-demo-repo.git" -p SOURCE_REPOSITORY_REF=fix-maven-build -p CONTEXT_DIR=specialtripsagencyproject -p KIE_CONTAINER_DEPLOYMENT="travel_agency_container=org.specialtripsagency:specialtripsagencyproject:2.0.1" -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL_SVC -n $PRJ_TRAVEL_AGENCY_PROD
+  #We need to create the service account for the IPS
+  oc create serviceaccount processserver-service-account -n $PRJ_TRAVEL_AGENCY_PROD
+  oc policy add-role-to-user view system:serviceaccount:$PRJ_TRAVEL_AGENCY_PROD:processserver-service-account
+  #And the secret
+  oc create secret generic processserver-app-secret --from-file=jgroups.jceks --from-file=keystore.jks -n $PRJ_TRAVEL_AGENCY_PROD
+  oc secret add sa/processserver-service-account secret/processserver-app-secret -n $PRJ_TRAVEL_AGENCY_PROD
+
+  #Create the application.
+  oc new-app --template=processserver63-postgresql-s2i -p APPLICATION_NAME="bpms-travel-agency-process" -p KIE_SERVER_USER="kieserver" -p KIE_SERVER_PASSWORD="kieserver@01" -p SOURCE_REPOSITORY_URL="http://gogs.$PRJ_CI.svc.cluster.local:3000/team/bpms-travel-agency-demo-repo.git" -p SOURCE_REPOSITORY_REF=fix-maven-build -p CONTEXT_DIR=specialtripsagencyproject -p KIE_CONTAINER_DEPLOYMENT="travel_agency_container=org.specialtripsagency:specialtripsagencyproject:2.0.1" -p MAVEN_MIRROR_URL=$MAVEN_MIRROR_URL_SVC -n $PRJ_TRAVEL_AGENCY_PROD
 
 }
-
-
-
 
 function wait_for_builds_to_complete() {
   # wait for builds
@@ -633,26 +490,6 @@ function wait_for_builds_to_complete() {
   done
 }
 
-function promote_images() {
-  wait_for_builds_to_complete
-
-  # remove buildconfigs. Jenkins does that!
-  oc delete bc --all -n $PRJ_COOLSTORE_PROD
-
-  for is in coolstore-gw web-ui cart catalog pricing
-  do
-    oc tag $PRJ_COOLSTORE_PROD/$is:latest $PRJ_COOLSTORE_TEST/$is:test
-    oc tag $PRJ_COOLSTORE_PROD/$is:latest $PRJ_COOLSTORE_PROD/$is:prod
-    oc tag $PRJ_COOLSTORE_PROD/$is:latest -d
-  done
-
-  oc tag $PRJ_COOLSTORE_PROD/inventory:latest $PRJ_INVENTORY/inventory:latest
-  oc tag $PRJ_COOLSTORE_PROD/inventory:latest $PRJ_COOLSTORE_TEST/inventory:test
-  oc tag $PRJ_COOLSTORE_PROD/inventory:latest $PRJ_COOLSTORE_PROD/inventory:prod-green
-  oc tag $PRJ_COOLSTORE_PROD/inventory:latest $PRJ_COOLSTORE_PROD/inventory:prod-blue
-  oc tag $PRJ_COOLSTORE_PROD/inventory:latest -d
-}
-
 function deploy_pipeline() {
   echo_header "Configuring CI/CD..."
 
@@ -666,7 +503,7 @@ function deploy_pipeline() {
   # TODO: Implement a webhook to trigger the pipeline.
   # configure webhook to trigger pipeline
 #  read -r -d '' _DATA_JSON << EOM
-#{
+# {
 #  "type": "gogs",
 #  "config": {
 #    "url": "https://$OPENSHIFT_MASTER/oapi/v1/namespaces/$PRJ_CI/buildconfigs/$_PIPELINE_NAME/webhooks/$WEBHOOK_SECRET/generic",
@@ -686,27 +523,35 @@ function deploy_pipeline() {
 #  fi
 }
 
+function start_pipeline() {
+  oc start-build bpms-travel-agency-pipeline -n $PRJ_CI
+}
+
 function verify_build_and_deployments() {
   echo_header "Verifying build and deployments"
-  # verify builds
+  # verify builds in CI
   local _BUILDS_FAILED=false
-  for buildconfig in coolstore-gw web-ui inventory cart catalog 
+  for buildconfig in flight-service-binary hotel-service-binary
   do
-    if [ -n "$(oc get builds -n $PRJ_COOLSTORE_TEST | grep $buildconfig | grep Failed)" ] && [ -z "$(oc get builds -n $PRJ_COOLSTORE_TEST | grep $buildconfig | grep Complete)" ]; then
+    if [ -n "$(oc get builds -n $PRJ_CI | grep $buildconfig | grep Failed)" ] && [ -z "$(oc get builds -n $PRJ_CI | grep $buildconfig | grep Complete)" ]; then
       _BUILDS_FAILED=true
-      echo "WARNING: Build $project/$buildconfig has failed. Starging a new build..."
-      oc start-build $buildconfig -n $PRJ_COOLSTORE_TEST --wait
+      echo "WARNING: Build $project/$buildconfig has failed..."
+      #oc start-build $buildconfig -n $PRJ_CI --wait
     fi
   done
 
-  # promote images if builds had failed
-  if [ "$_BUILDS_FAILED" = true ]; then
-    promote_images
-    deploy_pipeline
-  fi
+  # verify builds in Travel Agency
+  local _BUILDS_FAILED=false
+  for buildconfig in optaplanner-employee-rostering
+  do
+    if [ -n "$(oc get builds -n $PRJ_TRAVEL_AGENCY_PROD | grep $buildconfig | grep Failed)" ] && [ -z "$(oc get builds -n $PRJ_TRAVEL_AGENCY_PROD| grep $buildconfig | grep Complete)" ]; then
+      _BUILDS_FAILED=true
+      echo "WARNING: Build $project/$buildconfig has failed..."
+    fi
+  done
 
   # verify deployments
-  for project in $PRJ_COOLSTORE_TEST $PRJ_COOLSTORE_PROD $PRJ_CI $PRJ_INVENTORY
+  for project in $PRJ
   do
     local _DC=
     for dc in $(oc get dc -n $project -o=custom-columns=:.metadata.name,:.status.replicas); do
@@ -722,37 +567,9 @@ function verify_build_and_deployments() {
   done
 }
 
-#function deploy_guides() {
-#  echo_header "Deploying Demo Guides"
-#
-#  local _DEMO_CONTENT_URL_PREFIX="https://raw.githubusercontent.com/osevg/workshopper-content/master"
-#  local _DEMO_URLS="$_DEMO_CONTENT_URL_PREFIX/_workshops/$WORKSHOP_YAML"
-#
-#  oc new-app --name=guides --docker-image=osevg/workshopper:latest -n $PRJ_CI \
-#      -e WORKSHOPS_URLS=$_DEMO_URLS 
-#      -e CONTENT_URL_PREFIX=$_DEMO_CONTENT_URL_PREFIX \
-#      -e PROJECT_SUFFIX=$PRJ_SUFFIX \
-#      -e GOGS_URL=http://$GOGS_ROUTE \
-#      -e GOGS_DEV_REPO_URL_PREFIX=http://$GOGS_ROUTE/$GOGS_USER/coolstore-microservice \
-#      -e JENKINS_URL=http://jenkins-$PRJ_CI.$DOMAIN \
-#      -e COOLSTORE_WEB_PROD_URL=http://web-ui-$PRJ_COOLSTORE_PROD.$DOMAIN \
-#      -e HYSTRIX_PROD_URL=http://hystrix-dashboard-$PRJ_COOLSTORE_PROD.$DOMAIN \
-#      -e GOGS_DEV_USER=$GOGS_USER -e GOGS_DEV_PASSWORD=$GOGS_PASSWORD \
-#      -e GOGS_REVIEWER_USER=$GOGS_ADMIN_USER \
-#      -e GOGS_REVIEWER_PASSWORD=$GOGS_ADMIN_PASSWORD \
-#      -e OCP_VERSION=3.5 -n $PRJ_CI
-#  oc expose svc/guides -n $PRJ_CI
-#  oc set probe dc/guides -n $PRJ_CI --readiness --liveness --get-url=http://:8080/ --failure-threshold=5 --initial-delay-seconds=30
-#  oc set resources dc/guides --limits=cpu=500m,memory=1Gi --requests=cpu=100m,memory=512Mi -n $PRJ_CI
-#}
-
 function make_idle() {
   echo_header "Idling Services"
-  oc idle -n $PRJ_CI --all
-  oc idle -n $PRJ_COOLSTORE_TEST --all
-  oc idle -n $PRJ_COOLSTORE_PROD --all
-  oc idle -n $PRJ_INVENTORY --all
-  oc idle -n $PRJ_DEVELOPER --all
+  oc idle -n $PRJ --all
 }
 
 # GPTE convention
@@ -793,13 +610,9 @@ echo_header "BPM Suite Travel Agency Demo ($(date))"
 case "$ARG_COMMAND" in
     delete)
         echo "Delete BPM Suite Travel Agecncy demo ($ARG_DEMO)..."
-        if [ "$ENABLE_CI_CD" = true ] ; then
-          oc delete project $PRJ_TRAVEL_AGENCY_TEST $PRJ_DEVELOPER $PRJ_TRAVEL_AGENCY_PROD $PRJ_INVENTORY $PRJ_CI
-        else
-          oc delete project $PRJ_TRAVEL_AGENCY_PROD $PRJ_CI
-        fi
+        oc delete project $PRJ_TRAVEL_AGENCY_PROD $PRJ_CI
         ;;
-      
+
     verify)
         echo "Verifying BPM Suite Travel Agency demo ($ARG_DEMO)..."
         print_info
@@ -815,48 +628,30 @@ case "$ARG_COMMAND" in
     deploy)
         echo "Deploying BPM Suite Travel Agency demo ($ARG_DEMO)..."
 
-#        if [ "$ENABLE_CI_CD" = true ] ; then
-#          create_cicd_projects
-#        else
-#          create_projects
-#        fi
-
-configure_project_permissions
+#       create_projects
+        configure_project_permissions $PRJ_TRAVEL_AGENCY_PROD
 
         print_info
 #        deploy_nexus
 #        wait_for_nexus_to_be_ready
-#	deploy_gogs
+#     	 deploy_gogs
 
-#	deploy_jenkins
-#	deploy_jenkins_maven_slave	
+#	       deploy_jenkins
+#	       deploy_jenkins_maven_slave
 #        deploy_pipeline
 #        deploy_build
-#	deploy_deploy
-	deploy_bpms_ips
-        #build_images
-        #deploy_guides
-        #deploy_coolstore_prod_env
+#	       deploy_deploy
+         start_pipeline
+#	       deploy_bpms_ips
 
-        #if [ "$ENABLE_CI_CD" = true ] ; then
-        #  configure_imagestream_tag_in_prod
-        #  configure_bluegreen_in_prod
-        #  deploy_gogs
-        #  deploy_jenkins
-        #  deploy_pipeline
-        #  add_inventory_template_to_projects
-        #  deploy_coolstore_test_env
-        #  deploy_inventory_dev_env
-        #  promote_images
-        #fi
 
-        #if [ "$ARG_RUN_VERIFY" = true ] ; then
-        #  echo "Waiting for deployments to finish..."
-        #  sleep 30
-        #  verify_build_and_deployments
-        #fi
+        if [ "$ARG_RUN_VERIFY" = true ] ; then
+          echo "Waiting for deployments to finish..."
+          sleep 30
+          verify_build_and_deployments
+        fi
         ;;
-        
+
     *)
         echo "Invalid command specified: '$ARG_COMMAND'"
         usage
