@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Template
+label:
+   application: bpms-travel-agency-demo
+metadata:
+  annotations:
+    description: BPMS Travel Agency Demo
+    iconClass: icon-javsa
+    tags: javaee,jboss
+  name: bpms-travel-agency-deploy
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: bpms-bc
+      name: bpms-bc
+  spec:
+    replicas: 1
+    selector:
+      app: bpms-bc
+      deploymentconfig: bpms-bc
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: bpms-bc
+          deploymentconfig: bpms-bc
+      spec:
+        containers:
+        - image: bpms-bc
+          imagePullPolicy: Always
+          name: bpms-bc
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - bpms-bc
+        from:
+          kind: ImageStreamTag
+          name: bpms-bc:latest
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: bpms-bc
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: bpms-bc
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    name: bpms-bc
+  spec:
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: bpms-bc
+      weight: 100
