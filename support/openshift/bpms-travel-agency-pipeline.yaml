@@ -19,89 +19,89 @@ objects:
       jenkinsPipelineStrategy:
         jenkinsfile: |-
           def mvnCmd = "mvn -s /home/jenkins/.m2/settings.xml"
-def nexus_url="http://nexus:8081"
-def version = ""
-def branch = ""
-def groupId = ""
-def artifactId = ""
-//def namespace_ci = "${KS_CI_PROJECT}"
-//def namespace_test = "${KS_TEST_PROJECT}"
-//def namespace_staging = "${KS_STAGING_PROJECT}"
-//def namespace_prod = "${KS_PROD_PROJECT}"
-//def ks_test_app = "http://ks-test-${KS_TEST_PROJECT}.${KS_DOMAIN}"
-def tag="blue"
-def altTag="green"
-node ('maven-with-nexus') {
-  stage ('Build') {
-    git url: 'http://team:team@gogs:3000/team/bpms-travel-agency-demo', branch: 'openshift-build'
-    version = getBuildVersion("projects/pom.xml")
-    //groupId = getGroupIdFromPom("projects/pom.xml")
-    //artifactId = getArtifactIdFromPom("projects/pom.xml")
-    echo "Building version ${version}"
-    branch = 'build-' + version
-    sh "git checkout -b ${branch}"
-    sh "${mvnCmd} versions:set -DgenerateBackupPoms=false -DnewVersion=${version} -f projects/pom.xml"
-    sh "${mvnCmd} clean package -DskipTests=true -f projects/pom.xml -P openshift"
-  }
+          def nexus_url="http://nexus:8081"
+          def version = ""
+          def branch = ""
+          def groupId = ""
+          def artifactId = ""
+          //def namespace_ci = "${KS_CI_PROJECT}"
+          //def namespace_test = "${KS_TEST_PROJECT}"
+          //def namespace_staging = "${KS_STAGING_PROJECT}"
+          //def namespace_prod = "${KS_PROD_PROJECT}"
+          //def ks_test_app = "http://ks-test-${KS_TEST_PROJECT}.${KS_DOMAIN}"
+          def tag="blue"
+          def altTag="green"
+          node ('maven-with-nexus') {
+            stage ('Build') {
+              git url: 'http://team:team@gogs:3000/team/bpms-travel-agency-demo', branch: 'openshift-build'
+              version = getBuildVersion("projects/pom.xml")
+              //groupId = getGroupIdFromPom("projects/pom.xml")
+              //artifactId = getArtifactIdFromPom("projects/pom.xml")
+              echo "Building version ${version}"
+              branch = 'build-' + version
+              sh "git checkout -b ${branch}"
+              sh "${mvnCmd} versions:set -DgenerateBackupPoms=false -DnewVersion=${version} -f projects/pom.xml"
+              sh "${mvnCmd} clean package -DskipTests=true -f projects/pom.xml -P openshift"
+            }
 
-  stage('Run Tests') {
-    echo "Testing ${version}"
-  }
+            stage('Run Tests') {
+              echo "Testing ${version}"
+            }
 
-  stage('Publish') {
-    echo "Publishing to Nexus"
-    sh "${mvnCmd} deploy -DskipTests=true -f projects/pom.xml -Popenshift -DaltDeploymentRepository=nexus::default::${nexus_url}/content/repositories/releases"
-    echo "Tagging sources in Git"
-    def commit = "Build " + version
-    sh "git config user.email 'jenkins@example.com'"
-    sh "git config user.name 'jenkins'"
-    sh "git branch -vv"
-    sh "git add --all && git commit -m \"${commit}\" && git push origin ${branch}"
-    sh "${mvnCmd} clean -f projects/pom.xml"
-  }
+            stage('Publish') {
+              echo "Publishing to Nexus"
+              sh "${mvnCmd} deploy -DskipTests=true -f projects/pom.xml -Popenshift -DaltDeploymentRepository=nexus::default::${nexus_url}/content/repositories/releases"
+              echo "Tagging sources in Git"
+              def commit = "Build " + version
+              sh "git config user.email 'jenkins@example.com'"
+              sh "git config user.name 'jenkins'"
+              sh "git branch -vv"
+              sh "git add --all && git commit -m \"${commit}\" && git push origin ${branch}"
+              sh "${mvnCmd} clean -f projects/pom.xml"
+            }
 
-  stage('Update deployment markers') {
-    echo "Updating deployment markers."
-  }
+            stage('Update deployment markers') {
+              echo "Updating deployment markers."
+            }
+          }
 
-}
+          def getVersionFromPom(pom) {
+            def matcher = readFile(pom) =~ '<version>(.+)</version>'
+            matcher ? matcher[0][1] : null
+          }
 
-def getVersionFromPom(pom) {
-  def matcher = readFile(pom) =~ '<version>(.+)</version>'
-  matcher ? matcher[0][1] : null
-}
+          def getGroupIdFromPom(pom) {
+            def matcher = readFile(pom) =~ '<groupId>(.+)</groupId>'
+            matcher ? matcher[0][1] : null
+          }
 
-def getGroupIdFromPom(pom) {
-  def matcher = readFile(pom) =~ '<groupId>(.+)</groupId>'
-  matcher ? matcher[0][1] : null
-}
+          def getArtifactIdFromPom(pom) {
+            def matcher = readFile(pom) =~ '<artifactId>(.+)</artifactId>'
+            matcher ? matcher[0][1] : null
+          }
 
-def getArtifactIdFromPom(pom) {
-  def matcher = readFile(pom) =~ '<artifactId>(.+)</artifactId>'
-  matcher ? matcher[0][1] : null
-}
+          def String getBuildVersion(pom) {
+            return getVersionFromPom(pom).minus("-SNAPSHOT") + '.' + env.BUILD_NUMBER
+          }
 
-def String getBuildVersion(pom) {
-  return getVersionFromPom(pom).minus("-SNAPSHOT") + '.' + env.BUILD_NUMBER
-}
+          void tearDownEnvironment(environment, namespace) {
+            try {
+              sh "oc delete dc ks-${environment} -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete dc ks-${environment}-postgresql -n ${namespace}"
+            } catch (err) {}
 
-void tearDownEnvironment(environment, namespace) {
-  try {
-    sh "oc delete dc ks-${environment} -n ${namespace}"
-  } catch (err) {}
-  try {
-    sh "oc delete dc ks-${environment}-postgresql -n ${namespace}"
-  } catch (err) {}
-  try {
-    sh "oc delete service ks-${environment} -n ${namespace}"
-  } catch (err) {}
-  try {
-    sh "oc delete service ks-${environment}-postgresql -n ${namespace}"
-  } catch (err) {}
-  try {
-    sh "oc delete route ks-${environment} -n ${namespace}"
-  } catch (err) {}
-}
+            try {
+              sh "oc delete service ks-${environment} -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete service ks-${environment}-postgresql -n ${namespace}"
+            } catch (err) {}
+            try {
+              sh "oc delete route ks-${environment} -n ${namespace}"
+            } catch (err) {}
+          }
       type: JenkinsPipeline
 #    triggers:
 #    - github:
