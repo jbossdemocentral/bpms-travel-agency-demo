@@ -12,6 +12,7 @@ objects:
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
+    name: bpms-bc
     creationTimestamp: null
     generation: 1
     labels:
@@ -73,6 +74,10 @@ objects:
 - apiVersion: v1
   kind: Service
   metadata:
+    annotations:
+      description: BPM Suite Business Central
+    labels:
+      app: bpms-bc
     name: bpms-bc
   spec:
     ports:
